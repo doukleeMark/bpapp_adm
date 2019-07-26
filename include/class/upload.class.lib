@@ -1,0 +1,195 @@
+<?php
+	require_once($_SERVER['DOCUMENT_ROOT'] . "include/config/config.inc");
+
+	class UploadClass extends DBclass {
+
+		function getfileinfo($_file) {
+			$file_name = explode(".", $_file['name']);
+			$file_ext  = $file_name[count($file_name)-1];
+			$file_name = $file_name[0];
+			$file_size = $_file['size'];
+
+			$obj = (object)null;
+			$obj->ext = $file_ext;
+			$obj->size = $file_size;
+			$obj->name = $file_name;
+
+			return $obj;
+		}
+
+		function dataUpload($_file) {
+
+			$file_name = explode(".", $_file['name']);
+			$file_ext  = $file_name[count($file_name)-1];
+			$file_name = $file_name[0];
+			
+			$rand = rand(0, 999);
+			if(strlen($rand)==1) {
+				$rand = "00".$rand;
+			}else if(strlen($rand)==2) {
+				$rand = "0".$rand;
+			}
+			
+			if(!is_dir(ROOT_PATH."/upload/data")){
+				@mkdir(ROOT_PATH."/upload/data", 0777);
+			}
+
+			//tmp filename
+			$tmp = "/upload/data/".substr(date("YmdHis"), 2, 12).$rand;
+			$tmp .= "." . $file_ext;
+
+			$md5_txt = md5_file($_file['tmp_name']);
+						
+			$sql  = "insert into upload_data (tmp_name, real_name, file_ext, file_size, file_md5, file_date) values (";
+			$sql .= "'{$tmp}',";
+			$sql .= "'{$_file['name']}',";
+			$sql .= "'{$file_ext}',";
+			$sql .= "{$_file['size']},";
+			$sql .= "'{$md5_txt}',";
+			$sql .= "sysdate())";
+
+			$res = $this->Execute($sql);
+			
+			move_uploaded_file($_file['tmp_name'], ROOT_PATH.$tmp);
+			return $this->Insert_ID();
+		}
+
+		function bbsUpload($_file) {
+
+			$file_name = explode(".", $_file['name']);
+			$file_ext  = $file_name[count($file_name)-1];
+			$file_name = $file_name[0];
+			
+			$rand = rand(0, 999);
+			if(strlen($rand)==1) {
+				$rand = "00".$rand;
+			}else if(strlen($rand)==2) {
+				$rand = "0".$rand;
+			}
+			
+			if(!is_dir(ROOT_PATH."/upload/bbs")){
+				@mkdir(ROOT_PATH."/upload/bbs", 0777);
+			}
+
+			//tmp filename
+			$tmp = "/upload/bbs/".substr(date("YmdHis"), 2, 12).$rand;
+			$tmp .= "." . $file_ext;
+
+			$md5_txt = md5_file($_file['tmp_name']);
+						
+			$sql  = "insert into upload_data (tmp_name, real_name, file_ext, file_size, file_md5, file_date) values (";
+			$sql .= "'{$tmp}',";
+			$sql .= "'{$_file['name']}',";
+			$sql .= "'{$file_ext}',";
+			$sql .= "{$_file['size']},";
+			$sql .= "'{$md5_txt}',";
+			$sql .= "sysdate())";
+
+			$res = $this->Execute($sql);
+			
+			move_uploaded_file($_file['tmp_name'], ROOT_PATH.$tmp);
+
+			return $this->Insert_ID();
+
+		}
+
+		function bpUpload($_file) {
+
+			$file_name = explode(".", $_file['name']);
+			$file_ext  = $file_name[count($file_name)-1];
+			$file_name = $file_name[0];
+			
+			$rand = rand(0, 999);
+			if(strlen($rand)==1) {
+				$rand = "00".$rand;
+			}else if(strlen($rand)==2) {
+				$rand = "0".$rand;
+			}
+			
+			if(!is_dir(ROOT_PATH."/upload/bp")){
+				@mkdir(ROOT_PATH."/upload/bp", 0777);
+			}
+
+			//tmp filename 
+			$tmp = "/upload/bp/".substr(date("YmdHis"), 2, 12).$rand;
+			$tmp .= "." . $file_ext;
+
+			$md5_txt = md5_file($_file['tmp_name']);
+						
+			$sql  = "insert into upload_data (tmp_name, real_name, file_ext, file_size, file_md5, file_date) values (";
+			$sql .= "'{$tmp}',";
+			$sql .= "'{$_file['name']}',";
+			$sql .= "'{$file_ext}',";
+			$sql .= "{$_file['size']},";
+			$sql .= "'{$md5_txt}',";
+			$sql .= "sysdate())";
+
+			$res = $this->Execute($sql);
+			
+			move_uploaded_file($_file['tmp_name'], ROOT_PATH.$tmp);
+
+			return $this->Insert_ID();
+
+		}
+
+		function calUpload($_file) {
+
+			$file_name = explode(".", $_file['name']);
+			$file_ext  = $file_name[count($file_name)-1];
+			$file_name = $file_name[0];
+			
+			$rand = rand(0, 999);
+			if(strlen($rand)==1) {
+				$rand = "00".$rand;
+			}else if(strlen($rand)==2) {
+				$rand = "0".$rand;
+			}
+			
+			if(!is_dir(ROOT_PATH."/upload/cal")){
+				@mkdir(ROOT_PATH."/upload/cal", 0777);
+			}
+
+			//tmp filename
+			$tmp = "/upload/cal/".substr(date("YmdHis"), 2, 12).$rand;
+			$tmp .= "." . $file_ext;
+
+			$md5_txt = md5_file($_file['tmp_name']);
+						
+			$sql  = "insert into upload_data (tmp_name, real_name, file_ext, file_size, file_md5, file_date) values (";
+			$sql .= "'{$tmp}',";
+			$sql .= "'{$_file['name']}',";
+			$sql .= "'{$file_ext}',";
+			$sql .= "{$_file['size']},";
+			$sql .= "'{$md5_txt}',";
+			$sql .= "sysdate())";
+
+			$res = $this->Execute($sql);
+			
+			move_uploaded_file($_file['tmp_name'], ROOT_PATH.$tmp);
+
+			return $this->Insert_ID();
+
+		}
+
+		function getFileRow($_no) {
+			$sql = "select * from upload_data where idx = {$_no}";
+			$res = $this->GetOne($sql);
+
+			return $res;
+		}
+
+		function getByType($_type) {
+			$sql = "select * from upload_data where table_name = '{$_type}' order by idx desc";
+			$res = $this->GetAll($sql);
+
+			return $res;
+		}
+
+		function del($_idx) {
+			$sql = "delete from upload_data where idx={$_idx}";
+			$res = $this->Execute($sql);
+
+			return $res;
+		}
+	}
+?>

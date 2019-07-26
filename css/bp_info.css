@@ -1,0 +1,140 @@
+.row.margin_grid{
+	margin-bottom:20px;
+}
+/* 파일버튼 크기 */
+.input-group .btn{width:80px;}
+
+/* 파일열기 */
+.btn-file {
+	position: relative;
+	overflow: hidden;
+}
+.btn-file input[type=file] {
+	position: absolute;
+	top: 0;
+	right: 0;
+	min-width: 100%;
+	min-height: 100%;
+	font-size: 100px;
+	text-align: right;
+	filter: alpha(opacity=0);
+	opacity: 0;
+	background: red;
+	cursor: inherit;
+	display: block;
+}
+input[readonly] {
+	background-color: white !important;
+	cursor: text ;
+}
+
+.vhidden{visibility:hidden;}
+
+/* Drop files */
+.dropzone{
+	width:100%;height:50px;
+	margin-top:20px;
+	border:2px dashed #ccc;
+	color:#ccc;
+	line-height:50px;
+	text-align:center;
+}
+.dropzone.dragover{
+	border-color:#000;
+	color:#000;
+}
+.dragover{
+	border-color:#bbb !important;
+}
+
+.dataFileInput,.dataThumbInput{	
+	border-left:1px solid #E5E9EC !important;
+	cursor:pointer !important;
+}
+
+/* reply */
+#bp_reply{
+	display:block;
+	width:100%;
+	padding:15px;
+	background-color:#fff;
+}
+#bp_reply .content{
+	display:block;
+	width:100%;padding:0;
+	border:1px solid #aaa;
+}
+#bp_reply .content textarea{
+	width:100%;height:60px;
+	padding:15px;
+	outline:none;
+	border:none;
+	resize:none;
+}
+#bp_reply .content .bottom{
+	position:relative;
+	display:block;height:50px;
+	border-top:1px solid #eee;
+}
+#bp_reply .content .bottom .input_length{
+	position:absolute;right:100px;top:15px;
+	color:#aaa;
+}
+#bp_reply .content .bottom .reply_btn{
+	position:absolute;right:0;top:0;
+	width:70px;height:50px;border:none;
+	line-height:50px;text-align:center;
+	color:#fff;outline:none;
+	background-color:#362267;
+}
+
+.reply_body{
+	position:relative;
+	display:block;
+	width:100%;min-height:80px;
+	padding:20px;
+}
+#bp_body > img{
+	width:100%;max-width:100%;
+}
+.reply_body{
+	min-height:100px;
+	border: 1px solid #cfcfcf;
+	border-top: none;
+}
+.reply_body .reply_user{
+	line-height:20px;
+	font-size:12px;
+	font-weight:bold;
+}
+.reply_body .reply_date{
+	float:right;
+	font-size:12px;color:#ccc;
+}
+.reply_body .reply_delete{
+	position:absolute;right:10px;top:35px;
+	width:50px;height:50px;
+	overflow:hidden;text-indent:-9999px;
+	border:none;outline:none;
+	background:url(/app/img/icon_delete.png) no-repeat center center ;
+	background-size:25px 25px;
+}
+.reply_body .reply_content{
+	display:inline-block;
+	width:100%;
+	padding:10px 40px 0 0;color:#333;
+	font-size: 17px;
+	word-break:break-all;
+}
+
+.reply_body.G_position,.reply_body.U_position{
+	background-color: #f2f3f3;
+}
+
+.reply_body.G_position .reply_user b{
+	color: #fb770f;
+}
+
+.reply_body.U_position .reply_user b{
+	color: #45bcd4;
+}

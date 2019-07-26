@@ -1,0 +1,19 @@
+/* Actions 버튼 크기 */
+.form-actions .btn {
+    width: 80px;
+}
+
+/* 하단 버튼 여백없애기 */
+.grid.simple .grid-body {
+    padding-bottom: 0;
+}
+
+/* 트리그리드 높이 조정 */
+.grid-body.tree {
+    height: 346px;
+}
+
+/* 트리그리드 하단여백 */
+#folder_tree {
+    margin-bottom: 20px;
+}

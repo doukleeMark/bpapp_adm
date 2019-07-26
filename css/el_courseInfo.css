@@ -1,0 +1,164 @@
+/* 그리드 상단 여백 */
+.grid-body {
+	padding-top: 20px !important;
+}
+
+/* 텍스트박스와 셀렉트박스 크기 맞추기 */
+.select2,
+.select2 a {
+	height: 37px !important;
+}
+
+/* 파일버튼 크기 */
+.input-group .btn {
+	width: 80px;
+}
+
+/* 파일링크 */
+.link-filename {
+	display: block;
+	width: 100%;
+	height: 36px;
+	border: 1px solid #eeeeee;
+
+	padding: 6px 11px !important;
+	line-height: 24px;
+	font-size: 13px;
+	font-weight: normal;
+}
+
+/* 파일열기 */
+.btn-file {
+	position: relative;
+	overflow: hidden;
+}
+.btn-file input[type="file"] {
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	min-width: 100%;
+	min-height: 100%;
+	filter: alpha(opacity=0);
+	opacity: 0;
+}
+input[readonly] {
+	background-color: white !important;
+	cursor: text;
+}
+
+.btn-delfile {
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 1000;
+	cursor: pointer;
+}
+/* 하단 버튼 여백없애기 */
+.grid.simple .grid-body {
+	padding-bottom: 0;
+}
+
+.vhidden {
+	visibility: hidden;
+}
+
+/* Multi Select Box */
+.select2-container.select2-container-multi.select2 {
+	height: auto !important;
+}
+
+/* Drop files */
+.dropzone {
+	width: 100%;
+	height: 50px;
+	margin-top: 20px;
+	border: 2px dashed #ccc;
+	color: #ccc;
+	line-height: 50px;
+	text-align: center;
+}
+.dropzone.dragover {
+	border-color: #000;
+	color: #000;
+}
+.dragover {
+	border-color: #bbb !important;
+}
+
+/* show upload progress with bars */
+.progress-bar-area {
+	margin-top: 20px;
+}
+.progress {
+	display: none;
+	position: relative;
+	width: 100%;
+	height: 15px;
+	background: #c7da9f;
+	border-radius: 15px;
+	overflow: hidden;
+	margin-top: 10px;
+}
+.bar {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 0;
+	height: 15px;
+	background: #85c220;
+	text-align: center;
+	color: white;
+	font-weight: bold;
+	font-size: 0.7em;
+}
+.bar.red {
+	background: tomato;
+}
+
+/* DATE From */
+.radio label {
+	margin-top: 8px !important;
+}
+.radio.date_radio label {
+	vertical-align: top;
+	padding-left: 3px;
+}
+.radio.date_radio .input-append {
+	margin-right: 40px;
+}
+.radio.date_radio .input-append input {
+	width: 100px;
+}
+
+/* input cursor */
+.form-control[readonly],
+.form-control[disabled] {
+	cursor: Default !important;
+}
+
+/* DataTables */
+.dataTables_wrapper .table > tbody > tr > td {
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+.dataTables_wrapper .table > tbody > tr.selected td {
+	color: #ffffff;
+}
+.dataTables_wrapper .table > tbody > tr.selected td.select-checkbox {
+	color: #576475;
+}
+
+.row.select-group .bottom:after {
+	display: block;
+	content: "";
+	clear: both;
+	margin-bottom: 20px;
+}
+.row.select-group .grid {
+	margin-bottom: 5px;
+}

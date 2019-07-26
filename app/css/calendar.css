@@ -1,0 +1,134 @@
+body{
+	background-color:rgba(0,0,0,0);
+}
+
+.ui-datepicker {
+  width: 100%;
+  height: auto;
+  margin: auto;
+  font: 9pt Arial, sans-serif;
+}
+.ui-datepicker-inline{
+	background:url(../img/schedule_line.png) no-repeat center 100px;
+	background-size:contain;
+	padding-bottom:10px;
+}
+.ui-datepicker-header {
+	position:relative;
+	margin-bottom:20px;
+}
+.ui-datepicker a {
+  text-decoration: none;
+  color: gray;
+}
+.ui-datepicker table {
+  width: 100%;
+  color : gray;
+  text-align:center;
+  line-height:20px;
+}
+.ui-datepicker-title {
+	height:50px;
+	font-size:22px;
+	color:#fff;
+	text-align: center;
+}
+.ui-datepicker-month{
+	line-height:80px;
+}
+.ui-datepicker-prev {
+	position:absolute;left:5%;top:10px;
+	padding:10px;
+	font-size:25px;font-family:'Verdana';
+}
+.ui-datepicker-next {
+	position:absolute;right:5%;top:10px;
+	padding:10px;
+	font-size:25px;font-family:'Verdana';
+}
+.ui-datepicker-next span,.ui-datepicker-prev span{
+	color:#fff;
+}
+.ui-datepicker td{
+	height:40px;
+}
+.ui-datepicker td span, .ui-datepicker td a {
+  display: inline-block;
+  text-align: center;
+  width:40px;
+  height:40px;
+  line-height:40px;
+  color: #fff;
+  font-size:17px;
+}
+.ui-datepicker td a{
+	z-index:-10;
+}
+.ui-datepicker thead tr{
+	height:60px;
+	vertical-align:top;
+
+}
+.ui-datepicker th {
+  text-transform: uppercase;
+  font-size: 9pt;
+  padding: 5px 0;
+  color:#fff;
+  text-align:center;
+}
+.ui-datepicker-calendar{
+	width:90% !important;
+	max-width:90% !important;
+	margin:0 auto;
+}
+.ui-datepicker-calendar th:first-child {
+	color:#ccc;
+}
+
+.ui-datepicker-calendar th:last-child {
+	color:#ccc;
+}
+.ui-datepicker-unselectable .ui-state-default {
+	color: #d2d2d2;
+}
+
+.ui-datepicker-calendar .ui-state-active {
+	background: #fff;
+	color:#4F3185 !important;
+	border-radius: 50%;
+	position: relative;
+	opacity:0.5;
+	margin: -1px;
+}
+.ui-datepicker-calendar td:first-child .ui-state-active {
+  width: 40px;
+  margin-left: 0;
+}
+.ui-datepicker-calendar td:last-child .ui-state-active {
+  width: 40px;
+  margin-right: 0;
+}
+.ui-datepicker-calendar tr:last-child .ui-state-active {
+  height: 40px;
+  margin-bottom: 0;
+}
+.ui-datepicker-calendar > tbody td:first-child a { 
+	color:#ccc;
+}
+.ui-datepicker-calendar > tbody td:last-child a { 
+	color:#ccc;
+}
+
+/* 이벤트가 있는 날짜 */
+.user_highlighted{
+	background:url('../img/dot1_calendar_user.png') no-repeat center 0;
+	background-size:40px 40px;
+}
+.admin_highlighted{
+	background:url('../img/dot1_calendar_admin.png') no-repeat center 0;
+	background-size:40px 40px;
+}
+.user_highlighted.admin_highlighted{
+	background:url('../img/dot2_calendar.png') no-repeat center 0;
+	background-size:40px 40px;
+}

@@ -1,0 +1,78 @@
+@import"font.css";
+
+body{
+	margin:0;
+	padding:0;
+	font-family:"NanumGothic";
+}
+.content{
+	position:absolute;
+	width:320px;height:370px;
+	bottom:0;
+	left:0;
+	top:0;
+	right:0;
+	margin:auto;
+}
+.topTitle{
+	height:20px;
+	padding:10px 0 0 25px;
+	margin-bottom:60px;
+}
+.topTitle img{
+	display:block;
+	float:left;
+	height:20px;
+}
+.topTitle span{
+	display:block;
+	float:left;
+	height:20px;
+	line-height:20px;font-weight:bold;
+	font-size:20px;color:#573791;
+	text-indent:10px;
+}
+
+.target{
+	position:absolute;left:0;top:50px;
+	display:block;
+	width:100%;
+	text-align:center;
+	font-size:50px;font-weight:bold;
+	color:#7BBF4B;
+}
+.graph{
+	position:relative;top:0;
+	display:block;
+	width:300px;height:300px;
+	margin:0 auto;
+	padding:0;
+}
+.graph #circle{
+	position:absolute;left:-2px;top:-30px;
+	width:300px;height:300px;
+	z-index:1;
+}
+.bg{
+	position:absolute;left:48px;top:20px;
+	width:210px;height:210px;
+}
+.subText{
+	position:absolute;bottom:10px;
+	display:block;
+	width:100%;height:20px;
+	line-height:20px;font-weight:bold;
+	font-size:20px;color:#573791;
+	text-align:center;
+}
+.subText span{
+	color:#7BBF4B;
+}
+.svg-container svg{
+	margin:0;padding:0;
+	background:url(/app/img/graph_bg.png) no-repeat 50px 50px;
+	background-size:210px 210px;
+}
+.border{
+	border:1px solid blue;
+}

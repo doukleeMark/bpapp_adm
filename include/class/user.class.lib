@@ -1,0 +1,162 @@
+<?php
+	require_once($_SERVER['DOCUMENT_ROOT'] . "include/config/config.inc");
+
+	class UserClass extends DBclass {		
+
+		function userLogin($_obj) {
+			$_obj['ur_id'] = strtolower($_obj['ur_id']);
+			$sql = "select * from user_data where ur_id='{$_obj['ur_id']}' and ur_pw=password('".addslashes($_obj['ur_pw'])."') and ur_level>2 ";
+			$res = $this->GetOne($sql);
+
+			return $res;
+		}
+
+		function getUserList($_post) {
+			if($_SESSION['USER_LEVEL'] == "10")
+				$sql = "select * from user_data ";
+			else
+				$sql = "select * from user_data where ur_level!=10 AND ur_hidden=0 AND ur_state=1 ";
+			$sql .= "order by ur_dt_join ";
+			$res = $this->Execute($sql);
+			return $res;
+		}
+
+		function getUserListByFilter($_obj) {
+			if($_SESSION['USER_LEVEL'] == "10"){
+				$sql = "SELECT
+					 * 
+				FROM 
+					user_data 
+				WHERE 
+					ur_state=1 ";	
+			}else{
+				$sql = "SELECT
+						* 
+					FROM 
+						user_data 
+					WHERE 
+						ur_level!=10 
+						AND ur_hidden=0 
+						AND ur_state=1 ";
+			}
+			if($_obj['unit'] > 0){
+				$sql .= "AND ur_unit = {$_obj['unit']} ";	
+			}
+			if(strlen($_obj['team']) > 0){
+				$sql .= "AND ur_team = '{$_obj['team']}' ";	
+			}
+			if(strlen($_obj['position']) > 0){
+				$sql .= "AND ur_position = {$_obj['position']} ";	
+			}
+			$name = trim($_obj['name']);
+			if(strlen($name) > 0){
+				$sql .= "AND ur_name = '{$name}' ";	
+			}
+			$sql .= "order by ur_dt_join ";
+			$res = $this->GetAll($sql);
+			return $res;
+		}
+
+		/* 선택한 유저 정보 가져오기 */
+		function getUserInfoOne($_no) {
+			$sql = "select * from user_data where idx=" . $_no;
+			$res = $this->GetOne($sql);
+			return $res;
+		}
+
+		function getDeviceInfoAll($_no) {
+			$sql = "select * from device_data where dvi_user=" . $_no;
+			$res = $this->GetAll($sql);
+			return $res;
+		}	
+
+		/* User Insert 기능 */
+		function userInsert($_obj) {
+			$sql = "insert into user_data(ur_id, ur_pw, ur_name, ur_team, ur_unit, ur_level, ur_position, ur_teamlevel, ur_group_low, ur_group_high, ur_group_level, ur_choice_level, ur_dt_join) values(";
+			$sql .= "'" . addslashes(trim(strtolower($_obj['id']))) . "', ";
+			$sql .= "PASSWORD('" . addslashes($_obj['password']) . "'), ";
+			$sql .= "'" . addslashes($_obj['name']) . "', ";
+			$sql .= "'" . addslashes($_obj['team']) . "', ";
+			$sql .= $_obj['unit'] . ", ";
+			$sql .= $_obj['level'] . ", ";
+			$sql .= $_obj['position'] . ", ";
+			$sql .= $_obj['teamlevel'] . ", ";
+			$sql .= "'" . $_obj['low'] . "', ";
+			$sql .= "'" . $_obj['high'] . "', ";
+			$sql .= $_obj['grouplevel'] . ", ";
+			$sql .= $_obj['choicelevel'] . ", ";
+			$sql .= " sysdate())";
+			$this->Execute($sql);
+			return $this->Insert_ID();
+		}
+
+		/* User Update 기능 */
+		function userUpdate($_obj) {
+			$sql = "update user_data set ur_name='" . addslashes($_obj['name']) . "', ";
+			if($_obj['password']!=null) $sql .= "ur_pw=PASSWORD('" . addslashes($_obj['password']) . "'), ";
+			$sql .= "ur_team='" . addslashes($_obj['team']) . "', ";
+			$sql .= "ur_unit=" . $_obj['unit'] . ", ";
+			$sql .= "ur_level=" . $_obj['level'] . ", ";
+			$sql .= "ur_position=" . $_obj['position'] . ", ";
+			$sql .= "ur_teamlevel=" . $_obj['teamlevel'] . ", ";
+			$sql .= "ur_group_low='" . addslashes($_obj['low']) . "', ";
+			$sql .= "ur_group_high='" . addslashes($_obj['high']) . "', ";
+			$sql .= "ur_group_level=" . $_obj['grouplevel'] . ", ";
+			$sql .= "ur_choice_level=" . $_obj['choicelevel'] . " ";
+			$sql .= "where idx=" . $_obj['idx'];
+			$this->Execute($sql);
+			return;
+		}
+
+		/* Device Insert 기능 */
+		function deviceInsert($_idx) {
+			$sql = "insert into device_data(dvi_user) values(";
+			$sql .= $_idx . ")";
+			return $this->Execute($sql);
+		}
+
+		/* Device Delete 기능 */
+		function deviceDelete($_idx) {
+			$sql = "delete from device_data where idx={$_idx}";
+			return $this->Execute($sql);;
+		}
+
+		/* Device urIdx Delete 기능 */
+		function deviceUserIdxDelete($_urIdx) {
+			$sql = "delete from device_data where dvi_user={$_urIdx}";
+			return $this->Execute($sql);;
+		}
+
+		/* User Delete */
+		function userDelete($_idx) {
+			$sql = "delete from user_data where idx={$_idx}";
+			return $res = $this->Execute($sql);;
+		}
+
+		/* Users Delete */
+		function usersDelete($_urIdxs) {
+			$ur_no = explode(",", $_urIdxs);
+
+			for ($i=0; $i<count($ur_no); $i++) {
+				$this->userDelete($ur_no[$i]);
+				$this->deviceUserIdxDelete($ur_no[$i]);
+			}
+
+			return;
+		}
+
+		function getUserPointList($_post) {
+			$sql = "select p.*, u.ur_id, u.ur_name, u.ur_level ";
+			$sql .= "from user_data u, point_data p ";
+			$sql .= "where u.idx = p.ptd_user AND u.ur_level!=10 AND u.ur_hidden=0 order by idx";
+			$res = $this->Execute($sql);
+			return $res;
+		}
+
+		function getPointSettingInfo($_type){
+			$sql = "select * from point_role where ptr_type={$_type} AND ptr_state=1";
+			$res = $this->GetAll($sql);
+			return $res;
+		}
+	}
+?>

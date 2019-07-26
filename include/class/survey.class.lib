@@ -1,0 +1,91 @@
+<?php
+	require_once($_SERVER['DOCUMENT_ROOT'] . "include/config/config.inc");
+
+	class SurveyClass extends DBclass {		
+		
+		/* idx로 Survey 정보 가져오기 */
+		function getSurveyInfo($_idx) {
+			$sql = "select * from survey_info where idx={$_idx}";
+			$res = $this->GetOne($sql);
+			return $res;
+		}
+
+		/* idx로 Survey sub 정보 가져오기 */
+		function getSurveySubInfo($_idx) {
+			$sql = "select * from survey_sub where svs_parent={$_idx} order by svs_page ";
+			$res = $this->GetAll($sql);
+			return $res;
+		}		
+
+		function insertSurveyInfo($_obj){
+			$sql = "insert into survey_info(svf_title, svf_unit, svf_visible, svf_user, svf_date) values (";
+			$sql .= "'".addslashes($_obj['svf_title'])."', 7,";
+			$sql .= "'".$_obj['svf_visible']."', ";
+			$sql .= "'".$_SESSION['USER_NO']."', ";
+			$sql .= "sysdate())";
+			$this->Execute($sql);
+			return $this->Insert_ID();
+		}
+
+		function updateSurveyInfo($_obj){
+			$sql = "update survey_info set ";
+			$sql .= "svf_title='" . addslashes($_obj['svf_title']) . "', ";
+			$sql .= "svf_visible='" . $_obj['svf_visible'] . "' ";
+			$sql .= "where idx=" . $_obj['idx'];
+			$this->Execute($sql);
+		}
+
+		function insertSurveySub($_obj){
+			$sql = "insert into survey_sub(svs_parent, svs_page, svs_question, svs_item_1, svs_item_2, svs_item_3, svs_item_4, svs_item_5) values (";
+			$sql .= "'".$_obj['svs_parent']."', ";
+			$sql .= "'".$_obj['svs_page']."', ";
+			$sql .= "'".addslashes($_obj['svs_question'])."', ";
+			$sql .= "'".addslashes($_obj['svs_item_1'])."', ";
+			$sql .= "'".addslashes($_obj['svs_item_2'])."', ";
+			$sql .= "'".addslashes($_obj['svs_item_3'])."', ";
+			$sql .= "'".addslashes($_obj['svs_item_4'])."', ";
+			$sql .= "'".addslashes($_obj['svs_item_5'])."') ";
+			$this->Execute($sql);
+
+			return;
+		}
+
+		function deleteSurveySubAll($_idx){			
+
+			$sql = "delete from survey_sub where svs_parent={$_idx}";
+			$this->Execute($sql);
+		}
+
+		function getSurveyList($_post) {
+			$sql = "select s.*, u.ur_name from survey_info s, user_data u ";
+			$sql .= "where s.svf_user = u.idx order by s.idx";
+			$res = $this->Execute($sql);
+
+			return $res;
+		}
+
+		function deleteSurveyIdx($_idx){
+
+			$this->deleteSurveySubAll($_idx);
+
+			$sql = "delete from survey_info where idx={$_idx}";
+			$this->Execute($sql);
+
+		}
+
+		function getSurveyResultList($_idx) {
+			$sql = "select sd.svd_idx as idx, si.svf_title, sub.cnt, count(sd.svd_idx) as ent, u.ur_name, max(sd.svd_date) as date ";
+			$sql .= "from survey_data sd, user_data u, survey_info si left outer join ";
+			$sql .= "(select svs_parent, count(svs_parent) as cnt from survey_sub group by svs_parent) sub ";
+			$sql .= "on si.idx = sub.svs_parent where sd.svd_idx = si.idx AND sd.svd_user = u.idx group by sd.svd_idx ";
+			$res = $this->Execute($sql);
+			return $res;
+		}
+
+		function getSurveyResult($_idx) {
+			$sql = "select * from survey_data where svd_idx={$_idx} ";
+			$res = $this->GetAll($sql);
+			return $res;
+		}
+	};
+?>

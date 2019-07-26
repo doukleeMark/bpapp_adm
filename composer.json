@@ -1,0 +1,10 @@
+{
+	"require": {
+		"aws/aws-sdk-php": "^3.67",
+		"psr/simple-cache": "1.0.1",
+		"phpoffice/phpspreadsheet": "1.4.0",
+		"markbaker/complex": "1.4.6",
+		"eddturtle/direct-upload": "dev-master",
+		"php-ffmpeg/php-ffmpeg": "^0.13.0"
+	}
+}

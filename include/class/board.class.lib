@@ -1,0 +1,113 @@
+<?php
+	require_once($_SERVER['DOCUMENT_ROOT'] . "include/config/config.inc");
+
+	class BoardClass extends DBclass {		
+
+		function bbsInsert($_obj) {
+			$sql = "insert into bbs_data(bbs_user, bbs_mode, bbs_unit, bbs_title, bbs_content, bbs_file, bbs_dt_create) values(";
+			$sql .= "'" . $_SESSION['USER_NO'] . "', ";
+			$sql .= "'" . $_obj['bbs_mode'] . "', ";
+			$sql .= "'" . $_obj['bbs_unit'] . "', ";
+			$sql .= "'" . addslashes($_obj['bbs_title']) . "', ";
+			$sql .= "'" . addslashes($_obj['bbs_content']) . "', ";
+			$sql .= "'" . $_obj['bbs_file'] . "', ";
+			$sql .= "sysdate())";
+			$this->Execute($sql);
+			return $this->Insert_ID();
+		}
+
+		function bbsUpdate($_obj) {
+			$sql = "update bbs_data set ";
+			$sql .= "bbs_mode='" . $_obj['bbs_mode'] . "', ";
+			$sql .= "bbs_unit='" . $_obj['bbs_unit'] . "', ";
+			$sql .= "bbs_title='" . addslashes($_obj['bbs_title']) . "', ";
+			$sql .= "bbs_content='" . addslashes($_obj['bbs_content']) . "', ";
+			$sql .= "bbs_file='" . $_obj['bbs_file'] . "' ";
+			$sql .= "where idx=" . $_obj['idx'];
+			$this->Execute($sql);
+			return;
+		}
+
+		/* Board Insert 기능 */
+		function boardInsert($_obj) {
+			$sql = "insert into board_data(bod_units, bod_type, bod_title, bod_content, bod_file, bod_user, bod_date) values(";
+			$sql .= "'".$_obj['bod_units'] . "', ";
+			$sql .= $_obj['bod_type'] . ", ";
+			$sql .= "'" . addslashes($_obj['bod_title']) . "', ";
+			$sql .= "'" . addslashes($_obj['bod_content']) . "', ";
+			$sql .= $_obj['bod_file'] . ", ";
+			$sql .= $_SESSION['USER_NO'] . ", ";
+			$sql .= " sysdate())";
+			$this->Execute($sql);
+			return $this->Insert_ID();
+		}
+
+		/* Board Update 기능 */
+		function boardUpdate($_obj) {
+			$sql = "update board_data set ";
+			$sql .= "bod_units='" . $_obj['bod_units'] . "', ";
+			$sql .= "bod_type='" . $_obj['bod_type'] . "', ";
+			$sql .= "bod_title='" . addslashes($_obj['bod_title']) . "', ";
+			$sql .= "bod_content='" . addslashes($_obj['bod_content']) . "', ";
+			$sql .= "bod_file='" . $_obj['bod_file'] . "' ";
+			$sql .= "where idx=" . $_obj['idx'];
+			$this->Execute($sql);
+			return;
+		}
+
+		function getBoardList($_post) {
+			$sql = "select b.*, u.ur_name from board_data b, user_data u ";
+			$sql .= "where b.bod_user = u.idx";
+			$res = $this->Execute($sql);
+			return $res;
+		}
+
+		function getBBSList($_mode) {
+			$sql = "select b.*, u.ur_name from bbs_data b, user_data u ";
+			$sql .= "where b.bbs_user = u.idx AND b.bbs_mode IN({$_mode}) ";
+			$res = $this->Execute($sql);
+			return $res;
+		}
+
+		function getBoardInfoOne($_no) {
+			$sql = "select * from board_data where idx=" . $_no;
+			$res = $this->GetOne($sql);
+			return $res;
+		}
+
+		function getBBSInfoOne($_idx) {
+			$sql = "select * from bbs_data where idx=" . $_idx;
+			$res = $this->GetOne($sql);
+			return $res;
+		}
+
+		function deleteBoardIdx($_idx){			
+			$sql = "delete from board_data where idx={$_idx}";
+			$this->Execute($sql);
+		}
+
+		function getFileInfo($_idx) {
+			$sql = "select * from upload_data where idx=" . $_idx;
+			$res = $this->GetOne($sql);
+			return $res;
+		}
+
+		function boardUpdateFile($_obj) {
+			$sql = "update board_data set ";
+			$sql .= "bod_file='" . $_obj['bod_file'] . "' ";
+			$sql .= "where idx=" . $_obj['idx'];
+			$this->Execute($sql);
+			return;
+		}
+
+		function deleteBBSIdx($_idx){
+			$sql = "delete from bbs_data where idx={$_idx}";
+			$this->Execute($sql);
+		}
+
+		function deleteBBRIdx($_bbsIdx){
+			$sql = "delete from bbs_reply where bbr_parent={$_bbsIdx}";
+			$this->Execute($sql);
+		}
+	}
+?>

@@ -1,0 +1,48 @@
+<?php
+	require_once($_SERVER['DOCUMENT_ROOT'] . "include/config/config.inc");
+
+	class AddonClass extends DBclass {		
+
+		function getQuizList($_post) {
+			$sql = "select q.*, u.ur_name from quiz_info q, user_data u ";
+			$sql .= "where q.qz_user = u.idx";
+			$res = $this->Execute($sql);
+
+			return $res;
+		}
+
+		function getQuizInfoOne($_no) {
+			$sql = "select * from quiz_info where idx=" . $_no;
+			$res = $this->GetOne($sql);
+			return $res;
+		}
+
+		function quizInsert($_obj) {
+			$sql = "insert into quiz_info(qz_title, qz_item_1, qz_item_2, qz_item_3, qz_item_4, qz_correct, qz_user, qz_date) values(";
+			$sql .= "'" . addslashes($_obj['qz_title']) . "', ";
+			$sql .= "'" . addslashes($_obj['qz_item_1']) . "', ";
+			$sql .= "'" . addslashes($_obj['qz_item_2']) . "', ";
+			$sql .= "'" . addslashes($_obj['qz_item_3']) . "', ";
+			$sql .= "'" . addslashes($_obj['qz_item_4']) . "', ";
+			$sql .= "'".$_obj['qz_correct'] . "', ";
+			$sql .= $_SESSION['USER_NO'] . ", ";
+			$sql .= " sysdate())";
+			$this->Execute($sql);
+			return $this->Insert_ID();
+		}
+
+		/* Board Update 기능 */
+		function quizUpdate($_obj) {
+			$sql = "update quiz_info set ";
+			$sql .= "qz_title='" . addslashes($_obj['qz_title']) . "', ";
+			$sql .= "qz_item_1='" . addslashes($_obj['qz_item_1']) . "', ";
+			$sql .= "qz_item_2='" . addslashes($_obj['qz_item_2']) . "', ";
+			$sql .= "qz_item_3='" . addslashes($_obj['qz_item_3']) . "', ";
+			$sql .= "qz_item_4='" . addslashes($_obj['qz_item_4']) . "', ";
+			$sql .= "qz_correct='" . $_obj['qz_correct'] . "' ";
+			$sql .= "where idx=" . $_obj['idx'];
+			$this->Execute($sql);
+			return;
+		}
+	}
+?>

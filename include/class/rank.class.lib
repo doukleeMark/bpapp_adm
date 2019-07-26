@@ -1,0 +1,79 @@
+<?php
+	require_once($_SERVER['DOCUMENT_ROOT'] . "include/config/config.inc");
+
+	class RankClass extends DBclass {		
+
+		function getMyGrade($_idx){
+			$sql = "select * from user_data where idx='{$_idx}'";
+			$userRes = $this->GetOne($sql);
+
+			$sql = "select ur_id, ur_name, ur_point_bp from ";
+			$sql .= "user_data where ur_hidden = 0 AND ur_level < 3 order by ur_point_bp desc";
+			$rankUserRes = $this->GetAll($sql);
+
+			// 등급 퍼센트 가져오기
+			$sql = "select ptr_code, ptr_point from point_role ";
+			$sql .= "where ptr_type=3";
+			$gradeRoleRes = $this->GetAll($sql);
+
+			// DB에 없을 경우 기본 퍼센트 
+			$platinum_per = 3;
+			$royal_per = 7;
+			$gold_per = 40;
+			$silver_per = 25;
+			// $bronze_per 나머지
+
+			for($i=0;$i<count($gradeRoleRes);$i++) {
+				if($gradeRoleRes[$i]['ptr_code'] == "grade_platinum")
+					$platinum_per = $gradeRoleRes[$i]['ptr_point'];
+				else if($gradeRoleRes[$i]['ptr_code'] == "grade_royal")
+					$royal_per = $gradeRoleRes[$i]['ptr_point'];
+				else if($gradeRoleRes[$i]['ptr_code'] == "grade_gold")
+					$gold_per = $gradeRoleRes[$i]['ptr_point'];
+				else if($gradeRoleRes[$i]['ptr_code'] == "grade_silver")
+					$silver_per = $gradeRoleRes[$i]['ptr_point'];
+			}
+
+			// 등급 인원
+			$total_user = count($rankUserRes);
+			$platinum_user = floor($total_user * ($platinum_per/100));
+			$royal_user = floor($total_user * ($royal_per/100));
+			$gold_user = floor($total_user * ($gold_per/100));
+			$silver_user = floor($total_user * ($silver_per/100));
+			$bronze_user = $total_user - ($platinum_user+$royal_user+$gold_user+$silver_user);
+
+			// 개인 전체 순위
+			$userGrade = "1";
+			$userRank = 1;
+			$addRank = 1;
+			for($i=0;$i<count($rankUserRes);$i++) {
+				
+				if($i != 0){
+					if($rankUserRes[$i]['ur_point_bp'] == $rankUserRes[$i-1]['ur_point_bp']){
+						$addRank = $addRank + 1;
+					}else{
+						$userRank = $userRank + $addRank;
+						$addRank = 1;
+					}
+				}
+				
+				if($userRes['ur_id'] == $rankUserRes[$i]['ur_id']){
+					if($platinum_user >= $userRank && $rankUserRes[$i]['ur_point_bp'] > 0){
+						$userGrade = "5";
+					}else if(($platinum_user+$royal_user) >= $userRank && $rankUserRes[$i]['ur_point_bp'] > 0){
+						$userGrade = "4";
+					}else if(($platinum_user+$royal_user+$gold_user) >= $userRank && $rankUserRes[$i]['ur_point_bp'] > 0){
+						$userGrade = "3";
+					}else if(($platinum_user+$royal_user+$gold_user+$silver_user) >= $userRank && $rankUserRes[$i]['ur_point_bp'] > 0){
+						$userGrade = "2";
+					}else{
+						$userGrade = "1";
+					}
+				}
+			}
+
+			return $userGrade;
+		}
+
+	}
+?>

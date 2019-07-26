@@ -1,0 +1,158 @@
+<?php
+	require_once($_SERVER['DOCUMENT_ROOT'] . "include/config/config.inc");
+
+	class DataClass extends DBclass {		
+		
+		/* 폴더 삭제 */
+		function deleteFolder($_idx){
+			$sql = "select * from folder_data where fd_parent={$_idx}";
+			$res = $this->GetAll($sql);
+
+			// 하위 메뉴가 있으면 삭제 불가
+			if(count($res) > 0){
+				return 0;
+			}
+
+			$sql = "select * from data_info where dt_folders like '%X{$_idx},%'";
+			$res = $this->GetAll($sql);
+			
+			// 폴더 안에 데이터가 있으면 삭제 불가
+			if(count($res) > 0){
+				return -1;
+			}
+
+			// 폴더DB삭제
+			$sql = "delete from folder_data where idx={$_idx}";
+			$this->Execute($sql);
+
+			return 1;
+		}
+
+		function insertData($_obj){
+
+			if(isset($_obj['dt_folders'])){
+
+				// 폴더정보에서 유닛정보 추출하기
+				$folders = substr(str_replace("X", "", $_obj['dt_folders']), 0, -1);
+				$sql = "select DISTINCT fd_unit from folder_data where idx in($folders) order by fd_unit asc";
+				$folder_unit = $this->GetAll($sql);
+				$units = '';
+				for ($i=0; $i < count($folder_unit); $i++) { 
+					$units .= $folder_unit[$i]['fd_unit'].',';
+				}
+				$units = substr($units, 0, -1);
+
+				$sql = "insert into data_info(dt_type, dt_units, dt_writer, dt_folders, dt_title, dt_file, dt_date) values(";
+				$sql .= "'" . $_obj['dt_type'] . "', ";
+				$sql .= "'" . $units . "', ";
+				$sql .= "'" . $_SESSION['USER_NO'] . "', ";
+				$sql .= "'" . $_obj['dt_folders'] . "', ";
+				$sql .= "'" . $_obj['dt_title'] . "', ";
+				$sql .= "'" . $_obj['dt_file'] . "', ";
+				$sql .= "sysdate())";	
+			}else{
+				$sql = "select fd_unit from folder_data where idx = {$_obj['dt_folder']}";
+				$selectUnit = $this->GetOne($sql);
+
+				$sql = "insert into data_info(dt_type, dt_unit, dt_writer, dt_folder, dt_title, dt_file, dt_date) values(";
+				$sql .= "'" . $_obj['dt_type'] . "', ";
+				$sql .= "'" . $selectUnit['fd_unit'] . "', ";
+				$sql .= "'" . $_SESSION['USER_NO'] . "', ";
+				$sql .= "'" . $_obj['dt_folder'] . "', ";
+				$sql .= "'" . $_obj['dt_title'] . "', ";
+				$sql .= "'" . $_obj['dt_file'] . "', ";
+				$sql .= "sysdate())";
+			}
+
+			$this->Execute($sql);
+			
+			return $this->Insert_ID();
+		}
+
+		function updateData($_obj){
+
+			if(isset($_obj['dt_folders'])){
+
+				// 폴더정보에서 유닛정보 추출하기
+				$folders = substr(str_replace("X", "", $_obj['dt_folders']), 0, -1);
+				$sql = "select DISTINCT fd_unit from folder_data where idx in($folders) order by fd_unit asc";
+				$folder_unit = $this->GetAll($sql);
+				$units = '';
+				for ($i=0; $i < count($folder_unit); $i++) { 
+					$units .= $folder_unit[$i]['fd_unit'].',';
+				}
+				$units = substr($units, 0, -1);
+
+				$sql = "update data_info set ";
+				$sql .= "dt_units='" . $units . "', ";
+				$sql .= "dt_folders='" . $_obj['dt_folders'] . "', ";
+				$sql .= "dt_title='" . $_obj['dt_title'] . "' ";
+				$sql .= "where idx=" . $_obj['idx'];
+			}else{
+				$sql = "select fd_unit from folder_data where idx = {$_obj['dt_folder']}";
+				$selectUnit = $this->GetOne($sql);
+
+				$sql = "update data_info set ";
+				$sql .= "dt_unit='" . $selectUnit['fd_unit'] . "', ";
+				$sql .= "dt_folder='" . $_obj['dt_folder'] . "', ";
+				$sql .= "dt_title='" . $_obj['dt_title'] . "' ";
+				$sql .= "where idx=" . $_obj['idx'];
+			}
+			$this->Execute($sql);
+		}
+
+		function getDataList($_post) {
+			$sql = "select duf.*, up.file_size from upload_data up right outer join ";
+			$sql .= "(select dt.*, ur.ur_name from data_info dt, user_data ur ";
+			$sql .= "where dt.dt_writer = ur.idx) duf ";
+			$sql .= "on duf.dt_file = up.idx order by duf.dt_date";
+			$res = $this->Execute($sql);
+
+			return $res;
+		}
+
+		/* idx로 데이터 정보 가져오기 */
+		function getDataInfo($_no) {
+			$sql = "select dt.*, up.file_size, up.real_name from upload_data up right outer join ";
+			$sql .= "(select * from data_info ";
+			$sql .= "where idx = ".$_no.") dt ";
+			$sql .= "on dt.dt_file = up.idx";
+			
+			$res = $this->GetOne($sql);
+			return $res;
+		}
+
+		/* 데이터 idx로 데이터삭제 */
+		function deleteDataIdx($_idx){			
+
+			/* 데이터테이블 찾기 */
+			$sql = "select * from data_info ";
+			$sql .= "where idx = ".$_idx;		
+			$res_data = $this->GetOne($sql);
+			
+			// 데이터DB에 포함된 파일
+			if($res_data['dt_file'] != "0"){
+				$this->deleteFile($res_data['dt_file']);
+			}
+
+			// 데이터DB삭제
+			$sql = "delete from data_info where idx={$_idx}";
+			$this->Execute($sql);
+		}
+
+		/* 파일 삭제 */
+		function deleteFile($_idx){
+			/* 실제 파일 삭제 */
+			$sql = "select tmp_name from upload_data ";
+			$sql .= "where idx = ".$_idx;
+			$res_name = $this->GetOne($sql);
+
+			if(is_file(ROOT_PATH.$res_name['tmp_name'])){
+				unlink(ROOT_PATH.$res_name['tmp_name']);
+			}
+			/* upload 테이블 정보 삭제 */
+			$sql = "delete from upload_data where idx=".$_idx;		
+			$this->Execute($sql);
+		}
+	};
+?>

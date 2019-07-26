@@ -1,0 +1,84 @@
+<?php
+	require_once($_SERVER['DOCUMENT_ROOT'] . "include/config/config.inc");
+
+	class BPClass extends DBclass {
+
+		function getBPInfoOne($_idx) {
+			$sql = "select * from bp_data where idx=" . $_idx;
+			$res = $this->GetOne($sql);
+			return $res;
+		}
+
+		function getFileInfo($_idx) {
+			$sql = "select * from upload_data where idx=" . $_idx;
+			$res = $this->GetOne($sql);
+			return $res;
+		}
+
+		function bpUpdate($_obj) {
+			$sql = "update bp_data set ";
+			$sql .= "bp_unit='" . $_obj['bp_unit'] . "', ";
+			$sql .= "bp_brand='" . $_obj['bp_brand'] . "', ";
+			$sql .= "bp_title='" . addslashes($_obj['bp_title']) . "', ";
+			$sql .= "bp_content='" . addslashes($_obj['bp_content']) . "', ";
+			$sql .= "bp_new_fu='" . $_obj['bp_new_fu'] . "', ";
+			$sql .= "bp_file='" . $_obj['bp_file'] . "' ";
+			$sql .= "where idx=" . $_obj['idx'];
+			$this->Execute($sql);
+			return;
+		}
+
+		function bpUpdateFile($_obj) {
+			$sql = "update bp_data set ";
+			$sql .= "bp_file='" . $_obj['bp_file'] . "' ";
+			$sql .= "where idx=" . $_obj['idx'];
+			$this->Execute($sql);
+			return;
+		}
+
+		function bpDelete($_idx) {
+			$sql = "select idx, bp_state, bp_file from bp_data ";
+			$sql .= "where idx={$_idx} ";
+			$bpRes = $this->GetOne($sql);
+
+			if((int)$bpRes['bp_state'] == 5){
+				$sql = "update bp_data set ";
+				$sql .= "bp_hidden=1 ";
+				$sql .= "where idx={$_idx} ";
+				$this->Execute($sql);
+			}else{
+				// 좋아요 정보 삭제
+				$sql = "delete from bp_like where bl_bp={$_idx}";
+				$this->Execute($sql);
+
+				// 관련 리플 삭제
+				$sql = "delete from bp_reply where bpr_parent={$_idx}";
+				$this->Execute($sql);
+				
+				if($bpRes['bp_file'] > 0){
+					// 첨부이미지 삭제
+					$this->deleteFile($bpRes['bp_file']);
+				}
+
+				$sql = "delete from bp_data where idx={$_idx}";
+				$this->Execute($sql);
+			}
+			return;
+		}
+
+		/* 파일 삭제 */
+		function deleteFile($_idx){
+			/* 실제 파일 삭제 */
+			$sql = "select tmp_name from upload_data ";
+			$sql .= "where idx = ".$_idx;
+			$res_name = $this->GetOne($sql);
+
+			if(is_file(ROOT_PATH.$res_name['tmp_name'])){
+				unlink(ROOT_PATH.$res_name['tmp_name']);
+			}
+			/* upload 테이블 정보 삭제 */
+			$sql = "delete from upload_data where idx=".$_idx;		
+			$this->Execute($sql);
+		}
+	}
+?>

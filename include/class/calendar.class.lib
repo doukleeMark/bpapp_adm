@@ -1,0 +1,47 @@
+<?php
+	require_once($_SERVER['DOCUMENT_ROOT'] . "include/config/config.inc");
+
+	class CalendarClass extends DBclass {		
+
+		/* Calendar Insert 기능 */
+		function eventInsert($_obj) {
+			$sql = "insert into cal_data(cal_user, cal_unit, cal_brand, cal_title, cal_content, cal_img, cal_date, cal_dt_create) values(";
+			$sql .= $_SESSION['USER_NO'] . ", ";
+			$sql .= "'".$_obj['cal_unit'] . "', ";
+			$sql .= "'".$_obj['cal_brand'] . "', ";
+			$sql .= "'" . addslashes($_obj['cal_title']) . "', ";
+			$sql .= "'" . addslashes($_obj['cal_content']) . "', ";
+			$sql .= "'".$_obj['cal_img'] . "', ";
+			$sql .= "'".$_obj['cal_date'] . "', ";
+			$sql .= "sysdate()) ";
+			$this->Execute($sql);
+			return $this->Insert_ID();
+		}
+
+		/* Calendar Update 기능 */
+		function eventUpdate($_obj) {
+			$sql = "update cal_data set ";
+			$sql .= "cal_unit='" . $_obj['cal_unit'] . "', ";
+			$sql .= "cal_brand='" . $_obj['cal_brand'] . "', ";
+			$sql .= "cal_title='" . addslashes($_obj['cal_title']) . "', ";
+			$sql .= "cal_content='" . addslashes($_obj['cal_content']) . "', ";
+			$sql .= "cal_img='" . $_obj['cal_img'] . "' ";
+			$sql .= "where idx=" . $_obj['idx'];
+			$this->Execute($sql);
+			return;
+		}
+
+		function eventDelete($_idx){			
+			$sql = "delete from cal_data where idx={$_idx}";
+			$this->Execute($sql);
+		}
+
+		function eventUpdateFile($_obj) {
+			$sql = "update cal_data set ";
+			$sql .= "cal_img='" . $_obj['cal_img'] . "' ";
+			$sql .= "where idx=" . $_obj['idx'];
+			$this->Execute($sql);
+			return;
+		}
+	}
+?>

@@ -1,0 +1,292 @@
+<?php
+	require_once($_SERVER['DOCUMENT_ROOT'] . "include/config/config.inc");
+
+	require_once ROOT_PATH."/vendor/autoload.php";
+
+    use Aws\S3\S3Client;
+	use Aws\S3\Exception\S3Exception;
+
+	use Aws\MediaConvert\MediaConvertClient;
+	use Aws\Exception\AwsException;
+
+	class S3Class extends DBclass {	
+		
+		function s3Insert($_obj) {
+
+            $sql = "insert into s3_data(s3_url, s3_real_name, s3_tmp_name, ";
+			$sql .= "s3_file_size, s3_file_ext, s3_play_sec, s3_file_dt) ";
+			$sql .= "values( ?, ?, ?, ?, ?, ?, sysdate())";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('s3Insert Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt,
+				'sssisi',
+				$_obj['s3_url'],
+				$_obj['s3_real_name'],
+				$_obj['s3_tmp_name'],
+				$_obj['s3_file_size'],
+				$_obj['s3_file_ext'],
+				$_obj['s3_play_sec']
+			);
+			if($bind === false) {
+				// logwrite('s3Insert 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('s3Insert 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+            mysqli_stmt_close($stmt);
+            
+            return $this->Insert_ID();
+		}
+
+		function s3Update($_obj){
+
+			$types = '';
+			$sql = "update s3_data set ";
+			foreach($_obj as $key => $param){
+				if($key == "idx") continue;
+
+				if(is_int($param)) {
+					// Integer
+					$types .= 'i';
+				} elseif (is_float($param)) {
+					// Double
+					$types .= 'd';
+				} elseif (is_string($param)) {
+					// String
+					$types .= 's';
+				} else {
+					// Blob and Unknown
+					$types .= 'b';
+				}
+				$sql .=  $key . " = ?, ";	
+			}
+		
+			$sql .= "s3_file_dt = sysdate() ";
+
+			$types .= 'i';
+			$sql .= "where idx = ?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('s3Update Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			
+			array_unshift($_obj, $stmt, $types);
+			$bind = call_user_func_array("mysqli_stmt_bind_param", $_obj);
+			if($bind === false) {
+				// logwrite('s3Update 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('s3Update 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+		}
+
+		function s3Upload($_idx, $_folder){
+
+			
+			if((int)$_idx == 0 || strlen($_folder) == 0)return false;
+			
+			$s3Info = $this->getS3Info($_idx);
+			
+            if(isset($s3Info['idx']) && (int)$s3Info['s3_file_used'] == 0){
+				
+				// /upload/s3_tmp/파일 에서 s3로 전송
+				$credentials = new Aws\Credentials\Credentials(AWS_ACCESS_KEY, AWS_SECRET);
+	
+				$s3 = new S3Client([
+					'version'     => 'latest',
+					'region'  => AWS_REGION,
+					'credentials' => $credentials
+				]);
+				
+				$s3folder = $_folder . "/";
+				
+				switch ($s3Info['s3_file_ext']) {
+					case 'mp4':
+						$s3folder .= "video/";
+						break;
+
+					case 'mp3':
+						$s3folder .= "audio/";
+						break;
+
+					case 'png':
+					case 'jpg':
+					case 'jpeg':
+						$s3folder .= "images/";
+						break;
+					
+					default:
+						$s3folder .= "";
+						break;
+				}
+
+				$location = ROOT_PATH . $s3Info['s3_tmp_name'];
+
+				$keyname = $s3folder.basename($s3Info['s3_tmp_name']);
+				
+				try {
+					// Upload data.
+					$result = $s3->putObject([
+						'Bucket' => AWS_BUCKET,
+						'Key'    => $keyname,
+						'Body'   => fopen($location, 'r'),
+						'ACL'    => 'public-read'
+					]);
+		
+					// logwrite($result['ObjectURL'] . PHP_EOL);
+				} catch (S3Exception $e) {
+					// logwrite($e->getMessage() . PHP_EOL);
+				}
+
+				if(isset($result['ObjectURL']) && strlen($result['ObjectURL']) > 0){
+					
+					if(is_file($location)){
+						unlink($location);
+					}
+
+					// s3 DB update / 필수로 마지막 배열은 idx 
+					$obj = array(
+						's3_url' => $result['ObjectURL'],
+						's3_tmp_name' => $keyname,
+						's3_file_used' => 1,
+						'idx' => (int)$_idx
+					);
+			
+					$this->s3Update($obj);
+
+				}
+
+				return true;
+            }
+			return false;
+		}
+
+		function getS3Info($_idx) {
+			$sql = "select * from s3_data where idx=?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('getContentInfo Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt, 'i', $_idx);
+			if($bind === false) {
+				// logwrite('getContentInfo 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('getContentInfo 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			$r = mysqli_stmt_get_result($stmt);
+			if($r) {
+				$res = mysqli_fetch_assoc($r);
+
+				mysqli_free_result($r);
+				mysqli_stmt_close($stmt);
+
+			} else {
+				// logwrite('getContentInfo 결과 데이터 받기 실패 : ' . $this->Error());
+				exit();
+			}
+			return $res;
+		}
+		
+		function setUsedUpdate($_idx){
+
+			$sql = "update s3_data set s3_file_used = 1 where idx = ?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('setUsedUpdate Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_bind_param($stmt, 'i', $_idx);
+			if($bind === false) {
+				// logwrite('setUsedUpdate 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('setUsedUpdate 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+		}
+
+		function s3Delete($_idx){
+
+			$s3Info = $this->getS3Info($_idx);
+
+			if(isset($s3Info['idx'])){
+				if((int)$s3Info['s3_file_used'] > 0){
+					// s3 file Delete
+					$credentials = new Aws\Credentials\Credentials(AWS_ACCESS_KEY, AWS_SECRET);
+	
+					$s3 = new S3Client([
+						'version'     => 'latest',
+						'region'  => AWS_REGION,
+						'credentials' => $credentials
+					]);
+
+					// 스트리밍 파일 삭제
+					if($s3Info['s3_file_ext'] == 'mp4'){
+						$prefix = str_replace(basename($s3Info['s3_tmp_name']), "", $s3Info['s3_tmp_name']) . "assets/";
+						$assets = $s3->listObjectsV2([
+							'Bucket' => AWS_BUCKET,
+							'Prefix' => $prefix
+						]);
+						if (isset($assets['Contents'])) {
+							foreach ($assets['Contents'] as $asset) {
+								$s3->deleteObject([
+									'Bucket' => AWS_BUCKET,
+									'Key' => $asset['Key']
+								]);
+							}
+						}
+					}
+
+					$s3->deleteObject([
+						'Bucket' => AWS_BUCKET,
+						'Key' => $s3Info['s3_tmp_name']
+					]);
+
+				}else{
+					// web server tmp Delete
+					if(is_file(ROOT_PATH.$s3Info['s3_tmp_name'])){
+						unlink(ROOT_PATH.$s3Info['s3_tmp_name']);
+					}
+				}
+
+				// s3 DB delete
+				$sql = "delete from s3_data where idx = ?";
+				$stmt = $this->Prepare($sql);
+				if($stmt === false) {
+					// logwrite('delete Statement 생성 실패 : ' . $this->Error());
+					exit();
+				}
+				mysqli_stmt_bind_param($stmt, 'i', $_idx);
+				if($bind === false) {
+					// logwrite('delete 파라미터 바인드 실패 : ' . $this->Error());
+					exit();
+				}
+				mysqli_stmt_execute($stmt);
+				if($exec === false) {
+					// logwrite('delete 쿼리 실행 실패 : ' . $this->Error());
+					exit();
+				}
+				mysqli_stmt_close($stmt);
+			}
+		}
+	};
+?>

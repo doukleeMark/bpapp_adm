@@ -1,0 +1,141 @@
+<?php
+	require_once($_SERVER['DOCUMENT_ROOT'] . "include/config/config.inc");
+
+	class CodeClass extends DBclass {
+
+        function getByNameAndGroup($_obj){
+            $sql = "select * from code_type where code_name=? and code_group=? limit 1 ";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				//logwrite('getByNameAndGroup Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt, 'ss', $_obj['code_name'], $_obj['code_group']);
+			if($bind === false) {
+				//logwrite('getByNameAndGroup 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				//logwrite('getByNameAndGroup 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			$r = mysqli_stmt_get_result($stmt);
+			if($r) {
+				$res = mysqli_fetch_assoc($r);
+				mysqli_free_result($r);
+			} else {
+				//logwrite('getByNameAndGroup 결과 데이터 받기 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+			return $res;
+        }
+
+        function getByGroupList($_group) {
+			$sql = "select * from code_type where code_group=? order by code_order asc, code_name asc ";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				//logwrite('getByGroupList Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt, 's', $_group);
+			if($bind === false) {
+				//logwrite('getByGroupList 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				//logwrite('getByGroupList 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			$r = mysqli_stmt_get_result($stmt);
+			if($r) {
+				$res= array();
+				while($data = mysqli_fetch_assoc($r)){
+					array_push($res,$data);
+				}
+				mysqli_free_result($r);
+			} else {
+				//logwrite('getByGroupList 결과 데이터 받기 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+			return $res;
+		}
+		
+		function codeInsert($_obj) {
+			
+			$sql = "insert into code_type(code_group, code_name) ";
+			$sql .= "values( ?, ? )";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				//logwrite('codeInsert Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt,
+				'ss',
+				$_obj['code_group'],
+				$_obj['code_name']
+			);
+			if($bind === false) {
+				//logwrite('codeInsert 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				//logwrite('codeInsert 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+
+			return $this->Insert_ID();
+		}
+		
+		function codeUpdate($_obj){
+
+			$types = '';
+
+			$sql = "update code_type set code_name=? where idx = ? ";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				//logwrite('codeUpdate Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			
+			$bind = mysqli_stmt_bind_param($stmt, 'si', $_obj['code_name'], $_obj['idx']);
+			if($bind === false) {
+				//logwrite('codeUpdate 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				//logwrite('codeUpdate 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+		}
+
+		function codeDelete($_idx){
+
+			$sql = "delete from code_type where idx = ?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				//logwrite('codeDelete Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt, 'i', $_idx);
+			if($bind === false) {
+				//logwrite('codeDelete 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				//logwrite('codeDelete 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+		}
+
+	};
+?>

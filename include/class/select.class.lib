@@ -1,0 +1,59 @@
+<?php
+	require_once($_SERVER['DOCUMENT_ROOT'] . "include/config/config.inc");
+
+	class SelectClass extends DBclass {		
+
+		function printUnitOptions($_sel=null) {
+			$sql = "select * from unit_data";
+			$res = $this->GetAll($sql);
+			
+			for($i=0; $i<count($res); $i++) {
+				if($_sel==$res[$i]['idx']) $selectedChar = "selected";
+				else $selectedChar = "";
+
+				echo "<option value=\"".$res[$i]['idx']."\" " . $selectedChar . " >".$res[$i]['unit_name']."</option>";
+			}
+		}
+
+		function printUnitsOptions($_sel=null) {
+			
+			$sql = "select * from unit_data";
+			$res = $this->GetAll($sql);
+
+			$_sel = str_replace("X", "", $_sel);
+			$sel_list = explode(",", $_sel);
+			
+			for($i=0; $i<count($res); $i++) {
+				for($j=0; $j<count($sel_list);$j++){
+					$selectedChar = "";
+					if($sel_list[$j]==$res[$i]['idx']){
+						$selectedChar = "selected";
+						break;
+					}
+				}
+				echo "<option value=\"".$res[$i]['idx']."\" " . $selectedChar . " >".$res[$i]['unit_name']."</option>";
+			}
+		}
+
+		function printBrandOptions($_unit) {
+			$sql = "select * from brand_data b, unit_brand ub where b.idx = ub.ub_brand AND ub.ub_unit={$_unit} order by ub.ub_brand";
+			$res = $this->GetAll($sql);
+			
+			for($i=0; $i<count($res); $i++) {
+				echo "<option value=\"".$res[$i]['idx']."\">".$res[$i]['brand_name']."</option>";
+			}
+		}
+
+		function printBrandOptionsSelect($_unit, $_brand) {
+			$sql = "select * from brand_data b, unit_brand ub where b.idx = ub.ub_brand AND ub.ub_unit={$_unit} order by ub.ub_order";
+			$res = $this->GetAll($sql);
+			
+			for($i=0; $i<count($res); $i++) {
+				if($_brand==$res[$i]['idx']) $selectedChar = "selected";
+				else $selectedChar = "";
+
+				echo "<option value=\"".$res[$i]['idx']."\" " . $selectedChar . " >".$res[$i]['brand_name']."</option>";
+			}
+		}
+	}
+?>

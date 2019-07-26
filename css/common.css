@@ -1,0 +1,123 @@
+/* common.css */
+.bg-dark {
+	background-color: #000000 !important;
+	color: white;
+}
+.bg-orange {
+	background-color: #de6a0f !important;
+	color: white;
+}
+.bg-blue {
+	background-color: #51a7f9 !important;
+	color: white;
+}
+.bg-yellow {
+	background-color: #f5d327 !important;
+	color: white;
+}
+.bg-gray {
+	background-color: #f7f7f7 !important;
+	color: white;
+}
+.bg-red {
+	background-color: red !important;
+	color: white;
+}
+
+.bg-cons {
+	display: inline-block;
+	width: 70px !important;
+	height: 21px;
+	line-height: 16px;
+}
+
+.table th {
+	white-space: nowrap;
+}
+.table td {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+/* 하단 버튼 여백없애기 */
+.form-actions .btn {
+	margin-bottom: 0;
+}
+
+/* header */
+.header-seperation > a > .logo {
+	margin: 10px 0 0 60px;
+}
+.page-sidebar,
+.grid-title h4 .semi-bold {
+	font-family: "Nanum Gothic", sans-serif;
+}
+@media (max-width: 767px) {
+	.header-seperation > a > .logo {
+		margin: 10px;
+	}
+}
+/* Sidebar */
+.user-info-wrapper .userlevel {
+	display: block;
+	width: 110px;
+	color: #8b91a0;
+	font-size: 14px;
+	margin-bottom: 20px;
+}
+.user-info-wrapper .userlevel .btn {
+	opacity: 1;
+	font-size: 13px;
+	margin-left: 3px;
+}
+
+.user-info {
+	text-align: center;
+}
+.username span {
+	color: #fecc11;
+	margin-left: 10px;
+}
+.footer-widget div {
+	text-align: center;
+}
+
+/* 리스트 페이징 위치 */
+.row_div {
+	margin-bottom: 20px;
+}
+.row_div2 {
+	margin-top: 20px;
+}
+
+.action_btn .btn-default {
+	background-color: #f7f7f7 !important;
+}
+
+/* 테이블 */
+table.dataTable {
+	overflow: hidden !important;
+}
+.dataTables_scroll {
+	margin-bottom: 10px;
+}
+
+.icon-custom-left {
+	cursor: pointer !important;
+}
+
+.noselect {
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Chrome/Safari/Opera */
+	-khtml-user-select: none; /* Konqueror */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version, currently
+	not supported by any browser */
+}
+
+/* dataTable checkbox */
+table.table .checkbox label {
+	margin-bottom: 15px;
+}

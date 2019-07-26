@@ -1,0 +1,29 @@
+<?php
+
+	// LOG
+	function logwrite($args) {
+		$st = time();
+		if (($fp=fopen('/home/bpapp/public_html/current.log', "a+")) != NULL) {
+			$buf = strftime("%Y%m%d%H%M%S", $st);
+			fprintf( $fp, "%s\t%s\n", $buf, $args );
+			fclose($fp);
+			return TRUE;
+		}
+		return FALSE;
+	}
+	
+	// Char Split
+	function splitCharacter($_char, $_nsize = 100) {		
+		if(strlen($_char)>$_nsize) {
+			return mb_strcut($_char, 0, $_nsize, 'utf-8') . "...";
+		} else  {
+			return $_char;
+		}
+	}
+	
+	// 해당하는 날짜가 그달의 몇주째인지 계산
+	function toWeekNum($timestamp) { 
+		$w = date('w', mktime(0,0,0, date('n',$timestamp), 1, date('Y',$timestamp))); 
+		return ceil(($w + date('j',$timestamp) -1) / 7); 
+	}
+?>

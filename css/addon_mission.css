@@ -1,0 +1,19 @@
+.tab-content{
+	padding:0;
+	background-color:rgba(0, 0, 0, 0);
+}
+.tab-content .tab-pane{
+	padding:0;
+}
+.tab-content .tab-pane .active{
+	padding:0;
+}
+.mSettingBody input.form-control{
+	display: inline-block;
+	width: 70px;
+	vertical-align: middle;
+	text-align: right;
+}
+.mSettingBody h5{
+	margin-top: 20px;
+}

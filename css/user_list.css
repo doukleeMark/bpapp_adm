@@ -1,0 +1,8 @@
+.admin-info{
+	display:block;
+	height:30px;
+}
+.table-action .btn-group button{
+	border:1px solid #ddd;
+	background-color:#fff;
+}

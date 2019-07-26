@@ -1,0 +1,118 @@
+<?php
+	require_once($_SERVER['DOCUMENT_ROOT'] . "include/config/config.inc");
+
+	class QuizClass extends DBclass {
+		
+		// content Quiz
+		
+		function getQuizBankInfo($_idx) {
+			$sql = "select * from contents_quiz where idx={$_idx}";
+			$res = $this->GetOne($sql);
+			return $res;
+		}
+
+		function testInsert($_obj) {
+			
+			$sql = "insert into contents_quiz(cq_ct_id, cq_writer, cq_question, ";
+			$sql .= "cq_item_1, cq_item_2, cq_item_3, cq_item_4, cq_answer, cq_dt_create, cq_dt_update) ";
+			$sql .= "values( ?, ?, ?, ?, ?, ?, ?, ?, sysdate(), sysdate())";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				//logwrite('testInsert Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt,
+				'iisssssi',
+				$_obj['cq_ct_id'],
+				$_obj['cq_writer'],
+				$_obj['cq_question'],
+				$_obj['cq_item_1'],
+				$_obj['cq_item_2'],
+				$_obj['cq_item_3'],
+				$_obj['cq_item_4'],
+				$_obj['cq_answer']
+			);
+			if($bind === false) {
+				//logwrite('testInsert 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				//logwrite('testInsert 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+		}
+		
+		function testUpdate($_obj){
+
+			$sql = "update contents_quiz set ";
+			$sql .= "cq_question = ?, ";
+			$sql .= "cq_item_1 = ?, ";
+			$sql .= "cq_item_2 = ?, ";
+			$sql .= "cq_item_3 = ?, ";
+			$sql .= "cq_item_4 = ?, ";
+			$sql .= "cq_answer = ?, ";
+			$sql .= "cq_dt_update = sysdate() ";
+			$sql .= "where idx = ?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				//logwrite('testUpdate Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_bind_param($stmt,
+				'sssssii',
+				$_obj['cq_question'],
+				$_obj['cq_item_1'],
+				$_obj['cq_item_2'],
+				$_obj['cq_item_3'],
+				$_obj['cq_item_4'],
+				$_obj['cq_answer'],
+				$_obj['idx']
+			);
+			if($bind === false) {
+				//logwrite('testUpdate 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				//logwrite('testUpdate 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+        }
+
+		function testDeletes($_idxs){
+
+			$arr = explode(',', $_idxs);
+			
+			// 퀴즈삭제
+			foreach($arr as $i){
+				$this->testDelete($i);
+			}
+
+			return true;
+		}
+        
+		function testDelete($_idx){
+
+			$sql = "delete from contents_quiz where idx = ?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				//logwrite('testDelete Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt, 'i', $_idx);
+			if($bind === false) {
+				//logwrite('testDelete 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				//logwrite('testDelete 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+        }
+	};
+?>

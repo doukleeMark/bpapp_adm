@@ -1,0 +1,150 @@
+.row{
+	margin:0;
+}
+.row select{
+	display:block;
+	width:100%;
+	height:50px !important;
+	-webkit-appearance: none; /* 네이티브 외형 감추기 */
+	-moz-appearance: none;
+	appearance: none;
+	border:none;
+	border-bottom:1px solid #eee;
+	border-radius: 0px;
+	outline:none;
+	padding:10px 20px;
+	font-family: inherit;
+	background: #fff url('/app/img/select_triangle.png') no-repeat 95% 50%;/*  화살표 모양의 이미지  */
+
+}
+
+.row select.placeholder_color{
+	color:#A9A9A9;
+}
+
+.row input[type=text] {
+	width:100%;
+	height:50px !important;
+	padding:10px 20px;
+	border:none;
+	border-bottom:1px solid #eee;
+}
+
+.btn-file {
+	position:relative;
+	display:block;
+	width:100%;height:50px;
+	box-sizing: border-box;
+	background-color:#fff;
+	overflow:hidden;
+	border-bottom:1px solid #eee;
+}
+.btn-file span.fileName{
+	display:block;
+	position:relative;
+	width:100%;height:50px;
+	box-sizing: border-box;
+	padding-top: 15px;
+	background:url(/app/img/icon_picture.png) no-repeat 20px 10px;
+	background-size:30px 30px;
+	text-indent:60px;
+	font-size:13px;
+	color:#aaa;
+}
+.btn-file span.fileName .del_btn{
+	display:block;
+	position:absolute;right:3px;top:0;
+	width:50px;height:50px;
+	overflow:hidden;text-indent:-9999px;
+	background:url(/app/img/icon_delete.png) no-repeat 0 center ;
+	background-size:30px 30px;
+}
+.btn-file input[type=file] {
+	position: absolute;
+	top:0;
+	right:0;
+	min-width:100%;
+	min-height:100%;
+	font-size:100px;
+	text-align:right;
+	filter:alpha(opacity=0);
+	opacity:0;
+	background:red;
+	cursor:inherit;
+	display:block;
+}
+.row textarea{
+	width:100%;
+	padding:20px;
+	outline:none;
+	border:none;
+	resize:none;
+}
+.row .check-grid {
+	display:block;
+	width:100%;height: 50px;
+	box-sizing: border-box;
+	padding:12px 5%;
+	border-top:2px solid #eee;
+	background-color:#fff;
+	font-size: 13px;
+	color: #999;
+}
+.row .check-grid input[type='checkbox'] {
+	display: inline-block;width: 16px;height: 16px;
+	outline: none;
+	appearance: none;
+	-moz-appearance: none;/* Firefox */
+	-webkit-appearance: none; /* Safari and Chrome */
+	vertical-align: top;
+}
+.row.unit1 .check-grid input[type='checkbox'] {background-color: #a5bc00;}
+.row.unit2 .check-grid input[type='checkbox'] {background-color: #009dc4;}
+.row.unit3 .check-grid input[type='checkbox'] {background-color: #cc5191;}
+.row.unit4 .check-grid input[type='checkbox'] {background-color: #bc1313;}
+.row.unit5 .check-grid input[type='checkbox'] {background-color: #eb590a;}
+.row.unit6 .check-grid input[type='checkbox'] {background-color: #77bb1b;}
+.row.unit7 .check-grid input[type='checkbox'] {background-color: #a5bc00;}
+.row.unit8 .check-grid input[type='checkbox'] {background-color: #780100;}
+.row.unit1 .check-grid input[type='checkbox']:checked {background-color: #a5bc00;}
+.row.unit2 .check-grid input[type='checkbox']:checked {background-color: #009dc4;}
+.row.unit3 .check-grid input[type='checkbox']:checked {background-color: #cc5191;}
+.row.unit4 .check-grid input[type='checkbox']:checked {background-color: #bc1313;}
+.row.unit5 .check-grid input[type='checkbox']:checked {background-color: #eb590a;}
+.row.unit6 .check-grid input[type='checkbox']:checked {background-color: #77bb1b;}
+.row.unit7 .check-grid input[type='checkbox']:checked {background-color: #a5bc00;}
+.row.unit8 .check-grid input[type='checkbox']:checked {background-color: #780100;}
+.row .check-grid input[type='checkbox']:checked{
+	background: url('/app/img/checkbox.png') no-repeat 0 0;
+}
+.row .check-grid label{
+	padding: 2px 30px 0 5px;
+}
+.row .btn-grid {
+	display:block;
+	width:100%;padding:20px 0;
+	text-align:center;
+	border-top:2px solid #eee;
+	background-color:#fff;
+}
+.row .btn-grid .btn{
+	width:90%;
+	outline: none;
+	padding:10px;
+	color: #fff;
+}
+.row.unit1 .btn-grid .btn{background-color: #a5bc00;}
+.row.unit2 .btn-grid .btn{background-color: #009dc4;}
+.row.unit3 .btn-grid .btn{background-color: #cc5191;}
+.row.unit4 .btn-grid .btn{background-color: #bc1313;}
+.row.unit5 .btn-grid .btn{background-color: #eb590a;}
+.row.unit6 .btn-grid .btn{background-color: #77bb1b;}
+.row.unit7 .btn-grid .btn{background-color: #a5bc00;}
+.row.unit8 .btn-grid .btn{background-color: #780100;}
+
+
+
+
+
+
+

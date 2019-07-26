@@ -1,0 +1,264 @@
+.calendarEventGrid .grid-title {
+    position: relative;
+}
+
+.calendarEventGrid .grid-title .dateText {
+    position: absolute;
+    right: 15px;
+    font-size: 14px;
+    background-color: #0aa699;
+    padding: 1px 18px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.calendar_grid .grid-body {
+    margin: 0 !important;
+    padding: 0 0 15px !important;
+    overflow: hidden;
+}
+
+.ui-datepicker {
+    width: 100%;
+    height: auto;
+    margin: auto;
+    font: 9pt Arial, sans-serif;
+}
+
+.ui-datepicker-inline {
+    padding-bottom: 10px;
+}
+
+.ui-datepicker-header {
+    position: relative;
+    margin-bottom: 20px;
+    background-color: #333;
+}
+
+.ui-datepicker a {
+    text-decoration: none;
+    color: gray;
+}
+
+.ui-datepicker table {
+    width: 100%;
+    color: gray;
+    text-align: center;
+    line-height: 20px;
+}
+
+.ui-datepicker-title {
+    font-size: 16px;
+    color: #aaa;
+    line-height: 50px;
+    text-indent: 20px;
+}
+
+.ui-datepicker-prev {
+    position: absolute;
+    right: 15%;
+    top: 10px;
+    font-size: 25px;
+    color: #aaa;
+    cursor: pointer;
+}
+
+.ui-datepicker-next {
+    position: absolute;
+    right: 5%;
+    top: 10px;
+    font-size: 25px;
+    color: #aaa;
+    cursor: pointer;
+}
+
+.ui-datepicker td {
+    height: 47px;
+}
+
+.ui-datepicker td span,
+.ui-datepicker td a {
+    display: inline-block;
+    text-align: center;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    color: #666666;
+}
+
+.ui-datepicker th {
+    text-transform: uppercase;
+    font-size: 9pt;
+    padding: 5px 0;
+    color: #666666;
+    text-align: center;
+}
+
+.ui-datepicker-calendar {
+    width: 90% !important;
+    max-width: 90% !important;
+    margin: 0 auto;
+}
+
+.ui-datepicker-calendar th:first-child {
+    color: #ed878c;
+}
+
+.ui-datepicker-calendar th:last-child {
+    color: #65a6e7;
+}
+
+.ui-datepicker-unselectable .ui-state-default {
+    color: #d2d2d2;
+}
+
+.ui-datepicker-calendar .ui-state-active {
+    background: #bbb;
+    color: #fff !important;
+    border-radius: 50%;
+    position: relative;
+    opacity: 0.5;
+    margin: -1px;
+}
+
+.ui-datepicker-calendar td:first-child .ui-state-active {
+    width: 24px;
+    margin-left: 0;
+}
+
+.ui-datepicker-calendar td:last-child .ui-state-active {
+    width: 24px;
+    margin-right: 0;
+}
+
+.ui-datepicker-calendar tr:last-child .ui-state-active {
+    height: 24px;
+    margin-bottom: 0;
+}
+
+.ui-datepicker-calendar>tbody td:first-child a {
+    color: #ed878c;
+}
+
+
+.ui-datepicker-calendar>tbody td:last-child a {
+    color: #65a6e7;
+}
+
+/* 이벤트가 있는 날짜 */
+.user_highlighted {
+    background: url('/app/img/dot1_calendar_user.png') no-repeat center 0;
+    background-size: 40px 40px;
+}
+
+.admin_highlighted {
+    background: url('/app/img/dot1_calendar_admin.png') no-repeat center 0;
+    background-size: 40px 40px;
+}
+
+.user_highlighted.admin_highlighted {
+    background: url('/app/img/dot2_calendar.png') no-repeat center 0;
+    background-size: 40px 40px;
+}
+
+.eventList_grid ul,
+.eventList_grid li {
+    list-style: none;
+}
+
+.eventList_grid ul {
+    margin: 0;
+    padding: 0;
+}
+
+.eventList_grid li {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 55px;
+    padding: 10px;
+    margin: 0 0 10px 0;
+    background-color: #eee;
+    border-left: 4px solid #0aa699;
+    color: #333;
+    cursor: pointer;
+}
+
+.eventList_grid li b {
+    display: block;
+    width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.eventList_grid li.blank {
+    background-color: #fff;
+    text-align: center;
+    border: none;
+    cursor: default;
+}
+
+.eventList_grid li.actionEvent {
+    background-color: #bbb;
+}
+
+.eventList_grid .writer {
+    font-size: 9px;
+}
+
+.eventList_grid .sendMail {
+    position: absolute;
+    right: 10px;
+    top: 13px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: 2px solid #0aa699;
+    border-radius: 50%;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    font-weight: bold;
+    line-height: 28px;
+    color: #0aa699;
+}
+
+.actionText {
+    float: right;
+    font-size: 12px;
+    background-color: #fbb05e;
+    padding: 1px 18px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.actionText.edit {
+    background-color: #0090d9;
+}
+
+/* 파일열기 */
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    background: red;
+    cursor: inherit;
+    display: block;
+}
+
+input[readonly] {
+    background-color: white !important;
+    cursor: text;
+}

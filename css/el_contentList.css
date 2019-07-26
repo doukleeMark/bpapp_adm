@@ -1,0 +1,16 @@
+#listTable span.label.V {
+	background-color: #a9daff;
+}
+
+#listTable span.label.A {
+	background-color: #ffe54f;
+}
+
+.excel {
+	display: block;
+	background-color: #70ba7b;
+	border-radius: 3px;
+	text-align: center;
+	text-decoration: none;
+	color: #ffffff;
+}

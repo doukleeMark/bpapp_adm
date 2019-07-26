@@ -1,0 +1,20 @@
+/* 그리드 상단 여백 */
+.grid-body {
+	padding-top: 20px !important;
+}
+
+/* 텍스트박스와 셀렉트박스 크기 맞추기 */
+.select2,
+.select2 a {
+	height: 37px !important;
+}
+
+/* 하단 버튼 여백없애기 */
+.grid.simple .grid-body {
+	padding-bottom: 0;
+}
+
+/* Multi Select Box */
+.select2-container.select2-container-multi.select2 {
+	height: auto !important;
+}

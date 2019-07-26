@@ -1,0 +1,12 @@
+.admin-info{
+	display:block;
+	height:30px;
+}
+
+/* Device Information */
+.addDeviceInfo .grid-body .col-sm-6,.addDeviceInfo .grid-body .col-sm-12{
+	margin-bottom:8px;
+}
+.addDeviceInfo .grid-body .col-sm-12{
+	font-size:20px;
+}

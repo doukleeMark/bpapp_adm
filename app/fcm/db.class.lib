@@ -1,0 +1,55 @@
+<?php
+	require_once("/home/bpapp/public_html/include/config/DBSettings.php");
+
+	class DBclass extends DatabaseSettings{
+		private $dbconn;        
+
+		public function __construct(){
+			$settings = DatabaseSettings::getSettings();
+
+			$host = $settings['dbhost'];
+			$user = $settings['dbusername'];
+			$pass = $settings['dbpassword'];
+			$name = $settings['dbname'];
+
+			$this->dbconn = mysqli_connect($host, $user, $pass, $name);
+			mysqli_set_charset($this->dbconn, "utf8");
+		}
+
+		function __destruct() {
+			if ($this->dbconn) {
+				mysqli_close($this->dbconn);
+			}
+
+		}
+
+		function Execute($sql) {
+			$r = mysqli_query($this->dbconn, $sql);
+			return $r;
+		}
+
+		function GetOne($sql) {
+			$r = $this->Execute($sql);
+			$res = mysqli_fetch_assoc($r);
+			return $res;
+		}
+
+		function GetAll($sql) {
+			$r = $this->Execute($sql);
+			$res = array();
+			while ($data = mysqli_fetch_assoc($r)) {
+				array_push($res, $data);
+			}
+			return $res;
+		}
+
+		function Insert_ID() {
+			$res = mysqli_insert_id($this->dbconn);
+			return $res;
+		}
+
+		function RealEscapeString($str) {
+			return mysqli_real_escape_string($this->dbconn, $str);
+		}
+	}
+?>

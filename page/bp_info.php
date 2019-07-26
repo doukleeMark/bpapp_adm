@@ -1,0 +1,230 @@
+<?php
+	header("Pragma;no-cache");
+	header("Cache-Control;no-cache,must-revalidate");
+
+	if (!$_SESSION['USER_ID']){
+		echo "<script>location.href='/?page=login'</script>";
+		return;
+	}
+
+	include_once(CLASS_PATH . "/bp.class.lib");
+	include_once(CLASS_PATH . "/select.class.lib");
+	$bpClass = new BPClass();
+	$selectClass = new SelectClass();
+	
+	if(!isset($_GET['idx'])) {
+		echo "<script>location.href='/?page=bp_list'</script>";
+	}else {
+		$actionType = "update";
+		$readonly = "readonly";
+		$pagetitle = "Edit";
+		$result = $bpClass->getBPInfoOne($_GET['idx']);
+		
+		if($result['bp_file'] > 0){
+			$fileInfo = $bpClass->getFileInfo($result['bp_file']);
+		}
+
+		$sql = "select r.*, u.idx as uidx, u.ur_name, u.ur_id from bp_reply r, user_data u ";
+		$sql .= "where r.bpr_user = u.idx AND r.bpr_parent={$_GET['idx']} order by r.bpr_order desc, r.idx desc";
+		$replyRes = $DB->GetAll($sql);
+	}
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>BP App Admin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta content="" name="description" />
+<meta content="" name="author" />
+	
+<link href="assets/plugins/pace/pace-theme-flash.css" rel="stylesheet" type="text/css" media="screen"/>
+<link href="assets/plugins/bootstrap-select2/select2.css" rel="stylesheet" type="text/css" media="screen"/>
+<link href="assets/plugins/boostrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<link href="assets/plugins/boostrapv3/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
+<link href="assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="assets/css/animate.min.css" rel="stylesheet" type="text/css"/>
+<link href="assets/plugins/jquery-scrollbar/jquery.scrollbar.css" rel="stylesheet" type="text/css"/>
+<link href="assets/css/style.css" rel="stylesheet" type="text/css"/>
+<link href="assets/css/responsive.css" rel="stylesheet" type="text/css"/>
+<link href="assets/css/custom-icon-set.css" rel="stylesheet" type="text/css"/>
+<link href="/css/common.css" rel="stylesheet" type="text/css"/>
+<link href="/css/bp_info.css" rel="stylesheet" type="text/css"/>
+
+</head>
+
+<body class="">
+<?php include COMMON_PATH."/header.php"; ?>
+<div class="page-container row-fluid">
+	<?php include COMMON_PATH."/sidebar.php"; ?>
+	<div class="page-content">
+		<div class="content">  
+			<ul class="breadcrumb">
+				<li>
+					<p>Best Practice</p>
+				</li>
+				<li>
+					<a href="#" class="active">Best Practice Info</a>
+				</li>
+			</ul>
+			<div class="page-title"> <i class="icon-custom-left" ></i>
+				<h3>Best Practice - <span class="semi-bold"> View</span></h3>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="grid simple">
+						<div class="grid-title no-border"></div>
+						<div class="grid-body no-border">
+							<form action="/page/bp_info_proc.php" id="bp_info_form" method="post" enctype="multipart/form-data">
+								<input type="hidden" id="actionType" name="actionType" value=<?=$actionType?>>
+								<input type="hidden" id="idx" name="idx" value=<?=$_GET['idx']?>>
+								<input type="hidden" id="bp_user" name="bp_user" value=<?=$result['bp_user']?>>
+								<input type="hidden" id="bp_brand" name="bp_brand" value=<?=$result['bp_brand']?>>
+								<input type="hidden" id="bpr_user" name="bpr_user" value=<?=$_SESSION['USER_NO']?>>
+								<input type="hidden" id="fileIdx" name="fileIdx" value=<?=$result['bp_file']?>>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label class="form-label">Group</label>
+											<div class="input-with-icon right">  
+												<i class=""></i>
+												<select name="bp_unit" id="bp_unit" class="select2 form-control" readonly>
+												<?php
+													$selectClass->printUnitOptions($result['bp_unit']);
+												?>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label class="form-label">Brand</label>
+											<div class="input-with-icon right">  
+												<i class=""></i>
+												<select name="brand_select" id="brand_select" class="select2 form-control"></select>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group">
+											<label class="form-label">Title</label>
+											<div class="input-with-icon right">
+												<i class=""></i>
+												<input name="bp_title" id="bp_title" type="text"  class="form-control" value="<?=$result['bp_title']?>">
+											</div>
+										</div>	
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label class="form-label">Content</label>
+											<div class="input-with-icon right">
+												<i class=""></i>
+												<textarea name="bp_content" id="bp_content" rows="10" style="width:100%"><?=$result['bp_content']?></textarea>
+											</div>
+										</div>	
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group file-group">
+											<label class="form-label">File</label>
+											<div class="input-group findFile1">
+												<input type="text" class="form-control" id="dropinput1" readonly>
+												<span class="input-group-btn">
+													<span class="btn btn-default btn-file">
+														<input type="file" id="dataFile" name="dataFile">찾아보기
+													</span>
+												</span>
+											</div>
+											<div class="input-group delInput1 hidden">
+												<a href="/page/downloadData.php?idx=<?=$result['bp_file']?>">
+													<input type="text" class="form-control dataFileInput" value="<?=$fileInfo['real_name']?>" readonly>
+												</a>
+												<span class="input-group-btn">
+													<span class="btn btn-danger btnDel" id="dataFileDel">DEL</span>
+												</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<div class="checkbox check-success">
+												<input id="bp_new_fu" name="bp_new_fu" type="checkbox" value="1" <?=($result['bp_new_fu'] == '1')?'checked':''?>>
+												<label for="bp_new_fu">Follow Up</label>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+								<div class="form-actions">
+									<?php
+										if(isset($result)){
+									?>
+									<div class="pull-left">
+										<button class="btn btn-danger btn-cons" id="board_delete" type="button">Delete</button>
+									</div>
+									<?php
+										}
+									?>
+									<div class="pull-right">
+										<button class="btn btn-primary btn-cons" id="board_submit" type="button">Submit</button>										
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="bp_reply">
+				<div class="content">
+					<textarea id="bpr_content" name="bpr_content" placeholder="댓글을 입력하세요." maxlength=300 cols="2"></textarea>
+					<div class="bottom">
+						<div class="input_length">0/300</div>
+						<button type="button" class="reply_btn" id="reply_btn">등록</button>
+					</div>
+				</div>
+				<div class="reply_list">
+				<?php
+					for($i=0;$i<count($replyRes);$i++){
+						if($replyRes[$i]['bpr_order'] == 7)$addClass = "G_position";
+						else if($replyRes[$i]['bpr_order'] == 6)$addClass = "U_position";
+						else $addClass = "";
+				?>
+					<div class="reply_body <?=$addClass?>">
+						<span class="reply_user"><b><?=$replyRes[$i]['ur_name']?></b> (<?=$replyRes[$i]['ur_id']?>)</span>
+						<span class="reply_date"><?=$replyRes[$i]['bpr_dt_create']?></span>
+						<button type="button" reply_idx="<?=$replyRes[$i]['idx']?>" class="reply_delete">삭제</button>
+						<div class="reply_content"><?=$replyRes[$i]['bpr_content']?></div>
+					</div>
+				<?php
+					}
+				?>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="assets/plugins/jquery-1.8.3.min.js" type="text/javascript"></script> 
+<script src="assets/plugins/boostrapv3/js/bootstrap.min.js" type="text/javascript"></script> 
+<script src="assets/plugins/breakpoints.js" type="text/javascript"></script> 
+<script src="assets/plugins/jquery-unveil/jquery.unveil.min.js" type="text/javascript"></script> 
+<script src="assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js" type="text/javascript"></script>
+<script src="assets/plugins/pace/pace.min.js" type="text/javascript"></script>  
+<script src="assets/plugins/bootstrap-select2/select2.min.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+<script src="/plugins/smarteditor/js/HuskyEZCreator.js" type="text/javascript" charset="utf-8"></script>
+<script src="assets/js/core.js" type="text/javascript"></script>
+<script src="/js/common.js" type="text/javascript"></script>
+<script src="/js/bp_info.js" type="text/javascript"></script>
+</body>
+</html>

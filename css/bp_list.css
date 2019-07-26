@@ -1,0 +1,32 @@
+.table-action .btn-group button{
+	border:1px solid #ddd;
+	background-color:#fff;
+}
+.C_color{
+	background-color: red;
+	color:#fff;
+}
+.G_color{
+	background-color: #fb770f;
+	color:#fff;
+}
+.U_color{
+	background-color: #45bcd4;
+	color:#fff;
+}
+.M_color{
+	background-color: #78cb61;
+	color:#fff;
+}
+.T_color{
+	background-color: #ecb321;
+	color:#fff;
+}
+.P_color{
+	background-color: #929bde;
+	color:#fff;
+}
+.MB_color{
+	background-color: red;
+	color:#fff;
+}

@@ -1,0 +1,18 @@
+#listTable span.label.R {
+	background-color: #cf733d;
+	color: #ffffff;
+}
+
+#listTable span.label.O {
+	background-color: #70ba7b;
+	color: #ffffff;
+}
+
+.excel {
+	display: block;
+	background-color: #70ba7b;
+	border-radius: 3px;
+	text-align: center;
+	text-decoration: none;
+	color: #ffffff;
+}

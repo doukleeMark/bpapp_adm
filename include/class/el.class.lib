@@ -1,0 +1,908 @@
+<?php
+	require_once($_SERVER['DOCUMENT_ROOT'] . "include/config/config.inc");
+
+	class ELClass extends DBclass {
+
+		// Content
+		function getContentInfo($_idx) {
+			$sql = "select * from contents where idx=?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('getContentInfo Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt, 'i', $_idx);
+			if($bind === false) {
+				// logwrite('getContentInfo 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('getContentInfo 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			$r = mysqli_stmt_get_result($stmt);
+			if($r) {
+				$res = mysqli_fetch_assoc($r);
+				mysqli_free_result($r);
+			} else {
+				// logwrite('getContentInfo 결과 데이터 받기 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+			return $res;
+		}
+
+		function contentInsert($_obj) {
+			
+			$sql = "insert into contents(ct_writer, ct_code_pd, ct_code_di, ct_code_gd, ct_code_lv, ct_title, ct_desc, ";
+			$sql .= "ct_speaker, ct_tag, ct_s3_thumb, ct_s3_file, ct_type, ";
+			$sql .= "ct_dt_create, ct_dt_update) ";
+			$sql .= "values( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, sysdate(), sysdate())";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('contentInsert Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt,
+				'issssssssiis',
+				$_obj['ct_writer'],
+				$_obj['ct_code_pd'],
+				$_obj['ct_code_di'],
+				$_obj['ct_code_gd'],
+				$_obj['ct_code_lv'],
+				$_obj['ct_title'],
+				$_obj['ct_desc'],
+				$_obj['ct_speaker'],
+				$_obj['ct_tag'],
+				$_obj['ct_s3_thumb'],
+				$_obj['ct_s3_file'],
+				$_obj['ct_type']
+			);
+			if($bind === false) {
+				// logwrite('contentInsert 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('contentInsert 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+
+			return $this->Insert_ID();
+		}
+		
+		function contentUpdate($_obj){
+
+			$types = '';
+
+			$sql = "update contents set ";
+
+			foreach($_obj as $key => $param){
+				if($key == "idx") continue;
+
+				if(is_int($param)) {
+					// Integer
+					$types .= 'i';
+				} elseif (is_float($param)) {
+					// Double
+					$types .= 'd';
+				} elseif (is_string($param)) {
+					// String
+					$types .= 's';
+				} else {
+					// Blob and Unknown
+					$types .= 'b';
+				}
+				$sql .=  $key . " = ?, ";	
+			}
+			
+			$sql .= "ct_dt_update = sysdate() ";
+
+			$types .= 'i';
+			$sql .= "where idx = ?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('contentUpdate Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			
+			array_unshift($_obj, $stmt, $types);
+
+			$bind = call_user_func_array("mysqli_stmt_bind_param", $_obj);
+			if($bind === false) {
+				// logwrite('contentUpdate 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('contentUpdate 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+		}
+
+		// 과정에 포함되었는지 확인
+		function usedContent($_idx) {
+			
+			$sql = "SELECT EXISTS(SELECT 1 FROM course_contents WHERE cc_ct_id = ? LIMIT 1) result";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('usedContent Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt, 'i', $_idx);
+			if($bind === false) {
+				// logwrite('usedContent 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('usedContent 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			$r = mysqli_stmt_get_result($stmt);
+			if($r) {
+				$res = mysqli_fetch_assoc($r);
+				mysqli_free_result($r);
+			} else {
+				// logwrite('usedContent 결과 데이터 받기 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+			
+			return $res['result'];
+		}
+
+		function getContentRating($_idx){
+			$sql = "select ROUND(avg(cr_rating),1) as rating from contents_rating where cr_ct_id = ? group by cr_ct_id";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('getContentRating Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt, 'i', $_idx);
+			if($bind === false) {
+				// logwrite('getContentRating 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('getContentRating 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			$r = mysqli_stmt_get_result($stmt);
+			if($r) {
+				$res = mysqli_fetch_assoc($r);
+				mysqli_free_result($r);
+			} else {
+				// logwrite('getContentRating 결과 데이터 받기 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+			return $res;
+		}
+
+		function contentDelete($_idx){
+
+			$sql = "delete from contents where idx = ?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('contentDelete Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt, 'i', $_idx);
+			if($bind === false) {
+				// logwrite('contentDelete 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('contentDelete 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+		}
+
+		function contentPlayedDeleteWithContentID($_contentIdx) {
+			$sql = "delete from contents_played where cp_ct_id = ?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('contentPlayedDeleteWithContentID Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt, 'i', $_contentIdx);
+			if($bind === false) {
+				// logwrite('contentPlayedDeleteWithContentID 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('contentPlayedDeleteWithContentID 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+		}
+
+		function contentMsgDeleteWithContentID($_contentIdx) {
+			$sql = "delete from contents_msg where cm_ct_id = ?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('contentMsgDeleteWithContentID Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt, 'i', $_contentIdx);
+			if($bind === false) {
+				// logwrite('contentMsgDeleteWithContentID 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('contentMsgDeleteWithContentID 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+		}
+
+		function contentFavorDeleteWithContentID($_contentIdx) {
+			$sql = "delete from contents_favor where cf_ct_id = ?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('contentFavorDeleteWithContentID Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt, 'i', $_contentIdx);
+			if($bind === false) {
+				// logwrite('contentFavorDeleteWithContentID 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('contentFavorDeleteWithContentID 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+		}
+
+		function contentRatingDeleteWithContentID($_contentIdx) {
+			$sql = "delete from contents_rating where cr_ct_id = ?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('contentRatingDeleteWithContentID Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt, 'i', $_contentIdx);
+			if($bind === false) {
+				// logwrite('contentRatingDeleteWithContentID 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('contentRatingDeleteWithContentID 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+		}
+
+		function contentSupriseDeleteWithContentID($_contentIdx) {
+			$sql = "delete from contents_suprise where cs_ct_id = ?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('contentSupriseDeleteWithContentID Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt, 'i', $_contentIdx);
+			if($bind === false) {
+				// logwrite('contentSupriseDeleteWithContentID 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('contentSupriseDeleteWithContentID 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+		}
+
+		function contentTestDeleteWithContentID($_contentIdx) {
+			$sql = "delete from contents_quiz where cq_ct_id = ?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('contentTestDeleteWithContentID Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt, 'i', $_contentIdx);
+			if($bind === false) {
+				// logwrite('contentTestDeleteWithContentID 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('contentTestDeleteWithContentID 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+		}
+
+		function contentTestResultDeleteWithContentID($_contentIdx) {
+			$sql = "delete from contents_test_result where ctr_ct_id = ?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('contentTestResultDeleteWithContentID Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt, 'i', $_contentIdx);
+			if($bind === false) {
+				// logwrite('contentTestResultDeleteWithContentID 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('contentTestResultDeleteWithContentID 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+		}
+
+		function usedContentByCodeIdx($_codeIdx) {
+			
+			$sql = "SELECT 
+				EXISTS(
+						SELECT 1 
+						FROM contents 
+						WHERE ct_code_pd LIKE '%X{$_codeIdx},%' 
+							OR ct_code_di LIKE '%X{$_codeIdx},%' 
+							OR ct_code_gd LIKE '%X{$_codeIdx},%' 
+							OR ct_code_lv LIKE '%X{$_codeIdx},%' 
+							LIMIT 1
+				) result";
+			$res = $this->GetOne($sql);
+			return $res['result'];
+		}
+
+		// Suprise Quiz
+
+		// 깜짝퀴즈 정보 가져오기
+		function getSupriseQuizInfo($_idx) {
+			$sql = "select * from contents_suprise where cs_ct_id=?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('getSupriseQuizInfo Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt, 'i', $_idx);
+			if($bind === false) {
+				// logwrite('getSupriseQuizInfo 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('getSupriseQuizInfo 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			$r = mysqli_stmt_get_result($stmt);
+			if($r) {
+				$res= array();
+				while($data = mysqli_fetch_assoc($r)){
+					array_push($res,$data);
+				}
+				mysqli_free_result($r);
+			} else {
+				// logwrite('getSupriseQuizInfo 결과 데이터 받기 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+			return $res;
+		}
+
+		// 깜짝퀴즈 데이터 추가
+		function supriseQuizInsert($_obj) {
+			
+			$sql = "insert into contents_suprise(cs_ct_id, cs_question, ";
+			$sql .= "cs_item_1, cs_item_2, cs_item_3, cs_item_4, ";
+			$sql .= "cs_answer, cs_on, cs_start_sec, cs_end_sec) ";
+			$sql .= "values( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('supriseQuizInsert Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt,
+				'isssssiiii',
+				$_obj['cs_ct_id'],
+				$_obj['cs_question'],
+				$_obj['cs_item_1'],
+				$_obj['cs_item_2'],
+				$_obj['cs_item_3'],
+				$_obj['cs_item_4'],
+				$_obj['cs_answer'],
+				$_obj['cs_on'],
+				$_obj['cs_start_sec'],
+				$_obj['cs_end_sec']
+			);
+			if($bind === false) {
+				// logwrite('supriseQuizInsert 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('supriseQuizInsert 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+
+			return $this->Insert_ID();
+		}
+		
+		function supriseQuizUpdate($_obj){
+
+			$types = '';
+
+			$sql = "update contents_suprise set ";
+
+			foreach($_obj as $key => $param){
+				if($key == "idx") continue;
+
+				if(is_int($param)) {
+					// Integer
+					$types .= 'i';
+				} elseif (is_float($param)) {
+					// Double
+					$types .= 'd';
+				} elseif (is_string($param)) {
+					// String
+					$types .= 's';
+				} else {
+					// Blob and Unknown
+					$types .= 'b';
+				}
+				$sql .=  $key . " = ?, ";	
+			}
+
+			$sql = substr($sql, 0, -2);
+
+			$types .= 'i';
+			$sql .= " where idx = ?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('supriseQuizUpdate Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			
+			array_unshift($_obj, $stmt, $types);
+
+			$bind = call_user_func_array("mysqli_stmt_bind_param", $_obj);
+			if($bind === false) {
+				// logwrite('supriseQuizUpdate 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('supriseQuizUpdate 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+		}
+
+		function supriseQuizDelete($_idx) {
+			$sql = "delete from contents_suprise where idx = ?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('supriseQuizUpdate Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt, 'i', $_idx);
+			if($bind === false) {
+				// logwrite('supriseQuizUpdate 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('supriseQuizUpdate 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+		}
+
+		// Course
+
+		function getCourseInfo($_idx) {
+			$sql = "select * from course where idx=?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('getCourseInfo Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt, 'i', $_idx);
+			if($bind === false) {
+				// logwrite('getCourseInfo 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('getCourseInfo 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			$r = mysqli_stmt_get_result($stmt);
+			if($r) {
+				$res = mysqli_fetch_assoc($r);
+				mysqli_free_result($r);
+			} else {
+				// logwrite('getCourseInfo 결과 데이터 받기 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+			return $res;
+		}
+
+		function courseInsert($_obj) {
+			
+			$sql = "insert into course(co_writer, co_title, co_desc, ";
+			$sql .= "co_status, co_s3_thumb, ";
+			$sql .= "co_dt_start, co_dt_end, ";
+			$sql .= "co_dt_create, co_dt_update) ";
+			$sql .= "values( ?, ?, ?, ?, ?, ?, ?, sysdate(), sysdate())";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('courseInsert Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt,
+				'issiiss',
+				$_obj['co_writer'],
+				$_obj['co_title'],
+				$_obj['co_desc'],
+				$_obj['co_status'],
+				$_obj['co_s3_thumb'],
+				$_obj['co_dt_start'],
+				$_obj['co_dt_end']
+			);
+			if($bind === false) {
+				// logwrite('courseInsert 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('courseInsert 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+
+			return $this->Insert_ID();
+		}
+		
+		function courseUpdate($_obj){
+
+			$types = '';
+
+			$sql = "update course set ";
+
+			foreach($_obj as $key => $param){
+				if($key == "idx") continue;
+
+				if(is_int($param)) {
+					// Integer
+					$types .= 'i';
+				} elseif (is_float($param)) {
+					// Double
+					$types .= 'd';
+				} elseif (is_string($param)) {
+					// String
+					$types .= 's';
+				} else {
+					// Blob and Unknown
+					$types .= 'b';
+				}
+				$sql .=  $key . " = ?, ";	
+			}
+
+			$sql .= "co_dt_update = sysdate() ";
+
+			$types .= 'i';
+			$sql .= "where idx = ?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('courseUpdate Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			
+			array_unshift($_obj, $stmt, $types);
+
+			$bind = call_user_func_array("mysqli_stmt_bind_param", $_obj);
+			if($bind === false) {
+				// logwrite('courseUpdate 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('courseUpdate 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+		}
+
+		function courseDelete($_idx){
+
+			$sql = "delete from course where idx = ?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('courseDelete Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt, 'i', $_idx);
+			if($bind === false) {
+				// logwrite('courseDelete 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('courseDelete 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+		}
+
+		// Course Attender
+
+		function courseAttenderInsert($_courseIdx, $_urInfo) {
+			// 테이블에 중복방지 설정 필요 
+			$sql = "INSERT IGNORE INTO course_user VALUES(NULL, ?, ?, ?, ?, ?, 0, 0, sysdate(), sysdate())";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('courseAttenderInsert Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt,
+				'iiiss',
+				$_courseIdx,
+				$_urInfo['idx'],
+				$_urInfo['ur_unit'],
+				$_urInfo['ur_team'],
+				$_urInfo['ur_name']
+			);
+			if($bind === false) {
+				// logwrite('courseAttenderInsert 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('courseAttenderInsert 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+		}
+
+		function courseAttenderDelete($_courseIdx, $_urIdx) {
+			
+			$sql = "DELETE FROM course_user WHERE cu_co_id = ? AND cu_ur_id = ?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('courseAttenderDelete Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt,
+			'ii',
+			$_courseIdx,
+			$_urIdx
+			);
+			if($bind === false) {
+				// logwrite('courseAttenderDelete 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('courseAttenderDelete 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+		}
+		
+		function courseAttenderDeleteWithCourseID($_courseIdx) {
+			$sql = "DELETE FROM course_user WHERE cu_co_id = ?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('courseAttenderDeleteWithCourseID Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt, 'i', $_courseIdx);
+			if($bind === false) {
+				// logwrite('courseAttenderDeleteWithCourseID 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('courseAttenderDeleteWithCourseID 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+		}
+
+		// Course Content
+
+		function courseContentUpdateOrder($_courseIdx, $_contentIdx, $_order){
+
+			$sql = "UPDATE course_contents SET cc_order = ? WHERE cc_co_id = ? AND cc_ct_id = ?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('courseContentUpdateOrder Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt, 'iii', $_order, $_courseIdx, $_contentIdx);
+			if($bind === false) {
+				// logwrite('courseContentUpdateOrder 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('courseContentUpdateOrder 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+		}
+
+		function courseContentInsert($_courseIdx, $_contentIdx) {
+			// 테이블에 중복방지 설정 필요 
+			$sql = "INSERT IGNORE INTO course_contents(cc_co_id, cc_ct_id, cc_order) ";
+			$sql .= "SELECT ?, ?, COUNT(*) + 1 FROM course_contents WHERE cc_co_id = ? ";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('courseContentInsert Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt,
+				'iii',
+				$_courseIdx,
+				$_contentIdx,
+				$_courseIdx
+			);
+			if($bind === false) {
+				// logwrite('courseContentInsert 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('courseContentInsert 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+		}
+
+		function courseContentDelete($_courseIdx, $_contentIdx) {
+
+			// 과정과 컨텐츠 연결 정보 삭제시 order 정보 업데이트
+			$info = $this->getCourseContentInfo($_courseIdx, $_contentIdx);
+			$list = $this->getCourseContentList($_courseIdx);
+			for ($i=0; $i <count($list) ; $i++) { 
+				if($list[$i]['cc_order'] > $info['cc_order']){
+					$this->courseContentUpdateOrder($list[$i]['cc_co_id'], $list[$i]['cc_ct_id'], $list[$i]['cc_order']-1);
+				}
+			}
+
+			$sql = "DELETE FROM course_contents WHERE cc_co_id = ? AND cc_ct_id = ?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('courseContentDelete Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt,
+			'ii',
+			$_courseIdx,
+			$_contentIdx
+			);
+			if($bind === false) {
+				// logwrite('courseContentDelete 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('courseContentDelete 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+		}
+		
+		function courseContentDeleteWithCourseID($_courseIdx) {
+			$sql = "DELETE FROM course_contents WHERE cc_co_id = ?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('courseContentDeleteWithCourseID Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt, 'i', $_courseIdx);
+			if($bind === false) {
+				// logwrite('courseContentDeleteWithCourseID 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('courseContentDeleteWithCourseID 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+		}
+
+		function getCourseContentList($_courseIdx) {
+			$sql = "SELECT * FROM course_contents WHERE cc_co_id = ?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('getCourseContentList Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt, 'i', $_courseIdx);
+			if($bind === false) {
+				// logwrite('getCourseContentList 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('getCourseContentList 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			$r = mysqli_stmt_get_result($stmt);
+			if($r) {
+				$res= array();
+				while($data = mysqli_fetch_assoc($r)){
+					array_push($res,$data);
+				}
+				mysqli_free_result($r);
+			} else {
+				// logwrite('getCourseContentList 결과 데이터 받기 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+			return $res;
+		}
+
+		function getCourseContentInfo($_courseIdx, $_contentIdx) {
+			$sql = "SELECT * FROM course_contents WHERE cc_co_id = ? AND cc_ct_id = ?";
+			$stmt = $this->Prepare($sql);
+			if($stmt === false) {
+				// logwrite('getCourseContentInfo Statement 생성 실패 : ' . $this->Error());
+				exit();
+			}
+			$bind = mysqli_stmt_bind_param($stmt, 'ii', $_courseIdx, $_contentIdx);
+			if($bind === false) {
+				// logwrite('getCourseContentInfo 파라미터 바인드 실패 : ' . $this->Error());
+				exit();
+			}
+			$exec = mysqli_stmt_execute($stmt);
+			if($exec === false) {
+				// logwrite('getCourseContentInfo 쿼리 실행 실패 : ' . $this->Error());
+				exit();
+			}
+			$r = mysqli_stmt_get_result($stmt);
+			if($r) {
+				$res = mysqli_fetch_assoc($r);
+				
+				mysqli_free_result($r);
+			} else {
+				// logwrite('getCourseContentInfo 결과 데이터 받기 실패 : ' . $this->Error());
+				exit();
+			}
+			mysqli_stmt_close($stmt);
+			return $res;
+		}
+
+		// Course Content Reset
+		
+		function courseContentReset($_courseIdx, $_userIdx) {
+			$sql = "SELECT * FROM course_contents WHERE cc_co_id = {$_courseIdx} "; 
+			$contentList = $this->GetAll($sql);
+
+			for ($i=0; $i < count($contentList); $i++) {
+				// 플레이 기록 삭제
+				$sql = "DELETE FROM contents_played WHERE cp_ct_id = {$contentList[$i]['cc_ct_id']} AND cp_ur_id = {$_userIdx} ";
+				$this->Execute($sql);
+
+				// TEST 결과 삭제
+				$sql = "DELETE FROM contents_test_result WHERE ctr_ct_id = {$contentList[$i]['cc_ct_id']} AND ctr_ur_id = {$_userIdx} ";
+				$this->Execute($sql);
+			}
+
+			// 이수결과 수정 
+			$sql = "UPDATE course_user SET cu_complete = 0, cu_score = 0 WHERE cu_co_id = {$_courseIdx} AND cu_ur_id = {$_userIdx} ";
+			$this->Execute($sql);
+		}
+	};
+?>

@@ -1,0 +1,25 @@
+.admin-info{
+	display:block;
+	height:30px;
+}
+.table-action .btn-group button{
+	border:1px solid #ddd;
+	background-color:#fff;
+}
+
+.sendPoint .sendBtnGroup{
+	padding-top:28px;
+}
+.sendPoint .sendBtnGroup button{
+	width:100%;
+}
+.sendPoint .controls{
+	width:100% !important;
+	margin-top:0 !important;
+}
+.sendPoint .controls .form-control{
+	width:100% !important;
+}
+.sendPoint .form-group{
+	padding-left:3px;padding-right:3px;
+}

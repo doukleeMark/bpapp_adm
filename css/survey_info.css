@@ -1,0 +1,19 @@
+.actions{
+	display:block;
+	height:70px;
+	padding:20px 0;
+}
+
+.answer-group{
+	position:relative;
+	margin-bottom:10px;
+}
+.answer-group label{
+	position:absolute;left:0;top:0;
+	width:50px;
+	line-height:37px;
+}
+.answer-group input{
+	width:70%;
+	margin-left:60px;
+}
