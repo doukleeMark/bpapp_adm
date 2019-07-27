@@ -11,7 +11,7 @@ yum 설치
 * yum install epel-release
 * rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
 * yum --enablerepo=remi-php72 install php
-* yum --enablerepo=remi-php72 install php-xml php-soap php-xmlrpc php-mbstring php-json php-gd php-mcrypt php-zip 
+* yum --enablerepo=remi-php72 install php-xml php-soap php-xmlrpc php-mbstring php-json php-gd php-mcrypt php-zip php-mysql
 * yum install unzip git
 
 php.ini 설정
