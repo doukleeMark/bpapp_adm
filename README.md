@@ -21,3 +21,6 @@ php.ini 설정
 php composer 설치
 * curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/
 * ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
+
+HTML Assest Unzip
+* unzip plugins.zip

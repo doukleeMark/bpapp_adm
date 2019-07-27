@@ -2,3 +2,4 @@
 .idea/
 upload/
 vendor/
+include/config/DBSettings.php
