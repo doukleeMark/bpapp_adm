@@ -1,6 +1,9 @@
 <?php
 	session_start();
 
+    error_reporting(E_ALL);
+	ini_set("display_errors", 1);
+
 	$sroot			= $_SERVER['DOCUMENT_ROOT'];
 	$shost			= "http://".$_SERVER['HTTP_HOST'];
 
@@ -30,8 +33,4 @@
 	require_once(LIB_PATH."/common.lib");
 
 	$DB = new DBclass();
-
-	error_reporting(E_ALL ^ E_NOTICE);
-	ini_set("display_errors", 1);
-
 ?>
