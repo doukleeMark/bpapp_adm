@@ -24,3 +24,6 @@ php composer 설치
 
 HTML Assest Unzip
 * unzip plugins.zip
+
+Upload 다운로드
+* wget --ftp-user=bpdata --ftp-password=bpdata4321 ftp://13.209.249.72/upload
