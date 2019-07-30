@@ -7,6 +7,7 @@ $(document).ready(function () {
 
 	// file upload
 	$('.file-upload').each(function (e) {
+		console.log($(this).attr('action'));
 		$(this).fileupload({
 			url: $(this).attr('action'),
 			type: $(this).attr('method'),
@@ -105,7 +106,7 @@ $(document).ready(function () {
 
 	$('.btn-delfile').on('click', function () {
 		var fileGroup = $(this).closest('.file-group');
-		
+
 		// 삭제파일 리스트
 		d_fileIdxs.push(fileGroup.find('.file_idx').val());
 
