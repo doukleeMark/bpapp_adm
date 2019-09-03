@@ -1,7 +1,7 @@
 # Boryung BP App AdminSite
 
 docker container 구동
-* docker run -d -it --name brserv -p 2200:22 -p 80:80 -v /root/docker/brserv/share:/var/share centos:centos6.10
+* docker run -d -it --name brserv -p 80:80 -v /root/docker/brserv/share:/var/share centos:centos6.10
 
 docker-compose 설치
 * curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
