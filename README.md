@@ -16,7 +16,9 @@ yum 설치
 
 php.ini 설정
 * Short_open_tag = On
-* upload_max_filesize = 300M
+* upload_max_filesize = 1000M
+* post_max_size = 1000M
+* memory_limit = 512M
 
 php composer 설치
 * curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/
