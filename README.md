@@ -7,6 +7,9 @@ docker-compose 설치
 * curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 * chmod +x /usr/local/bin/docker-compose
 
+KST Date 날짜 설정
+* ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
+
 yum 설치
 * yum install epel-release
 * rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
