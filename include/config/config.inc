@@ -23,9 +23,9 @@
 	define('PAGE_PATH', $page_path);
 
 	// AWS
-	define('AWS_ACCESS_KEY', 'AKIAZQS2DUU5SK6XMIF4');
-	define('AWS_SECRET', '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');
-	define('AWS_BUCKET', 'boryung-brain');
+	define('AWS_ACCESS_KEY', 'AKIAZQS2DUU5UTMDBLC4');
+	define('AWS_SECRET', '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');
+	define('AWS_BUCKET', 'boryung-brain-upload');
 	define('AWS_REGION', 'ap-northeast-2');
 
 	// Common Include Files
