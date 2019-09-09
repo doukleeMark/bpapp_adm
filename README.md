@@ -45,3 +45,6 @@ ffmpeg 설치
 
 Database S3 Path 변경
 * update s3_data set s3_url = replace(s3_url, 'https://insn-brtv', 'https://boryung-brain-upload');
+
+기타사항
+* error_reporting(0)
