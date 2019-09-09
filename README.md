@@ -41,7 +41,7 @@ ffmpeg 설치
 * rpm --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro
 * rpm -Uvh http://li.nux.ro/download/nux/dextop/el6/x86_64/nux-dextop-release-0-2.el6.nux.noarch.rpm
 * yum install ffmpeg ffmpeg-devel | yum update
-* ~~(생략) cp -r /usr/include/ffmpeg/* /usr/include/
+* ~~(생략) cp -r /usr/include/ffmpeg/* /usr/include/~~
 
 Database S3 Path 변경
 * update s3_data set s3_url = replace(s3_url, 'https://insn-brtv', 'https://boryung-brain-upload');
