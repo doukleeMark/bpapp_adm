@@ -4,5 +4,4 @@ upload/
 vendor/
 assets/__MACOSX/
 assets/plugins/
-include/config/
 current.log
