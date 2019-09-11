@@ -6,3 +6,6 @@ include/config/DBSettings.php
 assets/__MACOSX/
 assets/plugins/
 include/config/DBSettings.php
+include/config/DBSettings.php
+current.log
+include/config/DBSettings.php

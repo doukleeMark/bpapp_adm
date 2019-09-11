@@ -145,6 +145,25 @@
 			return;
 		}
 
+        /* User Disable */
+        function userDisable($_idx) {
+            $sql = "update user_data set ur_state=0, ur_hidden=1 where idx={$_idx} ";
+            logwrite($sql);
+            return $res = $this->Execute($sql);;
+        }
+
+        /* Users Disable */
+        function usersDisable($_urIdxs) {
+            $ur_no = explode(",", $_urIdxs);
+
+            for ($i=0; $i<count($ur_no); $i++) {
+                $this->userDisable($ur_no[$i]);
+                $this->deviceUserIdxDelete($ur_no[$i]);
+            }
+
+            return;
+        }
+
 		function getUserPointList($_post) {
 			$sql = "select p.*, u.ur_id, u.ur_name, u.ur_level ";
 			$sql .= "from user_data u, point_data p ";

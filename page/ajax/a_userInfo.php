@@ -24,7 +24,7 @@
 		$output = $userClass->deviceDelete($_POST['dIdx']);
 		echo json_encode($output);
 	}else if($_POST['actionType'] == "deleteUsers"){
-		$userClass->usersDelete($_POST['ur_idxs']);
+		$userClass->usersDisable($_POST['ur_idxs']);
 		echo json_encode("1");
 	}else if($_POST['actionType'] == "sendPoint"){
 		$result = "0";
