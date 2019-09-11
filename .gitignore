@@ -5,3 +5,4 @@ vendor/
 assets/__MACOSX/
 assets/plugins/
 current.log
+include/config/DBSettings.php
