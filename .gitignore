@@ -5,3 +5,4 @@ vendor/
 include/config/DBSettings.php
 assets/__MACOSX/
 assets/plugins/
+include/config/DBSettings.php
