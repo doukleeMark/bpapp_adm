@@ -146,24 +146,50 @@ $(document).ready(function(){
 		}
 	});
 });
-function nativeJScall(_callStr){
-	if("reply_del_confirm_ok"){
+function nativeJScall(_callStr) {
+	if ("reply_del_confirm_ok") {
 		$.post("/app/ajax/a_bp_reply.php",
 			{
 				actionType: "reply_delete",
 				replyIdx: selectIdx,
 				bp_user: $("#bp_user").val()
-			},function(res) {
-				if(res == '1'){
+			}, function (res) {
+				if (res == '1') {
 					location.reload();
-				}else{
+				} else {
 					var str = encodeURIComponent("다시 시도해주세요.");
-					if(isMobile.iOS()){
+					if (isMobile.iOS()) {
 						document.location = "jscall://alert|" + str;
-					}else if(isMobile.Android()){
-						window.android.callAndroid("alert|"+str);
+					} else if (isMobile.Android()) {
+						window.android.callAndroid("alert|" + str);
 					}
 				}
-			},"JSON");
+			}, "JSON");
 	}
+}
+
+$('#btnDeny').on("click", function() {
+
+	const denyText = $('#deny-text').val();
+
+	//if(confirm("계속하시겠습니까?")){
+		$.post("/app/ajax/a_bp_approval.php", {
+			actionType: "approval_update",
+			idx: $("#idx").val(),
+			actionNo: 0,
+			denyText: denyText
+		}, function(res){
+			$('#denyModal').modal('hide');
+
+			if(isMobile.iOS()){
+				document.location = "jscall://approval_ok|";
+			}else if(isMobile.Android()){
+				window.android.callAndroid("approval_ok|");
+			}
+		}, "JSON");
+	//}
+});
+
+function openDenyModal() {
+	$('#denyModal').modal('show');
 }

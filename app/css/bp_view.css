@@ -3,6 +3,7 @@ body{
 	margin:0;
 	background-color:#fff;
 	word-break:break-all;
+	font-size:14px;
 }
 #bp_body{
 	width:100%;min-height: 150px;

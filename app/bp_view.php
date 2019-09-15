@@ -69,7 +69,7 @@
 <meta id="viewport" name="viewport" content="minimum-scale=1, maximum-scale=1, user-scalable=yes, initial-scale=1, width=device-width">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <meta name="format-detection" content="telephone=no" />
-<link href="/assets/plugins/boostrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<link href="/assets/plugins/bootstrap4/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 <link href="/css/common.css" rel="stylesheet" type="text/css"/>
 <link href="/app/css/bp_view.css?v=1901021403" rel="stylesheet" type="text/css"/>
 </head>
@@ -107,6 +107,16 @@
 	?>
 	</div>
 	<div id="bp_body">
+
+        <?php if ($bpRes['bp_state'] == 0) {?>
+
+            <div class="alert alert-danger mb-10" role="alert">
+                <h6><span class="badge badge-danger">전체공개 거부 사유</span></h6>
+                <?=$bpRes['bp_deny_txt']?>
+            </div>
+
+        <?php } ?>
+
 		<?php
 			if($bpRes['bp_file'] > 0 && (strtolower($fileRes['file_ext']) == 'png' || strtolower($fileRes['file_ext']) == 'jpg')){
 		?>
@@ -161,8 +171,31 @@
 		}
 	?>
 	</div>
-<script src="/assets/plugins/jquery-1.8.3.min.js" type="text/javascript"></script> 
-<script src="/assets/plugins/boostrapv3/js/bootstrap.min.js" type="text/javascript"></script> 
+    <div class="modal fade" id="denyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title text-light" id="exampleModalLabel">전체공유 <mark>거부</mark> 사유를 입력해주세요</h5>
+                    <button type="button" class="close text-light " data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <textarea class="form-control" id="deny-text" rows="4" style="font-size: 12pt"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                    <button id="btnDeny" type="button" class="btn btn-danger">전체공유 거부</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="/assets/plugins/jquery-3.0.0.min.js" type="text/javascript"></script>
+<script src="/assets/plugins/bootstrap4/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="/assets/plugins/breakpoints.js" type="text/javascript"></script> 
 <script src="/assets/plugins/jquery-unveil/jquery.unveil.min.js" type="text/javascript"></script> 
 <script src="/assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js" type="text/javascript"></script>
