@@ -176,7 +176,7 @@ $('#btnDeny').on("click", function() {
 		$.post("/app/ajax/a_bp_approval.php", {
 			actionType: "approval_update",
 			idx: $("#idx").val(),
-			actionNo: 0,
+			actionNo: 3,
 			denyText: denyText
 		}, function(res){
 			$('#denyModal').modal('hide');

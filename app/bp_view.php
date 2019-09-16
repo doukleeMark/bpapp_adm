@@ -108,7 +108,7 @@
 	</div>
 	<div id="bp_body">
 
-        <?php if ($bpRes['bp_state'] == 0) {?>
+        <?php if ($bpRes['bp_state'] == 3 && $bpRes['bp_deny_txt']) {?>
 
             <div class="alert alert-danger mb-10" role="alert">
                 <h6><span class="badge badge-danger">전체공개 거부 사유</span></h6>

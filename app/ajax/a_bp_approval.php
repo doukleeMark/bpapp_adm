@@ -13,7 +13,7 @@
     if($actionType=="approval_update") {
 
         // 구버전 CP 반려건에 대한 처리
-        if((int)$bp_state == 3)	$bp_state = '0';
+        //if((int)$bp_state == 3)	$bp_state = '0';
 
         $sql = "select bp_user, bp_brand, bp_title, bp_content, bp_file from bp_data where idx={$bp_idx}";
         $bpRes = $DB->GetOne($sql);
@@ -33,7 +33,7 @@
 
         logwrite('aaa');
 
-        if((int)$bp_state == 0) {
+        if((int)$bp_state == 3) {
             $sql = "update bp_data set ";
             $sql .= "bp_deny_txt = '{$denyText}' ";
             $sql .= "where idx = {$bp_idx}";

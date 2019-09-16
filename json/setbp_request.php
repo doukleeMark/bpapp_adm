@@ -9,7 +9,7 @@
 	if(isset($_REQUEST['bp_idx']) && isset($_REQUEST['bp_state'])){
 
 		// 구버전 CP 반려건에 대한 처리
-		if((int)$_REQUEST['bp_state'] == 3)	$_REQUEST['bp_state'] = '0';
+		//if((int)$_REQUEST['bp_state'] == 3)	$_REQUEST['bp_state'] = '0';
 
 		$sql = "select bp_user, bp_brand, bp_title, bp_content, bp_file from bp_data where idx={$_REQUEST['bp_idx']}";
 		$bpRes = $DB->GetOne($sql);

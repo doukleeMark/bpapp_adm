@@ -53,6 +53,16 @@
 
 	$approval_txt = "승인요청";
 
+	if (isset($_GET['fu_idx'])) {
+        $fu_idx = $_GET['fu_idx'];
+
+        $sql = "select * from bp_data ";
+        $sql .= "where idx={$fu_idx} ";
+        $fu_res = $DB->GetOne($sql);
+
+        $fu_title = htmlspecialchars($fu_res['bp_title']);
+    }
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -77,6 +87,8 @@
 	<input type="hidden" id="bp_unit" name="bp_unit" value=<?=$bp_unit?>>
 	<input type="hidden" id="bp_file" name="bp_file" value=<?=$bpRes['bp_file']?>>
 	<input type="hidden" id="bp_new_fu" name="bp_new_fu" value=<?=$bp_new_fu?>>
+    <input type="hidden" id="bp_fu_idx" name="bp_fu_idx" value=<?=$fu_idx?>>
+    <input type="hidden" id="bp_fu_txt" name="bp_fu_txt" value=<?=$fu_title?>>
 
 	<div class="row unit<?=$bp_unit?>">
 		<select id="bp_brand" name="bp_brand" class="<?=($actionType == 'bp_write')?'placeholder_color':''?>">
@@ -85,7 +97,13 @@
 				$selectClass->printBrandOptionsSelect($bp_unit, $bp_brand);
 			?>
 		</select>
-		<input type="text" id="bp_title" name="bp_title" placeholder="제목을 입력하세요." value="<?=$bpRes['bp_title']?>">
+
+        <?php if ($fu_idx) {?>
+            <input type="text" id="bp_title" name="bp_title" maxlength="200" placeholder="제목을 입력하세요." value="<?=$fu_title?>">
+        <?php } else { ?>
+            <input type="text" id="bp_title" name="bp_title" maxlength="200" placeholder="제목을 입력하세요." value="<?=$bpRes['bp_title']?>">
+        <?php } ?>
+
 		<span class="btn-file upload_grid <?=$bpRes['bp_file'] > 0?'hidden':''?>">
 			<span class="fileName">이미지 업로드</span>
 			<input type="file" id="dataFile" name="dataFile" accept='image/jpeg,image/gif,image/png'>
