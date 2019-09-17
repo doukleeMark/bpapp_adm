@@ -47,7 +47,7 @@
 			ifnull(ctr.ctr_score, '-') AS score, ifnull(ctr.ctr_dt_update, '-') AS ctr_dt_update, 
 			ur.ur_name, ur.ur_group_high, ur.ur_group_low, ur.ur_team, 
 			ifnull(ud.unit_name, '-') AS unit, 
-			ct.ct_title
+			ct.ct_title, ct.ct_test_count
 		FROM
 			contents ct, 	
 			s3_data s3,
@@ -74,7 +74,13 @@
 	$contentRes = $DB->GetAll($sql);
 
 	$cell = 2;
-	for ($i=0; $i < count($contentRes) ; $i++) { 
+
+    for ($i=0; $i < count($contentRes) ; $i++) {
+        if ($contentRes[$i]['ct_test_count'] == "0")
+            $contentRes[$i]['score'] = "0";
+    }
+
+    for ($i=0; $i < count($contentRes) ; $i++) {
         $sheet->setCellValue("A".$cell, $contentRes[$i]['ur_group_high']);
         $sheet->setCellValue("B".$cell, $contentRes[$i]['unit']);
         $sheet->setCellValue("C".$cell, $contentRes[$i]['ur_group_low']);
