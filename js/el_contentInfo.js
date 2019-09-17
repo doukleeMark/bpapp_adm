@@ -5,6 +5,21 @@ $(document).ready(function () {
 	// sliders
 	var sliders = new Array();
 
+	$('.showtime').keyup(function() {
+		var num = parseInt($(this).val());
+
+		if (num < 10 || isNaN(num)) return;
+
+		var numMin = num;
+		var numMax = num + 3;
+
+		$.each(sliders, function (index, item) {
+			item.bootstrapSlider('setAttribute', 'value', [numMin,numMax])
+				.bootstrapSlider({formatter: sliderTimeFormat})
+				.bootstrapSlider('refresh');
+		});
+	});
+
 	// file upload
 	$('.file-upload').each(function (e) {
 		console.log($(this).attr('action'));

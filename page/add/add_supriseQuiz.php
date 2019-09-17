@@ -60,7 +60,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="form-group">
                     <label class="form-label">ON/OFF</label>
                     <div class="checkbox check-success">
@@ -70,14 +70,32 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <div class="form-group">
                     <label class="form-label">Time Range</label>
                     <div class="slider slider-horizontal" >
-                        <input type="text" data-slider-value="[<?=$range?>]" data-slider-step="1" data-slider-max="<?=$playSec?>" data-slider-min="10" value="<?=$range?>" name="range[]" class="slider-element form-control" data-slider-selection="after">
+                        <input type="text" id="slider" data-slider-value="[<?=$range?>]" data-slider-step="1" data-slider-max="<?=$playSec?>" data-slider-min="10" value="<?=$range?>" name="range[]" class="slider-element form-control" data-slider-selection="after">
                     </div>
                 </div>
+                <!--
+                <div class="row">
+                    <div class="col-sm-4">
+                        <input type="text" class="rng-start form-control" placeholder="Start" value="<?=$range?>">
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" class="rng-end form-control" placeholder="End" value="<?=$playSec?>">
+                    </div>
+                </div>
+                -->
             </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="form-label">Show Time</label>
+                    <input type="number" class="showtime form-control" placeholder="노출시간(초)를 입력하세요" value="" style="width:200px;">
+                </div>
+            </div>
+
             <div class="pull-right">
                 <button type="button" class="btn btn-mini btn-danger btnDelQuiz" ><i class="fa fa-minus"> Delete</i></button>
             </div>
