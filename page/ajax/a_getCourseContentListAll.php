@@ -23,6 +23,8 @@
     }
 
     $orderColumns = array('ct.idx', 'ct.ct_title', 'ct.ct_speaker', 'ct.ct_tag');
+    $filterColumns = array('ct.ct_title', 'ct.ct_speaker');
+
     
     $sWhere = "";
     if ($_POST['search']['value'] != "") {
