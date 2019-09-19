@@ -77,7 +77,7 @@
 
     for ($i=0; $i < count($contentRes) ; $i++) {
         if ($contentRes[$i]['ct_test_count'] == "0")
-            $contentRes[$i]['score'] = "0";
+            $contentRes[$i]['score'] = "*";
     }
 
     for ($i=0; $i < count($contentRes) ; $i++) {
