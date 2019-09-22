@@ -1,6 +1,7 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . "include/config/config.inc");
 
+    /*
     include_once(CLASS_PATH . "/user.class.lib");
 
     $userClass = new UserClass();
@@ -20,5 +21,6 @@
 
         $DB->Execute($sql);
     }
+    */
 
 ?>
