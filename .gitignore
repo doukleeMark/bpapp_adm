@@ -6,3 +6,6 @@ assets/__MACOSX/
 assets/plugins/
 current.log
 include/config/DBSettings.php
+
+!assets/plugins/jquery-3.0.0.min.js
+!assets/plugins/bootstrap4/*
