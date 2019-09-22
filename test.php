@@ -5,7 +5,8 @@
 
     $userClass = new UserClass();
 
-    $users = $userClass->getUserList2();
+    $sql = "select * from user_data where ur_state=1";
+    $users = $DB->GetAll($sql);
 
     echo "d";
 
