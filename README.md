@@ -32,7 +32,7 @@ HTML Assest Unzip
 * unzip plugins.zip
 
 Upload 폴더생성
-* mkdir upload, chmod 707 upload
+* mkdir upload, chmod 707 upload (upload 내의 폴더도 707 처리)
 
 Upload 다운로드
 * wget --ftp-user=bpdata --ftp-password=bpdata4321 ftp://13.209.249.72/upload
