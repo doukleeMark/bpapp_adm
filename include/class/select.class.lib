@@ -36,7 +36,9 @@
 		}
 
 		function printBrandOptions($_unit) {
-			$sql = "select * from brand_data b, unit_brand ub where b.idx = ub.ub_brand AND ub.ub_unit={$_unit} order by ub.ub_brand";
+			//$sql = "select * from brand_data b, unit_brand ub where b.idx = ub.ub_brand AND ub.ub_unit={$_unit} order by ub.ub_brand";
+
+            $sql = "select * from brand_data where idx not in (36,37,38,39,40,41,42,45)";
 			$res = $this->GetAll($sql);
 			
 			for($i=0; $i<count($res); $i++) {
@@ -45,15 +47,29 @@
 		}
 
 		function printBrandOptionsSelect($_unit, $_brand) {
-			$sql = "select * from brand_data b, unit_brand ub where b.idx = ub.ub_brand AND ub.ub_unit={$_unit} order by ub.ub_order";
+			//$sql = "select * from brand_data b, unit_brand ub where b.idx = ub.ub_brand AND ub.ub_unit={$_unit} order by ub.ub_order";
+
+            $sql = "";
+
+            if ($_unit == 1) $sql = "select * from brand_data where idx not in (37,38,39,40,41,42,45)";
+            if ($_unit == 2) $sql = "select * from brand_data where idx not in (36,38,39,40,41,42,45)";
+            if ($_unit == 3) $sql = "select * from brand_data where idx not in (36,37,39,40,41,42,45)";
+            if ($_unit == 4) $sql = "select * from brand_data where idx not in (36,37,38,40,41,42,45)";
+            if ($_unit == 5) $sql = "select * from brand_data where idx not in (36,37,38,39,41,42,45)";
+            if ($_unit == 6) $sql = "select * from brand_data where idx not in (36,37,38,39,40,42,45)";
+            if ($_unit == 7) $sql = "select * from brand_data where idx not in (36,37,38,39,40,41,45)";
+            if ($_unit == 8) $sql = "select * from brand_data where idx not in (36,37,38,39,40,41,42)";
+
 			$res = $this->GetAll($sql);
-			
+
 			for($i=0; $i<count($res); $i++) {
 				if($_brand==$res[$i]['idx']) $selectedChar = "selected";
 				else $selectedChar = "";
 
 				echo "<option value=\"".$res[$i]['idx']."\" " . $selectedChar . " >".$res[$i]['brand_name']."</option>";
 			}
+
+
 		}
 	}
 ?>

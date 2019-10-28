@@ -106,11 +106,15 @@
 		}
 	?>
 	</div>
+
+    <style> .btn-del {color: blue;position: absolute;right: 15px;}</style>
+
 	<div id="bp_body">
 
         <?php if ($bpRes['bp_state'] == 3 && $bpRes['bp_deny_txt']) {?>
 
             <div class="alert alert-danger mb-10" role="alert">
+                <div id="clearDeny" class="btn-del"><span class="badge badge-secondary">× 사유 삭제</span></div>
                 <h6><span class="badge badge-danger">전체공개 거부 사유</span></h6>
                 <?=$bpRes['bp_deny_txt']?>
             </div>

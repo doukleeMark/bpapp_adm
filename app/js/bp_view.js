@@ -26,7 +26,7 @@ $(document).ready(function(){
 		if($("#bpr_content").val()==''){
 			var str = encodeURIComponent("댓글을 입력하세요.");
 			if(isMobile.iOS()){
-				document.location = "jscall://alert|" + str;
+				document.location = "jscall://alert|" + encodeURI(str);
 			}else if(isMobile.Android()){
 				window.android.callAndroid("alert|"+str);
 			}else {
@@ -67,7 +67,7 @@ $(document).ready(function(){
 		if($("#bpr_content_update").val()==''){
 			var str = encodeURIComponent("댓글을 입력하세요.");
 			if(isMobile.iOS()){
-				document.location = "jscall://alert|" + str;
+				document.location = "jscall://alert|" + encodeURI(str);
 			}else if(isMobile.Android()){
 				window.android.callAndroid("alert|"+str);
 			}else {
@@ -137,7 +137,7 @@ $(document).ready(function(){
 						location.reload();
 					}else{
 						if(isMobile.iOS()){		
-							document.location = "jscall://alert|다시 시도해주세요";
+							document.location = "jscall://alert|" + encodeURI("다시 시도해주세요");
 						}else if(isMobile.Android()){
 							window.android.callAndroid("alert|다시 시도해주세요");
 						}
@@ -159,7 +159,7 @@ function nativeJScall(_callStr) {
 				} else {
 					var str = encodeURIComponent("다시 시도해주세요.");
 					if (isMobile.iOS()) {
-						document.location = "jscall://alert|" + str;
+						document.location = "jscall://alert|" + encodeURI(str);
 					} else if (isMobile.Android()) {
 						window.android.callAndroid("alert|" + str);
 					}
@@ -188,6 +188,17 @@ $('#btnDeny').on("click", function() {
 			}
 		}, "JSON");
 	//}
+});
+
+$('#clearDeny').on("click", function() {
+
+	var str = "사유가 삭제 되었습니다.";
+
+	if(isMobile.iOS()){
+		document.location = "jscall://alert|" + encodeURI(str);
+	}else if(isMobile.Android()) {
+		window.android.callAndroid("alert|" + str);
+	}
 });
 
 function openDenyModal() {
