@@ -166,6 +166,8 @@ function nativeJScall(_callStr) {
 				}
 			}, "JSON");
 	}
+
+	if ("clearDenyProc") clearDenyProc();
 }
 
 $('#btnDeny').on("click", function() {
@@ -192,14 +194,34 @@ $('#btnDeny').on("click", function() {
 
 $('#clearDeny').on("click", function() {
 
-	var str = "사유가 삭제 되었습니다.";
+	var str = "정말로 삭제 하시겠습니까?";
 
-	if(isMobile.iOS()){
-		document.location = "jscall://alert|" + encodeURI(str);
-	}else if(isMobile.Android()) {
-		window.android.callAndroid("alert|" + str);
+	if (isMobile.iOS()) {
+		document.location = "jscall://confirm_cleardeny|" + encodeURI(str);
+	} else if (isMobile.Android()) {
+		window.android.callAndroid("confirm_cleardeny|" + encodeURI(str));
+	} else if(confirm(str)){
+		clearDenyProc();
 	}
 });
+
+function clearDenyProc() {
+	$.post("/app/ajax/a_bp_approval.php", {
+		actionType: "clear_deny",
+		idx: $("#idx").val()
+	}, function(res){
+		var msg = "CP사유가 삭제 되었으며\n글이 비공개로 변경되었습니다.";
+
+		$('#div_deny').hide();
+
+		if(isMobile.iOS()){
+			document.location = "jscall://alert|" + encodeURI(msg);
+		}else if(isMobile.Android()) {
+			window.android.callAndroid("alert|" + msg);
+		}
+
+	}, "JSON");
+}
 
 function openDenyModal() {
 	$('#denyModal').modal('show');

@@ -10,6 +10,12 @@
     if(isset($actionNo))$bp_state = $actionNo;
     if(isset($idx))$bp_idx = $idx;
 
+    if($actionType=="clear_deny") {
+        $sql = "update bp_data set bp_deny_txt='', bp_state=0 where idx=" . $idx;
+        $DB->Execute($sql);
+        echo json_encode("1");
+    }
+
     if($actionType=="approval_update") {
 
         // 구버전 CP 반려건에 대한 처리
@@ -30,8 +36,6 @@
             $sql .= "where idx = {$bp_idx}";
             $DB->Execute($sql);
         }
-
-        logwrite('aaa');
 
         if((int)$bp_state == 3) {
             $sql = "update bp_data set ";

@@ -85,7 +85,7 @@
 		}else if((int)$_REQUEST['type'] == 5){ // 비공개 (MY BP의 경우)
 			$AddType = "AND b.bp_state=0 ";
 		}else if((int)$_REQUEST['type'] == 6){ // new follow up
-			$AddType = "AND b.bp_state=5 AND b.bp_teamfu=0 AND b.bp_new_fu=1 ";
+			$AddType = "AND b.bp_state!=0 AND b.bp_teamfu=0 AND b.bp_new_fu=1 ";
 		}
 
 		$sql = "select bur.*, l.bl_cnt from ";
@@ -97,7 +97,8 @@
 		$sql .= "(select count(bl_bp) as bl_cnt, bl_bp from bp_like group by bl_bp) l on l.bl_bp = bur.idx ";
 		$sql .= "order by bur.idx desc";
 		$bpRes = $DB->GetAll($sql);
-		
+
+		//logwrite($sql);
 
 		$bpArr = array();
 		for($i=0;$i<count($bpRes);$i++) {
