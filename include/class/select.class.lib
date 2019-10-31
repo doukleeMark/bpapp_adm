@@ -60,6 +60,8 @@
             if ($_unit == 7) $sql = "select * from brand_data where idx not in (36,37,38,39,40,41,45)";
             if ($_unit == 8) $sql = "select * from brand_data where idx not in (36,37,38,39,40,41,42)";
 
+            $sql .= " and useon=1 order by flow asc";
+
 			$res = $this->GetAll($sql);
 
 			for($i=0; $i<count($res); $i++) {
