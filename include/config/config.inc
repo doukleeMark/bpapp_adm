@@ -33,7 +33,7 @@
 	require_once(LIB_PATH."/common.lib");
 
 	// PUSH SERVER
-	define('PUSH_SERVER', 'http://192.168.0.200:7788/fcm/sendPush');
+	define('PUSH_SERVER', 'http://133.186.212.15:7788/fcm/sendPush');
 
 
 	$DB = new DBclass();
