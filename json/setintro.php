@@ -23,7 +23,7 @@
 			$sql .= "dvi_appver = '{$_REQUEST['ver']}', ";
 
 			// 토큰 업데이트
-			if(isset($token) && (strlen($token) > 0))$sql .= "dvi_token = '{$token}', ";
+			if(isset($_REQUEST['token']) && (strlen($_REQUEST['token']) > 0))$sql .= "dvi_token = '{$_REQUEST['token']}', ";
 
 			$sql .= "dvi_dt_last = sysdate() ";
 			$sql .= "where dvi_uuid = '{$_REQUEST['uuid']}'";

@@ -5,7 +5,7 @@
 	
 	$result->result = '0';
 	$result->msg = '';
-	
+
 	if(isset($_REQUEST['ur_idx']) && isset($_REQUEST['bp_idx']) && isset($_REQUEST['choice_type']) && isset($_REQUEST['choice_value'])){
 
 		if((int)$_REQUEST['choice_type'] >= 7){
@@ -104,10 +104,32 @@
 			$sql .= "'". $_REQUEST['choice_value'] . "', ";
 			$sql .= "sysdate()) ";
 			$DB->Execute($sql);
-			
+
 			$result->result = '1';
+
+			/* Best BP Push Send : start*/
+            $obj = (object)[
+                'choice_type'   => $_REQUEST['choice_type'],
+                'choice_value'  => $_REQUEST['choice_value'],
+                'bp_idx'        => $_REQUEST['bp_idx']
+            ];
+
+            $url = PUSH_SERVER;
+            httpPost($url, $obj);
+            /* Best BP Push Send : end*/
 		}
 	}
+
+	function httpPost($url, $data)
+    {
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return $response;
+    }
 	
 	echo json_encode($result);
 ?>
