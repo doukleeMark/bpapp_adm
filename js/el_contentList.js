@@ -119,19 +119,24 @@ $(document).ready(function() {
 						alert("권한이 필요합니다.");
 						return false;
 					}
-					$.post(
-						"http://bp.markit.co.kr:7788/brain",
-						{
-							stype: 'con-open',
-							idx: data.idx
-						}, function(res) {}, "json");
-
+					push_content_open(data.idx);
 					table.ajax.reload();
 				},
 				"json"
 			);
 		}
 	});
+
+	function push_content_open(_idx) {
+		$.post(
+			"http://bp.markit.co.kr:7788/brain",
+			{
+				stype: 'con-open',
+				idx: _idx
+			}, function(res) {
+				console.log('push send');
+			}, "json");
+	}
 
 	// 테이블 상단 select ui
 	$("#listTable_wrapper select").select2({ minimumResultsForSearch: -1 });
