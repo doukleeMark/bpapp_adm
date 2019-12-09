@@ -128,12 +128,14 @@ $(document).ready(function() {
 	});
 
 	function push_content_open(_idx) {
+		alert('push send :' + _idx);
 		$.post(
 			"http://bp.markit.co.kr:7788/brain",
 			{
 				stype: 'con-open',
 				idx: _idx
 			}, function(res) {
+				alert('push complete');
 				console.log('push send');
 			}, "json");
 	}
