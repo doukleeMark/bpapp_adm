@@ -527,6 +527,7 @@ $(document).ready(function() {
 		});
 
 		$(".btn-pushsend").click(function(e) {
+			alert('hi');
 			var push_type = $("input:radio[name='radio_push']:checked").val();
 			var push_title = $("#push_title").val();
 			var push_body = $("#push_body").val();
