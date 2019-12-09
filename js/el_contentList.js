@@ -115,6 +115,7 @@ $(document).ready(function() {
 					idx: data.idx
 				},
 				function(result) {
+					alert('공개 진행');
 					if (!result) {
 						alert("권한이 필요합니다.");
 						return false;
