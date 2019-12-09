@@ -128,6 +128,24 @@
 											</div>
 										</div>
 									</div>
+                                    <div class="form-group">
+                                        <label class="type-label">Push Notification</label>
+                                        <div class="row-fluid">
+                                            <div class="radio radio-primary">
+                                                <input id="push_type_1" type="radio" name="radio_push" value="1" checked>
+                                                <label for="push_type_1">For Attender</label>
+                                                <input id="push_type_2" type="radio" name="radio_push" value="2">
+                                                <label for="push_type_2">For All</label>
+                                            </div>
+                                        </div>
+                                        <div class="row-fluid m-b-10">
+                                            <input type="text" id="push_title" class="form-control" placeholder="알림 타이틀을 입력하세요">
+                                        </div>
+                                        <div class="row-fluid m-b-10">
+                                            <input type="text" id="push_body" class="form-control" placeholder="알림 설명을 입력하세요">
+                                        </div>
+                                        <button class="btn btn-warning btn-pushsend">Send Notification</button>
+                                    </div>
 								</div>
 								
 								<div class="col-md-6">

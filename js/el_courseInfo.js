@@ -525,6 +525,30 @@ $(document).ready(function() {
 				}
 			);
 		});
+
+		$(".btn-pushsend").click(function(e) {
+			var push_type = $("input:radio[name='radio_push']:checked").val();
+			var push_title = $("#push_title").val();
+			var push_body = $("#push_body").val();
+			var course_idx = $("#idx").val();
+
+			if (!push_title || !push_body) {
+				alert('알림 제목과 내용을 입력하세요');
+				return false;
+			}
+
+			$.post("http://bp.markit.co.kr:7788/brain",
+				{
+					stype: 'course-send',
+					ptype: push_type,
+					idx: course_idx,
+					ptitle: push_title,
+					pbody: push_body
+				},function(res) {},"json");
+
+			alert('알림이 발송되었습니다.')
+		});
+
 	}
 });
 
