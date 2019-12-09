@@ -115,7 +115,6 @@ $(document).ready(function() {
 					idx: data.idx
 				},
 				function(result) {
-					alert('공개 진행');
 					if (!result) {
 						alert("권한이 필요합니다.");
 						return false;
@@ -129,16 +128,12 @@ $(document).ready(function() {
 	});
 
 	function push_content_open(_idx) {
-		alert('push send :' + _idx);
 		$.post(
-			"http://localhost:7788/brain",
+			"http://bp.markit.co.kr:7788/brain",
 			{
 				stype: 'con-open',
 				idx: _idx
-			}, function(res) {
-				alert('push complete');
-				console.log('push send');
-			}, "json");
+			}, function(res) {}, "json");
 	}
 
 	// 테이블 상단 select ui
