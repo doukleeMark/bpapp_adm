@@ -119,6 +119,13 @@ $(document).ready(function() {
 						alert("권한이 필요합니다.");
 						return false;
 					}
+					$.post(
+						"http://bp.markit.co.kr:7788/brain",
+						{
+							stype: 'con-open',
+							idx: data.idx
+						}, function(res) {}, "json");
+
 					table.ajax.reload();
 				},
 				"json"
