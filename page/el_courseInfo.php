@@ -128,6 +128,7 @@
 											</div>
 										</div>
 									</div>
+                                    <?php if ($_GET['idx']) {?>
                                     <div class="form-group">
                                         <label class="type-label">Push Notification</label>
                                         <div class="row-fluid">
@@ -146,6 +147,7 @@
                                         </div>
                                         <button class="btn btn-warning btn-pushsend">Send Notification</button>
                                     </div>
+                                    <?php }?>
 								</div>
 								
 								<div class="col-md-6">
