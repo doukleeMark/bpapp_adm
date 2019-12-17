@@ -148,7 +148,7 @@
 			->setCellValue("G$cell", $choice)
 			->setCellValue("H$cell", $row[$i]['bl_cnt'])
 			->setCellValue("I$cell", $row[$i]['bp_hit'])
-            ->setCellValue("J$cell", $row[$i]['bp_follow'])
+            ->setCellValue("J$cell", $row[$i]['bp_new_fu'])
 			->setCellValue("K$cell", $share)
 			->setCellValue("L$cell", $stateText)
 			->setCellValue("M$cell", $row[$i]['bp_date']);
