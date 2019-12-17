@@ -65,12 +65,14 @@
 	$sheet->getColumnDimension("H")->setWidth(5);
 	$sheet->setCellValue("I1", "Hit");
 	$sheet->getColumnDimension("I")->setWidth(5);
-	$sheet->setCellValue("J1", "Share");
-	$sheet->getColumnDimension("J")->setWidth(9);
-	$sheet->setCellValue("K1", "State");
-	$sheet->getColumnDimension("K")->setWidth(15);
-	$sheet->setCellValue("L1", "Date");
-	$sheet->getColumnDimension("L")->setWidth(20);
+    $sheet->setCellValue("J1", "Follow");
+    $sheet->getColumnDimension("J")->setWidth(8);
+	$sheet->setCellValue("K1", "Share");
+	$sheet->getColumnDimension("K")->setWidth(9);
+	$sheet->setCellValue("L1", "State");
+	$sheet->getColumnDimension("L")->setWidth(15);
+	$sheet->setCellValue("M1", "Date");
+	$sheet->getColumnDimension("M")->setWidth(20);
 		
 	$cell = 2;
 	for($i=0; $i<count($row);$i++){
@@ -146,9 +148,10 @@
 			->setCellValue("G$cell", $choice)
 			->setCellValue("H$cell", $row[$i]['bl_cnt'])
 			->setCellValue("I$cell", $row[$i]['bp_hit'])
-			->setCellValue("J$cell", $share)
-			->setCellValue("K$cell", $stateText)
-			->setCellValue("L$cell", $row[$i]['bp_date']);
+            ->setCellValue("J$cell", $row[$i]['bp_follow'])
+			->setCellValue("K$cell", $share)
+			->setCellValue("L$cell", $stateText)
+			->setCellValue("M$cell", $row[$i]['bp_date']);
 
 		$cell++;
 	}
