@@ -136,7 +136,7 @@
 		// 타이틀
 		$addTitle = "";
 		if((int)$row[$i]['bp_teamfu'] == 1) $addTitle = "ⓣ ". $row[$i]['bp_title'];
-		else if((int)$row[$i]['bp_follow'] == 1) $addTitle = "ⓕ ". $row[$i]['bp_title'];
+		else if((int)$row[$i]['bp_new_fu'] == 1) $addTitle = "ⓕ ". $row[$i]['bp_title'];
 
 		$spreadsheet->setActiveSheetIndex(0)
 			->setCellValue("A$cell", $no)
