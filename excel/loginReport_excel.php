@@ -7,7 +7,8 @@
 	$add_sql = "AND u.ur_level!=10 AND u.ur_hidden=0 ";
 	$sql = "select l.idx, l.log_date, l.log_os, l.log_model, l.log_appver, u.ur_name, u.ur_id, ud.unit_name, u.ur_team, u.ur_level from system_log l, user_data u, unit_data ud where l.log_type = 'login' AND l.log_user = u.idx AND ud.idx = u.ur_unit ";
 	$sql .= $add_sql;
-	$sql .= "order by l.idx desc limit 5000 ";
+	//$sql .= "order by l.idx desc limit 5000 ";
+	$sql .= "order by l.idx desc";
 	$row = $DB->GetAll($sql);
 	
 	use PhpOffice\PhpSpreadsheet\IOFactory;
