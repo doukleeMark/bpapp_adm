@@ -90,15 +90,18 @@ $(document).ready(function(){
 				contentType:false,
 				type:'POST',							
 				success:function(res){
-					if(res == 1){
+					//if(res == 1) {
 						$("#folderName").val("");
 						$("#displayOrder").val("");
 						getFolderTree();
+					//}
+					/*
 					}else if(res == 0){
 						alert("하위 폴더부터 삭제해주세요.");
 					}else if(res == -1){
 						alert("해당 폴더에 데이터가 포함되어있습니다.");
 					}
+     				 */
 
 				}
 			});

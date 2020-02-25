@@ -34,8 +34,7 @@
 
 	}else if($_POST['actionType']=="delete") {
 
-		$dataClass->deleteFolder($_POST['targetFolder']);
-		return;
+		return $dataClass->deleteFolder($_POST['targetFolder']);
 	}
 
 ?>
