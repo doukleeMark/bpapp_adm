@@ -5,6 +5,8 @@
 		
 		/* 폴더 삭제 */
 		function deleteFolder($_idx){
+
+            /*
 			$sql = "select * from folder_data where fd_parent={$_idx}";
 			$res = $this->GetAll($sql);
 
@@ -20,6 +22,7 @@
 			if(count($res) > 0){
 				return -1;
 			}
+			*/
 
 			// 폴더DB삭제
 			$sql = "delete from folder_data where idx={$_idx}";
