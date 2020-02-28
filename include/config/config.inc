@@ -23,8 +23,8 @@
 	define('PAGE_PATH', $page_path);
 
 	// AWS
-	define('AWS_ACCESS_KEY', 'AKIAZQS2DUU5UTMDBLC4');
-	define('AWS_SECRET', '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');
+	define('AWS_ACCESS_KEY', 'AKIAZQS2DUU5XFA5PO5C');
+	define('AWS_SECRET', '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');
 	define('AWS_BUCKET', 'boryung-brain-upload');
 	define('AWS_REGION', 'ap-northeast-2');
 
