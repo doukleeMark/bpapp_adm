@@ -57,24 +57,13 @@ $(document).ready(function() {
 	});
 
 	$.fn.resetScore = (_data, _no) => {
-		console.log(_data);
-
-
-
-		console.log('co_idx : ' + co_idx);
-		console.log('select : ' + _no);
-
-
 		$.post('/page/ajax/a_resetTestScore.php', {
 			co_idx: co_idx,
 			ur_idx: _data.ur_idx,
 			q_no: _no,
 		}, function(x) {
-			console.log(x);
+			$("#listTable").DataTable().ajax.reload();
 		});
-
-
-		$("#listTable").DataTable().ajax.reload();
 	};
 
 	$("#listTable tbody").on("click", ".btn-score_reset", function(e) {
