@@ -30,7 +30,6 @@
 <link type="text/css" href="/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet"/>
 <link href="/css/common.css" rel="stylesheet" type="text/css"/>
 <link href="/css/el_courseResult.css" rel="stylesheet" type="text/css"/>
-
 </head>
 
 <body class="">
@@ -96,7 +95,12 @@
 <script src="assets/js/core.js" type="text/javascript"></script> 
 <script type="text/javascript" src="/plugins/dataTables/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="/plugins/dataTables/dataTables.bootstrap.min.js"></script>
+
+<script src="js/plugins/jquery.alphanum.js" type="text/javascript"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+
 <script src="/js/common.js" type="text/javascript"></script>
-<script src="/js/el_courseResult.js?v=19032601" type="text/javascript"></script> 
+<script src="/js/el_courseResult.js?v=20041702" type="text/javascript"></script>
 </body>
 </html>

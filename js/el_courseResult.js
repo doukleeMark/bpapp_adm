@@ -52,8 +52,83 @@ $(document).ready(function() {
 				$("td", row).eq(6).html("<span class='text-danger'>" + data.score + "</span>");
 
 			// 초기화
-			$("td", row).eq(8).html("<button type='button' class='btn btn-mini btn-danger btn-reset'>초기화</button>");
+			$("td", row).eq(8).html("<button type='button' class='btn btn-mini btn-danger btn-reset'>초기화</button> <button type='button' class='btn btn-mini btn-primary btn-score_reset'>점수 초기화</button>");
 		}
+	});
+
+	$.fn.resetScore = (_data, _no) => {
+		console.log(_data);
+
+
+
+		console.log('co_idx : ' + co_idx);
+		console.log('select : ' + _no);
+
+
+		$.post('/page/ajax/a_resetTestScore.php', {
+			co_idx: co_idx,
+			ur_idx: _data.ur_idx,
+			q_no: _no,
+		}, function(x) {
+			console.log(x);
+		});
+
+
+		$("#listTable").DataTable().ajax.reload();
+	};
+
+	$("#listTable tbody").on("click", ".btn-score_reset", function(e) {
+
+		var data = table.row($(this).parents('tr')).data();
+
+		$.confirm({
+			title: '점수 초기화',
+			content: '' +
+				'<form action="" class="formName">' +
+				'<div class="form-group">' +
+				'<label>초기화가 필요한 테스트의 순번을 입력하세요</label>' +
+				'<input type="text" placeholder="ex) 1" class="qno form-control alphanum" required />' +
+				'</div>' +
+				'</form>',
+			buttons: {
+				formSubmit: {
+					text: '처리하기',
+					btnClass: 'btn-blue',
+					action: function () {
+						var qno = this.$content.find('.qno').val();
+						if(!qno){
+							$.alert('테스트 번호를 입력하세요');
+							return false;
+						}
+
+						$.fn.resetScore(data, qno);
+					}
+				},
+				cancel: {
+					text: '취소',
+					action: function () {
+
+					}
+				},
+			},
+			onContentReady: function () {
+				// bind to events
+				var jc = this;
+
+				var input = this.$content.find("input");
+					input.keyup(function () {
+						if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
+							this.value = this.value.replace(/[^0-9\.]/g, '');
+						}
+					});
+
+				this.$content.find('form').on('submit', function (e) {
+					// if the user submits the form by pressing enter in the field.
+					e.preventDefault();
+					jc.$$formSubmit.trigger('click'); // reference the button and click it
+				});
+			}
+		});
 	});
 
 	$("#listTable tbody").on("click", ".btn-reset", function(e) {
