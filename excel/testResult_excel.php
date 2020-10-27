@@ -83,7 +83,8 @@
 	$sql = "SELECT 
                 cu.* ,
 				ur.idx as ur_idx,
-                ur.ur_id, 
+                ur.ur_id,
+                ur.ur_team,
                 ifnull(ui.unit_name, '-') as unit
             FROM 
                 user_data ur,
@@ -180,7 +181,7 @@
     $rowcell = 6;
     for($i=0; $i<count($row);$i++){
         $sheet->setCellValue("A".$cell, $row[$i]['unit']);
-        $sheet->setCellValue("B".$cell, $row[$i]['cu_ur_team']);
+        $sheet->setCellValue("B".$cell, $row[$i]['ur_team']);
         $sheet->setCellValue("C".$cell, $row[$i]['ur_id']);
 		$sheet->setCellValue("D".$cell, $row[$i]['cu_ur_name']);
 
