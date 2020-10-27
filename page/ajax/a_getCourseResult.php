@@ -11,7 +11,8 @@
 	$sql = "SELECT 
                 cu.* ,
 				ur.idx as ur_idx,
-                ur.ur_id, 
+                ur.ur_id,
+                ur.ur_team,
                 ifnull(ui.unit_name, '-') as unit
             FROM 
                 user_data ur,
@@ -146,7 +147,7 @@
 		$arr['no'] = $count;
 		$arr['ur_idx'] = $row[$i]['ur_idx'];
 		$arr['group'] = $row[$i]['unit'];
-		$arr['team'] = $row[$i]['cu_ur_team'];
+		$arr['team'] = $row[$i]['ur_team'];
 		$arr['id'] = $row[$i]['ur_id'];
 		$arr['name'] = $row[$i]['cu_ur_name'];
 		$arr['score'] = $row[$i]['cu_score'];
