@@ -6,6 +6,11 @@
 		echo "<script>location.href='/?page=login'</script>";
 		return;
 	}
+    // 201103 추가 - 이도욱
+	include_once(CLASS_PATH . "/el.class.lib");
+	$elClass = new ELClass();
+    $courseRes = $elClass->getCourseThreadInfo($_GET['idx']);
+    //
 ?>
 <!DOCTYPE html>
 <html>
@@ -49,6 +54,49 @@
 			<div class="page-title"> <i class="icon-custom-left" ></i>
 				<h3>Course - <span class="semi-bold">Result</span></h3>
 			</div>
+			<!--// 201103 추가 - 이도욱-->
+			<div class="row">
+                <div class="col-xs-12" >
+                    <div class="grid simple">
+                        <div class="grid-title no-border"></div>
+                        <div class="grid-body no-border">
+                            <input type="hidden" id="idx" name="idx" value=<?=$_GET['idx']?>>
+                            <table class="table table-hover table-condensed" id="courseInfoTable">
+                                <thead>
+                                    <tr role="row">
+                                        <th style="width:10%"><nobr>과정명</nobr></th>
+                                        <td style="width:90%" colspan="3"><nobr><?=$courseRes['co_title']?></nobr></th>
+                                    </tr>
+                                    <tr role="row" >
+                                        <th style="width:10%"><nobr>총인원</nobr></th>
+                                        <td style="width:40%"><nobr><?=$courseRes['cnt']?></nobr></th>
+                                        <th style="width:10%"><nobr>기간(상태)</nobr></th>
+                                        <td style="width:40%">
+                                        <nobr>
+                                            <?=$courseRes['co_start']?>~<?=$courseRes['co_end']?>
+                                            (
+                                                 <?
+                                                    if($courseRes['co_status'] == 2){
+                                                        echo "<span class='label bg-cons bg-dark'>DONE</span>";
+                                                    } else if ($courseRes['co_status'] == -1){
+                                                        echo "<span class='label bg-cons bg-blue'>INFINITE</span>";
+                                                    } else if ($courseRes['co_status'] == 0){
+                                                        echo "<span class='label bg-cons bg-red'>D-day</span>";
+                                                    } else {
+                                                        echo "<span class='label bg-cons bg-red'>D-" + $courseRes['co_status'] + "</span>";
+                                                    }
+                                                 ?>
+                                            )
+                                            </nobr>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="grid simple">

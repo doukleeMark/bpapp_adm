@@ -28,16 +28,22 @@
     $tot_score = 0;
 
 	// 문제 가져오기
+	//201103 추가 - 이도욱
+	//contents ct_title이 나오게끔 left join
 	$sql = "SELECT 
-                cc_ct_id as ct_id
+                cc.cc_ct_id as ct_id,
+                ct.ct_title as ct_title
             FROM 
-                course_contents
+                course_contents cc
+                left join contents ct
+                    ON cc.cc_ct_id = ct.idx
 			WHERE cc_co_id = {$_POST['idx']} 
 			ORDER BY cc_order ASC ";
 	$ct_list = $DB->GetAll($sql);
 
 	$sql = "SELECT * FROM contents_test_result WHERE ctr_complete = 1 ";
 	$ctr_list = $DB->GetAll($sql);
+
 	
 	// 테스트가 없는 컨텐츠 재생완료 확인하기 
 	$sql = "SELECT 
@@ -68,7 +74,6 @@
 	for($i=0; $i<count($row);$i++){
 		
 		$count++;
-
 		// 과정을 완료 했는지 확인 후 완료했다면 평균 구하고 완료처리
 		$sql = "SELECT
 				cc.cc_co_id as co_idx,
@@ -76,8 +81,8 @@
 				count(ctr_ct_id) as current_cnt,
 				Round(Avg(ctr.ctr_score), 0) AS score_avg
 			FROM
-				test_cnt_sub tc, 
-				course_contents cc 
+				test_cnt_sub tc,
+				course_contents cc
 				LEFT JOIN contents_test_result ctr 
 				ON cc.cc_ct_id = ctr.ctr_ct_id
 					AND ctr.ctr_ur_id = {$row[$i]['ur_idx']}
@@ -118,7 +123,8 @@
 					contents ct, 	
 					s3_data s3,
 					contents_played cp
-	   			WHERE 
+	   			WHERE
+
 					cp.cp_ct_id IN (
 						SELECT ct.idx 
 						FROM contents ct, course_contents cc 
@@ -151,24 +157,35 @@
 		$arr['id'] = $row[$i]['ur_id'];
 		$arr['name'] = $row[$i]['cu_ur_name'];
 		$arr['score'] = $row[$i]['cu_score'];
-		
+
 		// 각 컨텐츠 점수
 		$temp = '';
-		for ($j=0; $j < count($ct_list) ; $j++) { 
+		//201103 추가 - 이도욱
+		$arr['score2']= [];
+		$temp2 ;
+		//
+		for ($j=0; $j < count($ct_list) ; $j++) {
 			$t = '-';
-
-			// 재생완료 확인 
+			//201103 추가 - 이도욱
+			$temp2['title'] = $ct_list[$j]['ct_title'];
+			$temp2['score'] = '-';
+			//
+			// 재생완료 확인
 			for ($k=0; $k < count($played_list) ; $k++) { 
 				if($row[$i]['ur_idx'] == $played_list[$k]['cp_ur_id'] && $ct_list[$j]['ct_id'] == $played_list[$k]['cp_ct_id']) {
 					$t = '*';
+					//201103 추가 - 이도욱
+					$temp2['score'] = '*';
+					//
 					break;
 				}
 			}
-
 			for ($k=0; $k < count($ctr_list) ; $k++) {
 				if($ctr_list[$k]['ctr_ur_id'] == $row[$i]['ur_idx'] && $ctr_list[$k]['ctr_ct_id'] == $ct_list[$j]['ct_id']){
 					$t = $ctr_list[$k]['ctr_score'];
-
+					//201103 추가 - 이도욱
+                    $temp2['score'] = $ctr_list[$k]['ctr_score'];
+                    //////
 					// 각 컨텐츠 점수 중 80미만일 경우 미이수처리 
 					if((int)$ctr_list[$k]['ctr_score'] < 80){
 						$complete = false;
@@ -177,6 +194,9 @@
 				}
 			}
 			$temp .= $t . ',';
+			//201103 추가 - 이도욱
+            array_push( $arr['score2'], $temp2);
+            ///////
 		}
 		$arr['complete'] = ($complete)?'O':'X';
 		$arr['detail'] = substr($temp, 0, -1);

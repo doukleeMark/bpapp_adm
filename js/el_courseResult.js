@@ -47,12 +47,35 @@ $(document).ready(function() {
 			if(data.complete == 'X')
 				$("td", row).eq(5).html("<span class='text-danger'>X</span>");
 			
-			// 점수 
+			// 점수
 			if(data.score < 80 || data.complete == 'X')
-				$("td", row).eq(6).html("<span class='text-danger'>" + data.score + "</span>");
+				//삼항연산자 추가해도 되는지 물어보기
+				$("td", row).eq(6).html("<span class='text-danger'>" + data.score ? '-':data.score + "</span>");
+
+			//201103 추가 - 이도욱
+			//테스트명
+			var td7= '';
+			data.score2.forEach(function(scoreData,index){
+				if(index > 0){
+					td7 += ",";
+				}
+				td7 += "<span data-toggle='tooltip'  data-container='body' data-placement='top' title='"+scoreData.title+"'>"+scoreData.score+"</span>";
+			});
+			$("td",row).eq(7).html(td7);
+			//
 
 			// 초기화
 			$("td", row).eq(8).html("<button type='button' class='btn btn-mini btn-danger btn-reset'>초기화</button> <button type='button' class='btn btn-mini btn-primary btn-score_reset'>점수 초기화</button>");
+		},
+		initComplete:function(settings){
+			////201104 추가 - 이도욱
+			//tooltip 공식 홈페이지에서 직접 초기화를 해야한다함 전체 tooltip 초기화
+			$('[data-toggle="tooltip"]').tooltip({
+				delay: {
+					show: 30,
+					hide: 50
+				}
+			});
 		}
 	});
 
@@ -169,5 +192,4 @@ $(document).ready(function() {
 	$("#btn-excel").on("click", function(e) {
 		location.href="excel/testResult_excel.php?c=" + co_idx;
 	});
-
 });
