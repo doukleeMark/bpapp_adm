@@ -76,14 +76,14 @@
                                             <?=$courseRes['co_start']?>~<?=$courseRes['co_end']?>
                                             (
                                                  <?
-                                                    if($courseRes['co_status'] == 2){
+                                                    if($courseRes['co_status'] == -2){
                                                         echo "<span class='label bg-cons bg-dark'>DONE</span>";
                                                     } else if ($courseRes['co_status'] == -1){
                                                         echo "<span class='label bg-cons bg-blue'>INFINITE</span>";
                                                     } else if ($courseRes['co_status'] == 0){
                                                         echo "<span class='label bg-cons bg-red'>D-day</span>";
                                                     } else {
-                                                        echo "<span class='label bg-cons bg-red'>D-" + $courseRes['co_status'] + "</span>";
+                                                        echo "<span class='label bg-cons bg-red'>D- ".$courseRes['co_status']." </span>";
                                                     }
                                                  ?>
                                             )

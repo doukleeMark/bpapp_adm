@@ -508,43 +508,55 @@
 		// Course
 		// 201103 추가 - 이도욱
 		function getCourseThreadInfo($_idx) {
-        			$sql = "select";
-                    $sql .= " co.idx, co.co_title as co_title, co.co_status as co_status,";
-                    $sql .= " co.co_dt_start as co_start, co.co_dt_end as co_end,";
-                    $sql .= " ifnull(cu.cnt, 0) as cnt, ifnull(cu.com_cnt, 0) as com_cnt";
-                    $sql .= " from course co";
-        			$sql .= " left join (";
-                    $sql .= " select";
-                    $sql .= " cu_co_id, count(cu_co_id) as cnt, count(if(cu_complete=1,1,null)) as com_cnt";
-                    $sql .= " from course_user group by cu_co_id";
-                    $sql .= " ) cu";
-                    $sql .= " on co.idx = cu.cu_co_id ";
-                    $sql .=  "where co.idx=?";
-        			$stmt = $this->Prepare($sql);
-        			if($stmt === false) {
-        				// logwrite('getCourseInfo Statement 생성 실패 : ' . $this->Error());
-        				exit();
-        			}
-        			$bind = mysqli_stmt_bind_param($stmt, 'i', $_idx);
-        			if($bind === false) {
-        				// logwrite('getCourseInfo 파라미터 바인드 실패 : ' . $this->Error());
-        				exit();
-        			}
-        			$exec = mysqli_stmt_execute($stmt);
-        			if($exec === false) {
-        				// logwrite('getCourseInfo 쿼리 실행 실패 : ' . $this->Error());
-        				exit();
-        			}
-        			$r = mysqli_stmt_get_result($stmt);
-        			if($r) {
-        				$res = mysqli_fetch_assoc($r);
-        				mysqli_free_result($r);
-        			} else {
-        				// logwrite('getCourseInfo 결과 데이터 받기 실패 : ' . $this->Error());
-        				exit();
-        			}
-        			mysqli_stmt_close($stmt);
-        			return $res;
+            $sql = "select";
+            $sql .= " co.idx, co.co_title as co_title, co.co_status as co_status,";
+            $sql .= " co.co_dt_start as co_start, co.co_dt_end as co_end,";
+            $sql .= " ifnull(cu.cnt, 0) as cnt, ifnull(cu.com_cnt, 0) as com_cnt ";
+            $sql .= " from course co";
+            $sql .= " left join (";
+            $sql .= " select";
+            $sql .= " cu_co_id, count(cu_co_id) as cnt, count(if(cu_complete=1,1,null)) as com_cnt";
+            $sql .= " from course_user group by cu_co_id";
+            $sql .= " ) cu";
+            $sql .= " on co.idx = cu.cu_co_id ";
+            $sql .=  "where co.idx=?";
+            $stmt = $this->Prepare($sql);
+            if($stmt === false) {
+                // logwrite('getCourseThreadInfo Statement 생성 실패 : ' . $this->Error());
+                exit();
+            }
+            $bind = mysqli_stmt_bind_param($stmt, 'i', $_idx);
+            if($bind === false) {
+                // logwrite('getCourseThreadInfo 파라미터 바인드 실패 : ' . $this->Error());
+                exit();
+            }
+            $exec = mysqli_stmt_execute($stmt);
+            if($exec === false) {
+                // logwrite('getCourseThreadInfo 쿼리 실행 실패 : ' . $this->Error());
+                exit();
+            }
+            $r = mysqli_stmt_get_result($stmt);
+            if($r) {
+                $res = mysqli_fetch_assoc($r);
+                mysqli_free_result($r);
+            } else {
+                // logwrite('getCourseThreadInfo 결과 데이터 받기 실패 : ' . $this->Error());
+                exit();
+            }
+            mysqli_stmt_close($stmt);
+            if($res['co_status'] == 1){
+                $res['co_status'] = -1;
+            }else if($res['co_status'] == 2){
+                $now = new DateTime(date("Y-m-d"));
+                $datetime = new DateTime($res['co_end']);
+                if($now > $datetime){
+                    $res['co_status'] = -2;
+                }else{
+                    $difference = $now->diff($datetime);
+                    $res['co_status'] = $difference->days;
+                }
+            }
+            return $res;
         }
         //
 
