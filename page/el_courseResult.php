@@ -149,6 +149,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 
 <script src="/js/common.js" type="text/javascript"></script>
-<script src="/js/el_courseResult.js?v=20041702" type="text/javascript"></script>
+<script src="/js/el_courseResult.js?v=20110501" type="text/javascript"></script>
 </body>
 </html>
