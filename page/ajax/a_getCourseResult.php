@@ -20,7 +20,8 @@
                 LEFT JOIN unit_data ui 
                 ON cu.cu_ur_unit = ui.idx 
             WHERE cu.cu_co_id = {$co_info['idx']} 
-                AND cu.cu_ur_id = ur.idx ";
+                AND cu.cu_ur_id = ur.idx
+                AND ur_hidden = 0";
     $row = $DB->GetAll($sql);
 
     $totalCount = count($row);
