@@ -506,7 +506,7 @@
 		}
 
 		// Course
-		// 201103 추가 - 이도욱
+		// 201103 추가 - 이도욱 21/01/11 이도욱 퇴사자 관련 변경
 		function getCourseThreadInfo($_idx) {
             $sql = "select";
             $sql .= " co.idx, co.co_title as co_title, co.co_status as co_status,";
@@ -516,10 +516,12 @@
             $sql .= " left join (";
             $sql .= " select";
             $sql .= " cu_co_id, count(cu_co_id) as cnt, count(if(cu_complete=1,1,null)) as com_cnt";
-            $sql .= " from course_user group by cu_co_id";
+            $sql .= " from course_user ";
+            $sql .= " where cu_ur_id in (select idx from user_data where ur_hidden = 0)";
+            $sql .= " group by cu_co_id";
             $sql .= " ) cu";
             $sql .= " on co.idx = cu.cu_co_id ";
-            $sql .=  "where co.idx=?";
+            $sql .=  "where co.idx=? ";
             $stmt = $this->Prepare($sql);
             if($stmt === false) {
                 // logwrite('getCourseThreadInfo Statement 생성 실패 : ' . $this->Error());

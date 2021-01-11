@@ -7,7 +7,7 @@
 	$co_info = $DB->GetOne($sql);
 
     if(!isset($co_info['idx']))return;
-
+    // 이도욱 21/01/11일 수정 -- 퇴사자 관련
 	$sql = "SELECT 
                 cu.* ,
 				ur.idx as ur_idx,
@@ -21,6 +21,7 @@
                 ON cu.cu_ur_unit = ui.idx 
             WHERE cu.cu_co_id = {$co_info['idx']} 
                 AND cu.cu_ur_id = ur.idx
+                AND cu_ur_id in (select idx from user_data where ur_hidden = 0)
                 AND ur_hidden = 0";
     $row = $DB->GetAll($sql);
 

@@ -50,10 +50,11 @@
                 co.co_dt_start, co.co_dt_end, co.co_dt_update, ifnull(cu.cnt, 0) as cnt, 
                 ifnull(cu.com_cnt, 0) as com_cnt 
             from course co ";
+            // 이도욱 21/01/11일 수정 -- 퇴사자 관련
     $sql .= "left join (    
-                select 
+                select
                     cu_co_id, count(cu_co_id) as cnt, count(if(cu_complete=1,1,null)) as com_cnt 
-                from course_user group by cu_co_id
+                from course_user WHERE cu_ur_id in (select idx from user_data where ur_hidden = 0) group by cu_co_id
             ) cu 
             on co.idx = cu.cu_co_id ";
     $sql .= "where co.co_closed = 0 ";
@@ -85,9 +86,11 @@
 				$row['no'] = $count;
             } else if ($aColumns[$i] == "com_cnt") {
 				// 테스트가 없는 컨텐츠 이수 개수 더하기
+				// 이도욱 21/01/11일 수정 -- 퇴사자 관련
 				$sql = "SELECT cu.cu_ur_id, cu.cu_complete
-						FROM course_user cu 
-						WHERE cu.cu_co_id = {$aRow['idx']} ";
+						FROM course_user cu
+						WHERE cu.cu_co_id = {$aRow['idx']}
+						AND cu_ur_id in (select idx from user_data where ur_hidden = 0)";
 				$cu_row = $DB->GetAll($sql);
 
 				$complete_cnt = 0;
