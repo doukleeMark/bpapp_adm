@@ -113,14 +113,35 @@
 		// total : 컨텐츠 총 개수 
 		// non_t_cnt : 테스트가 없는 컨텐츠 개수 
 		// cnt : 테스트가 없는 컨텐츠 중에 재생을 완료한 개수
+
+	    /*
+	        210316 변경 - 이도욱
+	        cc의 cc_ct_id 가 0인현상 임시 대처
+	    */
+	    $sql = "INSERT course_contents_his (idx , cc_co_id , cc_ct_id , cc_order )
+        	                SELECT
+        	                    idx , cc_co_id , cc_ct_id , cc_order
+                            FROM
+        	                   course_contents
+        	                WHERE
+        	                    cc_co_id = 0 OR
+                                cc_ct_id = 0"
+        $DB->Execute($sql);
+	    $sql = "DELETE
+	                FROM
+	                   course_contents
+	                WHERE
+	                    cc_co_id = 0 OR
+	                    cc_ct_id = 0"
+	    $DB->Execute($sql);
 		$sql = "SELECT 
 					COUNT(cp.idx) AS cnt, 
 					(SELECT COUNT(ct.idx) 
                     FROM contents ct, course_contents cc 
-                    WHERE cc.cc_co_id = {$co_info['idx']} AND ct.idx = cc.cc_ct_id AND ct.ct_test_count = 0) AS non_t_cnt, 
+                    WHERE cc.cc_co_id = {$co_info['idx']} AND ct.idx = cc.cc_ct_id AND ct.ct_test_count = 0 AND cc.cc_co_id != 0 AND cc.cc_ct_id != 0) AS non_t_cnt,
 					(SELECT COUNT(cc.idx) 
                     FROM course_contents cc 
-                    WHERE cc.cc_co_id = {$co_info['idx']}) AS total
+                    WHERE cc.cc_co_id = {$co_info['idx']} AND cc.cc_co_id != 0 AND cc.cc_ct_id != 0) AS total
 	   			FROM
 					contents ct, 	
 					s3_data s3,
