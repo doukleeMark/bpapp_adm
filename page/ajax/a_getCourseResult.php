@@ -125,14 +125,14 @@
         	                   course_contents
         	                WHERE
         	                    cc_co_id = 0 OR
-                                cc_ct_id = 0"
+                                cc_ct_id = 0";
         $DB->Execute($sql);
 	    $sql = "DELETE
 	                FROM
 	                   course_contents
 	                WHERE
 	                    cc_co_id = 0 OR
-	                    cc_ct_id = 0"
+	                    cc_ct_id = 0";
 	    $DB->Execute($sql);
 		$sql = "SELECT 
 					COUNT(cp.idx) AS cnt, 
