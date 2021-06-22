@@ -51,7 +51,7 @@
 	$sheet->getColumnDimension("A")->setWidth(6);
 	$sheet->setCellValue("B1", "Title");
 	$sheet->getColumnDimension("B")->setWidth(60);
-	$sheet->setCellValue("C1", "Title");
+	$sheet->setCellValue("C1", "Content");
     $sheet->getColumnDimension("C")->setWidth(60);
 	$sheet->setCellValue("D1", "Writer");
 	$sheet->getColumnDimension("D")->setWidth(7);
