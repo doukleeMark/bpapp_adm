@@ -51,28 +51,30 @@
 	$sheet->getColumnDimension("A")->setWidth(6);
 	$sheet->setCellValue("B1", "Title");
 	$sheet->getColumnDimension("B")->setWidth(60);
-	$sheet->setCellValue("C1", "Writer");
-	$sheet->getColumnDimension("C")->setWidth(7);
-	$sheet->setCellValue("D1", "Brand");
-	$sheet->getColumnDimension("D")->setWidth(10);
-	$sheet->setCellValue("E1", "Unit");
-	$sheet->getColumnDimension("E")->setWidth(8);
-	$sheet->setCellValue("F1", "Team");
-	$sheet->getColumnDimension("F")->setWidth(16);
-	$sheet->setCellValue("G1", "Choice");
-	$sheet->getColumnDimension("G")->setWidth(8);
-	$sheet->setCellValue("H1", "Like");
-	$sheet->getColumnDimension("H")->setWidth(5);
-	$sheet->setCellValue("I1", "Hit");
+	$sheet->setCellValue("C1", "Title");
+    $sheet->getColumnDimension("C")->setWidth(60);
+	$sheet->setCellValue("D1", "Writer");
+	$sheet->getColumnDimension("D")->setWidth(7);
+	$sheet->setCellValue("E1", "Brand");
+	$sheet->getColumnDimension("E")->setWidth(10);
+	$sheet->setCellValue("F1", "Unit");
+	$sheet->getColumnDimension("F")->setWidth(8);
+	$sheet->setCellValue("G1", "Team");
+	$sheet->getColumnDimension("G")->setWidth(16);
+	$sheet->setCellValue("H1", "Choice");
+	$sheet->getColumnDimension("H")->setWidth(8);
+	$sheet->setCellValue("I1", "Like");
 	$sheet->getColumnDimension("I")->setWidth(5);
-    $sheet->setCellValue("J1", "Follow");
-    $sheet->getColumnDimension("J")->setWidth(8);
-	$sheet->setCellValue("K1", "Share");
-	$sheet->getColumnDimension("K")->setWidth(9);
-	$sheet->setCellValue("L1", "State");
-	$sheet->getColumnDimension("L")->setWidth(15);
-	$sheet->setCellValue("M1", "Date");
-	$sheet->getColumnDimension("M")->setWidth(20);
+	$sheet->setCellValue("J1", "Hit");
+	$sheet->getColumnDimension("J")->setWidth(5);
+    $sheet->setCellValue("K1", "Follow");
+    $sheet->getColumnDimension("K")->setWidth(8);
+	$sheet->setCellValue("L1", "Share");
+	$sheet->getColumnDimension("L")->setWidth(9);
+	$sheet->setCellValue("M1", "State");
+	$sheet->getColumnDimension("M")->setWidth(15);
+	$sheet->setCellValue("N1", "Date");
+	$sheet->getColumnDimension("N")->setWidth(20);
 		
 	$cell = 2;
 	for($i=0; $i<count($row);$i++){
@@ -140,18 +142,19 @@
 
 		$spreadsheet->setActiveSheetIndex(0)
 			->setCellValue("A$cell", $no)
-			->setCellValue("B$cell", ($addTitle.$row[$i]['bp_title'])) 
-			->setCellValue("C$cell", $row[$i]['ur_name'])
-			->setCellValue("D$cell", $brandName)
-			->setCellValue("E$cell", $unitName)
-			->setCellValue("F$cell", $row[$i]['ur_team'])
-			->setCellValue("G$cell", $choice)
-			->setCellValue("H$cell", $row[$i]['bl_cnt'])
-			->setCellValue("I$cell", $row[$i]['bp_hit'])
-            ->setCellValue("J$cell", $row[$i]['bp_new_fu'])
-			->setCellValue("K$cell", $share)
-			->setCellValue("L$cell", $stateText)
-			->setCellValue("M$cell", $row[$i]['bp_date']);
+			->setCellValue("B$cell", ($addTitle.$row[$i]['bp_title']))
+			->setCellValue("C$cell", $row[$i]['bp_content'])
+			->setCellValue("D$cell", $row[$i]['ur_name'])
+			->setCellValue("E$cell", $brandName)
+			->setCellValue("F$cell", $unitName)
+			->setCellValue("G$cell", $row[$i]['ur_team'])
+			->setCellValue("H$cell", $choice)
+			->setCellValue("I$cell", $row[$i]['bl_cnt'])
+			->setCellValue("J$cell", $row[$i]['bp_hit'])
+            ->setCellValue("K$cell", $row[$i]['bp_new_fu'])
+			->setCellValue("L$cell", $share)
+			->setCellValue("M$cell", $stateText)
+			->setCellValue("N$cell", $row[$i]['bp_date']);
 
 		$cell++;
 	}
