@@ -183,6 +183,7 @@
 								</div>
 								
 								<div class="col-md-6">
+
 									<div class="form-group">
 										<label class="form-label">신입/경력</label>
 										<div class="input-with-icon right">  
@@ -231,19 +232,56 @@
 														}
 														echo "<option value=\"".$codeLV[$i]['idx']."\" " . $selectedChar . " >".$codeLV[$i]['code_name']."</option>";
 													}
+
 												?>
 											</select>
 										</div>
 									</div>
+                                    <div class="form-group">
+                                        <label class="form-label">Sales Skill</label>
+                                        <div class="input-with-icon right">
+                                            <i class=""></i>
+                                            <select name="code_ss" id="code_ss" class="select2 form-control" multiple="multiple" style="width: 100%;">
+                                                <?php
+
+                                                $codeSS = $codeClass->getByGroupList("SS");
+
+                                                $_sel = str_replace("X", "", $contRes['ct_code_ss']);
+                                                $sel_list = explode(",", $_sel);
+
+                                                for($i=0; $i<count($codeSS); $i++) {
+                                                    for($j=0; $j<count($sel_list);$j++){
+                                                        $selectedChar = "";
+                                                        if($sel_list[$j]==$codeSS[$i]['idx']){
+                                                            $selectedChar = "selected";
+                                                            break;
+                                                        }
+                                                    }
+                                                    echo "<option value=\"".$codeSS[$i]['idx']."\" " . $selectedChar . " >".$codeSS[$i]['code_name']."</option>";
+                                                }
+
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
 									<div class="form-group">
-										<label class="type-label">Type</label>
+										<label class="type-label">소속</label>
 										<div class="radio radio-primary">
-											<input id="radio_v" type="radio" name="ct_type" value="V" <?=($contRes['ct_type']=="V"|| !isset($contRes))?"checked":"";?> <?=$disabled?>>
-											<label for="radio_v">Video</label>
-											<input id="radio_a" type="radio" name="ct_type" value="A" <?=($contRes['ct_type']=="A")?"checked":"";?> <?=$disabled?>>
-											<label for="radio_a">Audio</label>
+											<input id="radio_in" type="radio" name="open_type" value="0"  <?=$contRes['ct_open_type']==0?'checked':''?> <?=$_SESSION['USER_LEVEL']<9?"disabled":"";?> <?=$actionType=='insert'?'checked':''?>>
+											<label for="radio_in">내부공개</label>
+											<input id="radio_out" type="radio" name="open_type" value="1" <?=$contRes['ct_open_type']==1?'checked':''?> <?=$_SESSION['USER_LEVEL']<9?"disabled":"";?> >
+											<label for="radio_out">전체공개</label>
 										</div>
 									</div>
+                                    <div class="form-group">
+                                        <label class="type-label">Type</label>
+                                        <div class="radio radio-primary">
+                                            <input id="radio_v" type="radio" name="ct_type" value="V" <?=($contRes['ct_type']=="V"|| !isset($contRes))?"checked":"";?> <?=$disabled?>>
+                                            <label for="radio_v">Video</label>
+                                            <input id="radio_a" type="radio" name="ct_type" value="A" <?=($contRes['ct_type']=="A")?"checked":"";?> <?=$disabled?>>
+                                            <label for="radio_a">Audio</label>
+                                        </div>
+                                    </div>
 									<?php
 										if($contRes['ct_s3_file']>0){
 											$fileInfo = $s3Class->getS3Info($contRes['ct_s3_file']);

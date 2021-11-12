@@ -29,7 +29,7 @@
 					?>
 				</ul>
 			</li>
-			<li class="<?=($depth[0] == 'bp')?'active open':'';?>"> <a href="javascript:;"> <i class="fa fa-star"></i> <span class="title">Best Practice</span> <span class="arrow <?=($depth[0] == 'bp')?'open':'';?>"></span> </a>
+			<!--<li class="<?=($depth[0] == 'bp')?'active open':'';?>"> <a href="javascript:;"> <i class="fa fa-star"></i> <span class="title">Best Practice</span> <span class="arrow <?=($depth[0] == 'bp')?'open':'';?>"></span> </a>
 				<ul class="sub-menu">
 					<li class="<?=($_GET['page'] == 'bp_list')?'active':'';?>"> <a href="?page=bp_list"><span class="title">Best Practice</span></a> </li>
 				</ul>
@@ -58,12 +58,12 @@
 					<li class="<?=($_GET['page'] == 'survey_list')?'active':'';?>"> <a href="?page=survey_list"><span class="title">Quick Poll List</span></a> </li>
 					<li class="<?=($_GET['page'] == 'survey_result')?'active':'';?>"> <a href="?page=survey_result"><span class="title">Quick Poll Result</span></a> </li>
 				</ul>
-			</li>
+			</li>-->
 			<li class="<?=($depth[0] == 'report')?'active open':'';?>"> <a href="javascript:;"> <i class="fa fa-bar-chart-o"></i> <span class="title">Report</span> <span class="arrow <?=($depth[0] == 'report')?'open':'';?>"></span> </a>
 				<ul class="sub-menu">
 					<li class="<?=($_GET['page'] == 'report_login')?'active':'';?>"> <a href="?page=report_login"><span class="title">Login Report</span></a> </li>
-					<li class="<?=($_GET['page'] == 'report_market')?'active':'';?>"> <a href="?page=report_market"><span class="title">Market Report</span></a> </li>
-					<li class="<?=($_GET['page'] == 'report_data')?'active':'';?>"> <a href="?page=report_data"><span class="title">Data Report</span></a> </li>
+					<!--<li class="<?=($_GET['page'] == 'report_market')?'active':'';?>"> <a href="?page=report_market"><span class="title">Market Report</span></a> </li>
+					<li class="<?=($_GET['page'] == 'report_data')?'active':'';?>"> <a href="?page=report_data"><span class="title">Data Report</span></a> </li>-->
 				</ul>
 			</li>
 			<?php

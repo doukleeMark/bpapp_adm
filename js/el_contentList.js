@@ -35,6 +35,7 @@ $(document).ready(function() {
 			{ data: "rating" },
 			{ data: "ct_hit" },
 			{ data: "ct_dt_update" },
+			{ data: "ct_open_type" },
 			{ data: "idx" },
 			{ data: "ct_open" }
 		],
@@ -84,14 +85,25 @@ $(document).ready(function() {
 					.html(rating.toFixed(1));
 			}
 
+			// 공개범위 라벨
+			let openTypeHtml;
+			if(data.ct_open_type == 0) {
+				openTypeHtml = '<div class="label label-warning">내부</div>'
+			} else {
+				openTypeHtml = '<div class="label label-success">전체</div>'
+			}
+			$("td", row)
+				.eq(9)
+				.html(openTypeHtml);
+
 			// result
-			$("td", row).eq(9).html("<a href='/excel/contentResult_excel.php?ct=" + data.idx + "' class='excel'>excel</a>");
-			
+			$("td", row).eq(10).html("<a href='/excel/contentResult_excel.php?ct=" + data.idx + "' class='excel'>excel</a>");
+
 			// open
 			if(data.ct_open == '1') {
-				$("td", row).eq(10).html("공개");
+				$("td", row).eq(11).html("공개");
 			} else {
-				$("td", row).eq(10).html("<button type='button' class='btn btn-mini btn-white btn-open'>공개하기</button>");
+				$("td", row).eq(11).html("<button type='button' class='btn btn-mini btn-white btn-open'>공개하기</button>");
 			}	
 		}
 	});

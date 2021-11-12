@@ -89,6 +89,51 @@ $(document).ready(function() {
             reset_form($(this));
         }
     } );
+
+    const salesSkillTable = $('#salesSkillTable').DataTable({
+        dom: "rt",
+        language: {
+            lengthMenu: '_MENU_',
+            zeroRecords: '제품 타입을 추가해주세요.',
+            info: '',
+            infoEmpty: '',
+            infoFiltered: ''
+        },
+        paging: false,
+        ajax: {
+            type: 'POST',
+            url: '/page/ajax/a_code.php',
+            data: {
+                actionType: "get",
+                code_group: "SS"
+            }
+        },
+        select: {
+            style: 'single'
+        },
+        columns: [{ data: 'code_name' }],
+        order: [[0, "asc"]],
+        columnDefs: []
+    });
+
+    // Sales Skill 선택
+    salesSkillTable.on( 'select', function ( e, dt, type, indexes ) {
+        if ( type === 'row' ) {
+            const $parent = $(this).closest(".grid-body");
+            const data = salesSkillTable.rows(indexes).data()[0];
+            $parent.find("input[name=idx]").val(data.idx);
+            $parent.find("input[name=type]").val(data.code_name);
+            $parent.find(".add-group").addClass("hidden");
+            $parent.find(".modify-group").removeClass("hidden");
+        }
+    } );
+
+    // Sales Skill 선택 해제
+    salesSkillTable.on( 'deselect', function ( e, dt, type, indexes ) {
+        if ( type === 'row' ) {
+            reset_form($(this));
+        }
+    } );
     
     $(".btnAddType").on('click', function(e){
         const $parent = $(this).closest(".grid-body");
@@ -103,6 +148,9 @@ $(document).ready(function() {
         }else if($parent.hasClass("diseases")){
             data.code_group = 'DI';
             action(data, $(this), diseasesTable);
+        }else if($parent.hasClass("salesSkill")){
+            data.code_group = 'SS';
+            action(data, $(this), salesSkillTable);
         }
     });
 
@@ -119,6 +167,9 @@ $(document).ready(function() {
         }else if($parent.hasClass("diseases")){
             data.code_group = 'DI';
             action(data, $(this), diseasesTable);
+        }else if($parent.hasClass("salesSkill")){
+            data.code_group = 'SS';
+            action(data, $(this), salesSkillTable);
         }
     });
 
@@ -135,6 +186,9 @@ $(document).ready(function() {
         }else if($parent.hasClass("diseases")){
             data.code_group = 'DI';
             action(data, $(this), diseasesTable);
+        }else if($parent.hasClass("salesSkill")){
+            data.code_group = 'SS';
+            action(data, $(this), salesSkillTable);
         }
     });
 

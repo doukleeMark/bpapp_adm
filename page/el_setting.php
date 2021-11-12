@@ -59,7 +59,7 @@
 				<h3>Type - <span class="semi-bold">Setting</span></h3>
 			</div>
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-md-4">
 					<div class="grid simple">
 						<div class="grid-title no-border">
 							<h4><span class="semi-bold">제품</span></h4>
@@ -92,7 +92,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-4">
 					<div class="grid simple">
 						<div class="grid-title no-border">
 							<h4><span class="semi-bold">질환</span></h4>
@@ -125,6 +125,39 @@
 						</div>
 					</div>
 				</div>
+                <div class="col-md-4">
+                    <div class="grid simple">
+                        <div class="grid-title no-border">
+                            <h4><span class="semi-bold">Sales Skill</span></h4>
+                        </div>
+                        <div class="grid-body no-border salesSkill">
+                            <input type="hidden" name="idx" value="0">
+                            <div class="form-inline">
+                                <div class="col-xs-8">
+                                    <input type="text" class="form-control" name="type" placeholder="Skill type">
+                                </div>
+                                <div class="col-xs-4 add-group">
+                                    <button type="button" class="btn btn-primary btnAddType">추가</button>
+                                </div>
+                                <div class="modify-group hidden">
+                                    <div class="col-xs-2">
+                                        <button type="button" class="btn btn-warning btnUpdateType">수정</button>
+                                    </div>
+                                    <div class="col-xs-2" >
+                                        <button type="button" class="btn btn-danger btnDeleteType">삭제</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table table-bordered" c="table-striped " id="salesSkillTable" style="width:100%">
+                                <thead>
+                                <tr>
+                                    <th style="width:100%">열 제목</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
 			</div>
 		</div>
 	</div>

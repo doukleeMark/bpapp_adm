@@ -1,4 +1,5 @@
-<?php	
+
+<?php
 	header("Pragma;no-cache");
 	header("Cache-Control;no-cache,must-revalidate");
 

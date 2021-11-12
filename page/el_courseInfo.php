@@ -213,6 +213,7 @@
 											<th style="width:20%">제품</th>
 											<th style="width:49%">제목</th>
 											<th style="width:10%">강의자</th>
+                                            <th style="width:1%">공개범위</th>
 										</tr>
 									</thead>
 								</table>
@@ -226,6 +227,7 @@
 											<th style="width:20%">제품</th>
 											<th style="width:50%">제목</th>
 											<th style="width:10%">강의자</th>
+                                            <th style="width:1%">공개범위</th>
 										</tr>
 									</thead>
 								</table>

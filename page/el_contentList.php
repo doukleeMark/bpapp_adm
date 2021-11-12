@@ -47,9 +47,15 @@
 					<a href="#" class="active">Contents</a>
 				</li>
 			</ul>
-			<div class="page-title"> <i class="icon-custom-left" ></i>
-				<h3>Contents - <span class="semi-bold">List</span></h3>
-			</div>
+			<div class="page-title">
+                <div class="left">
+                    <i class="icon-custom-left" ></i>
+                    <h3>Contents - <span class="semi-bold">List</span></h3>
+                </div>
+                <div class="right">
+                    <button class="btn btn-primary">excel</button>
+                </div>
+            </div>
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="grid simple">
@@ -72,7 +78,8 @@
 										<th style="width:11%"><nobr>RATING</nobr></th>
 										<th style="width:10%"><nobr>HIT</nobr></th>
 										<th style="width:15%"><nobr>DATE</nobr></th>
-										<th style="width:5%"><nobr>RESULT</nobr></th>
+										<th style="width:1%"><nobr>소속</nobr></th>
+										<th style="width:1%"><nobr>RESULT</nobr></th>
 										<th style="width:5%"><nobr>VIEW</nobr></th>
 									</tr>
 								</thead>

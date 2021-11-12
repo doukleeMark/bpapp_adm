@@ -162,6 +162,7 @@ $(document).ready(function () {
 		formData.append('ct_code_di', arrayToString($("#code_di :selected")));
 		formData.append('ct_code_gd', arrayToString($("#code_gd :selected")));
 		formData.append('ct_code_lv', arrayToString($("#code_lv :selected")));
+		formData.append('ct_code_ss', arrayToString($("#code_ss :selected")));
 
 		formData.append('ct_title', $("input[name='ct_title']").val());
 		formData.append('ct_speaker', $("input[name='ct_speaker']").val());

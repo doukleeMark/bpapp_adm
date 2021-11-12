@@ -115,7 +115,7 @@
 												<input name="userTeam" id="userTeam" type="text"  class="form-control" placeholder="Team" value="<?=$userRes['ur_team']?>">
 											</div>
 										</div>
-										<div class="form-group">
+										<!--<div class="form-group">
 											<label class="form-label">팀 등급</label>
 											<div class="input-with-icon right">  
 												<i class=""></i>
@@ -135,9 +135,9 @@
 													?>
 												</select>
 											</div>
-										</div>
+										</div>-->
 										<div class="form-group">
-											<label class="form-label">Position</label>
+											<label class="form-label">직책</label>
 											<div class="input-with-icon right">  
 												<i class=""></i>
 												<select name="userPosition" id="userPosition" class="select2 form-control">
@@ -151,7 +151,8 @@
 																array("value"=>"5", "text"=>"MKT팀장"),
 																array("value"=>"6", "text"=>"그룹장"),
 																array("value"=>"7", "text"=>"본부장"),
-																array("value"=>"8", "text"=>"부문장")
+																array("value"=>"8", "text"=>"부문장"),
+                                                                array("value"=>"9", "text"=>"아카데미"),
 															);
 														
 														for($i=0; $i<count($res); $i++) {
@@ -203,7 +204,16 @@
 												</select>
 											</div>
 										</div>
-										<div class="form-group">
+                                        <div class="form-group">
+                                            <label class="type-label">소속</label>
+                                            <div class="radio radio-primary">
+                                                <input id="radio_in" type="radio" name="open_type" value="0"  <?=$userRes['ur_open_type']==0?'checked':''?> <?=$actionType=='insert'?'checked':''?>>
+                                                <label for="radio_in">내부</label>
+                                                <input id="radio_out" type="radio" name="open_type" value="1" <?=$userRes['ur_open_type']==1?'checked':''?> >
+                                                <label for="radio_out">외부</label>
+                                            </div>
+                                        </div>
+										<!--<div class="form-group">
 											<label class="form-label">하위조직(승인그룹)</label>
 											<div class="input-with-icon right">  
 												<i class=""></i>
@@ -259,7 +269,7 @@
 													?>
 												</select>
 											</div>
-										</div>
+										</div>-->
 									</div>
 								</div>
 								<div class="form-actions">									

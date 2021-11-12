@@ -12,6 +12,7 @@
 
     $sql = "SELECT 
             ct.idx, 
+            ct.ct_open_type,
             ct.ct_title, 
             ct.ct_speaker, 
             ct.ct_tag, 
@@ -24,14 +25,13 @@
 		WHERE ct.ct_delete = 0 AND ct.ct_open = 1 AND ct.idx = cc.cc_ct_id AND cc.cc_co_id = " . $_POST['course_idx'] . " ";
     $sql .= $sOrder;
     $res = $DB->Execute($sql);
-    
     // 총 갯수
     $sql = "select count(ct.idx) as cnt from contents ct, course_contents cc ";
     $sql .= "where ct.idx = cc.cc_ct_id and cc.cc_co_id = " . $_POST['course_idx'] . " ";
     $countRes = $DB->GetOne($sql);
     $cnt = $countRes['cnt'];
 
-    $aColumns = array('idx', 'cc_order', 'ct_title', 'ct_speaker', 'ct_code_pd', 'ct_code_di', 'ct_tag');
+    $aColumns = array('idx', 'cc_order', 'ct_open_type', 'ct_title', 'ct_speaker', 'ct_code_pd', 'ct_code_di', 'ct_tag');
 
     $output = array(
         "draw" => $draw,
@@ -95,6 +95,5 @@
         }
         $output['data'][] = $row;
     }
-    
     echo json_encode($output);
 ?>

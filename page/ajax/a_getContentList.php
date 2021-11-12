@@ -9,7 +9,7 @@
     }
 
     // Ordering
-    $orderColumns = array('c.idx', 'c.idx', 'c.ct_title', 'c.ct_speaker', 'play_sec', 'c.ct_type', 'rating', 'c.ct_hit', 'c.ct_dt_update', 'c.ct_open');
+    $orderColumns = array('c.idx', 'c.idx', 'c.ct_title', 'c.ct_speaker', 'play_sec', 'c.ct_type', 'rating', 'c.ct_hit', 'c.ct_dt_update', 'c.ct_open_type', 'c.idx', 'c.ct_open');
 
     if (isset($_POST['order'])) {
         $sOrder = "ORDER BY ";
@@ -46,7 +46,7 @@
     $add_sql = '';
     
     $sql = "SELECT 
-            c.idx, c.ct_title, c.ct_speaker, c.ct_type, c.ct_hit, c.ct_dt_update, c.ct_open, 
+            c.idx, c.ct_title, c.ct_speaker, c.ct_type, c.ct_hit, c.ct_dt_update, c.ct_open_type, c.ct_open, 
             ifnull(s3.s3_play_sec, 0) as play_sec, 
             ifnull(cr.rating, '-') as rating 
         FROM contents c ";
@@ -63,7 +63,7 @@
     $countRes = $DB->GetOne($sql);
     $cnt = $countRes['cnt'];
 
-    $aColumns = array('idx', 'no', 'ct_title', 'ct_speaker', 'play_sec', 'ct_type', 'rating', 'ct_hit', 'ct_dt_update', 'ct_open');
+    $aColumns = array('idx', 'no', 'ct_title', 'ct_speaker', 'play_sec', 'ct_type', 'rating', 'ct_hit', 'ct_dt_update', 'ct_open_type', 'ct_open');
 
     $output = array(
         "draw" => $draw,

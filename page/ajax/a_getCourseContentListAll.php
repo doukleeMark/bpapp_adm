@@ -15,14 +15,14 @@
     }
 
     // Ordering
-    $orderColumns = array('ct.idx', 'ct.ct_title', 'ct.ct_speaker', 'ct.ct_tag');
+    $orderColumns = array('idx', 'ct_code_di', 'ct_code_pd', 'ct_title', 'ct_speaker', 'ct_open_type');
 
     if (isset($_POST['order'])) {
         $sOrder = "ORDER BY ";
         $sOrder .= $orderColumns[intval($_POST['order'][0]['column'])] . " " . $DB->RealEscapeString($_POST['order'][0]['dir']) . " ";
     }
 
-    $orderColumns = array('ct.idx', 'ct.ct_title', 'ct.ct_speaker', 'ct.ct_tag');
+//    $orderColumns = array('ct.idx', 'ct.ct_title', 'ct.ct_speaker', 'ct.ct_open_type');
     $filterColumns = array('ct.ct_title', 'ct.ct_speaker');
 
     
@@ -63,6 +63,7 @@
 
     $sql = "SELECT 
         ct.idx, 
+        ct.ct_open_type,
         ct.ct_title, 
         ct.ct_speaker, 
         ct.ct_code_pd,
@@ -82,7 +83,7 @@
     $countRes = $DB->GetOne($sql);
     $cnt = $countRes['cnt'];
 
-    $aColumns = array('idx', 'ct_title', 'ct_speaker', 'ct_code_di', 'ct_code_pd', 'ct_tag');
+    $aColumns = array('idx', 'ct_code_di', 'ct_code_pd', 'ct_title', 'ct_speaker', 'ct_open_type');
 
     $output = array(
         "draw" => $draw,

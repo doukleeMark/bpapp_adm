@@ -226,12 +226,13 @@ $(document).ready(function() {
 				blurable: true
 			},
 			columns: [
-				{ data: "idx" }, 
-				{ data: "cc_order" }, 
-				{ data: "ct_code_di" }, 
-				{ data: "ct_code_pd" }, 
-				{ data: "ct_title" }, 
-				{ data: "ct_speaker" }
+				{ data: "idx" },
+				{ data: "cc_order" },
+				{ data: "ct_code_di" },
+				{ data: "ct_code_pd" },
+				{ data: "ct_title" },
+				{ data: "ct_speaker" },
+				{ data: "ct_open_type" },
 			],
 			ordering: false,
 			columnDefs: [],
@@ -242,6 +243,18 @@ $(document).ready(function() {
 				$("td", row)
 					.eq(0)
 					.html("<i class='fa fa-bars'></i>");
+
+				// 공개범위 라벨
+				let openTypeHtml;
+				if(data.ct_open_type == 0) {
+					openTypeHtml = '<div class="label label-warning">내부</div>'
+				} else {
+					openTypeHtml = '<div class="label label-success">외부</div>'
+				}
+				$("td", row)
+					.eq(6)
+					.html(openTypeHtml);
+
 			}
 		});
 
@@ -324,18 +337,41 @@ $(document).ready(function() {
 			},
 			columns: [
 				{ data: "idx" }, 
-				{ data: "ct_code_di" }, 
-				{ data: "ct_code_pd" }, 
+				{ data: "ct_code_di" },
+				{ data: "ct_code_pd" },
 				{ data: "ct_title" }, 
-				{ data: "ct_speaker" }
+				{ data: "ct_speaker" },
+				{ data: "ct_open_type" },
 			],
-			order: [[1, "asc"]],
+			order: [[0, "asc"]],
 			columnDefs: [
 				{
 					targets: 0,
 					visible: false
+				},
+				{
+					targets: 1,
+					sorting : false,
+					orderable : false,
+				},
+				{
+					targets: 2,
+					orderable : false,
 				}
 			],
+			rowCallback: function(row, data, index) {
+				// 공개범위 라벨
+				let openTypeHtml;
+				if(data.ct_open_type == 0) {
+					openTypeHtml = '<div class="label label-warning">내부</div>'
+				} else {
+					openTypeHtml = '<div class="label label-success">외부</div>'
+				}
+				$("td", row)
+					.eq(4)
+					.html(openTypeHtml);
+
+			},
 			initComplete: function(settings, json) {
 				const $filter_group = $("#notIncludedContentTable").closest(".dataTables_wrapper").find(".filter-group");
 				
