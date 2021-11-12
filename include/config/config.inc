@@ -35,7 +35,7 @@
 	// PUSH SERVER
 	define('PUSH_SERVER', 'http://133.186.212.15:7788/fcm/sendPush');
 
-	error_reporting(E_ALL ^ E_NOTICE);
+	// error_reporting(E_ALL ^ E_NOTICE);
 
 	$DB = new DBclass();
 ?>
