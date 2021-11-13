@@ -72,7 +72,8 @@
 
 		/* User Insert 기능 */
 		function userInsert($_obj) {
-			$sql = "insert into user_data(ur_id, ur_pw, ur_name, ur_team, ur_unit, ur_level, ur_position, ur_teamlevel, ur_group_low, ur_group_high, ur_group_level, ur_choice_level, ur_dt_join) values(";
+			// $sql = "insert into user_data(ur_id, ur_pw, ur_name, ur_team, ur_unit, ur_level, ur_position, ur_teamlevel, ur_group_low, ur_group_high, ur_group_level, ur_choice_level, ur_dt_join) values(";
+			$sql = "insert into user_data(ur_id, ur_pw, ur_name, ur_team, ur_unit, ur_level, ur_position, ur_open_type, ur_dt_join) values(";
 			$sql .= "'" . addslashes(trim(strtolower($_obj['id']))) . "', ";
 			$sql .= "PASSWORD('" . addslashes($_obj['password']) . "'), ";
 			$sql .= "'" . addslashes($_obj['name']) . "', ";
@@ -80,11 +81,7 @@
 			$sql .= $_obj['unit'] . ", ";
 			$sql .= $_obj['level'] . ", ";
 			$sql .= $_obj['position'] . ", ";
-			$sql .= $_obj['teamlevel'] . ", ";
-			$sql .= "'" . $_obj['low'] . "', ";
-			$sql .= "'" . $_obj['high'] . "', ";
-			$sql .= $_obj['grouplevel'] . ", ";
-			$sql .= $_obj['choicelevel'] . ", ";
+			$sql .= $_obj['open_type'] . ", ";
 			$sql .= " sysdate())";
 			$this->Execute($sql);
 			return $this->Insert_ID();
@@ -98,11 +95,12 @@
 			$sql .= "ur_unit=" . $_obj['unit'] . ", ";
 			$sql .= "ur_level=" . $_obj['level'] . ", ";
 			$sql .= "ur_position=" . $_obj['position'] . ", ";
-			$sql .= "ur_teamlevel=" . $_obj['teamlevel'] . ", ";
-			$sql .= "ur_group_low='" . addslashes($_obj['low']) . "', ";
-			$sql .= "ur_group_high='" . addslashes($_obj['high']) . "', ";
-			$sql .= "ur_group_level=" . $_obj['grouplevel'] . ", ";
-			$sql .= "ur_choice_level=" . $_obj['choicelevel'] . " ";
+			$sql .= "ur_open_type=" . $_obj['open_type'] . " ";
+			// $sql .= "ur_teamlevel=" . $_obj['teamlevel'] . ", ";
+			// $sql .= "ur_group_low='" . addslashes($_obj['low']) . "', ";
+			// $sql .= "ur_group_high='" . addslashes($_obj['high']) . "', ";
+			// $sql .= "ur_group_level=" . $_obj['grouplevel'] . ", ";
+			// $sql .= "ur_choice_level=" . $_obj['choicelevel'] . " ";
 			$sql .= "where idx=" . $_obj['idx'];
 			$this->Execute($sql);
 			return;

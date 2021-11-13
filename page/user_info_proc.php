@@ -5,6 +5,7 @@
 	$userClass = new UserClass();
 
 	if($_POST['actionType']=="insert" || $_POST['actionType']=="update")
+    logwrite(json_encode($_POST));
 	{
 		$obj = array(
 					'idx'=>$_POST['idx'],
@@ -15,11 +16,12 @@
 					'unit'=>$_POST['userUnit'],
 					'level'=>$_POST['userLevel'],
 					'position'=>$_POST['userPosition'],
-					'teamlevel'=>$_POST['userTeamlevel'],
-					'low'=>$_POST['userGroupLow'],
-					'high'=>$_POST['userGroupHigh'],
-					'grouplevel'=>$_POST['userGroupLevel'],
-					'choicelevel'=>$_POST['userChoiceLevel']);
+//					'teamlevel'=>$_POST['userTeamlevel'],
+//					'low'=>$_POST['userGroupLow'],
+//					'high'=>$_POST['userGroupHigh'],
+//					'grouplevel'=>$_POST['userGroupLevel'],
+//					'choicelevel'=>$_POST['userChoiceLevel'],
+                    'open_type'=>$_POST['open_type']);
 	}
 
 	if($_POST['actionType']=="insert") {

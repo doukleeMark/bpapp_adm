@@ -48,13 +48,8 @@
 				</li>
 			</ul>
 			<div class="page-title">
-                <div class="left">
-                    <i class="icon-custom-left" ></i>
-                    <h3>Contents - <span class="semi-bold">List</span></h3>
-                </div>
-                <div class="right">
-                    <button class="btn btn-primary">excel</button>
-                </div>
+                <i class="icon-custom-left" ></i>
+                <h3>Contents - <span class="semi-bold">List</span></h3>
             </div>
 			<div class="row">
 				<div class="col-xs-12">
@@ -93,6 +88,7 @@
                                             <ul class="dropdown-menu">
                                                 <li><a href="/?page=el_contentInfo">New</a></li>
                                                 <li><a href="#" class="btn_delete">Delete</a></li>
+                                                <li><a href="/excel/contentList_excel.php">Export Excel</a></li>
                                             </ul>
                                         </div>
                                     </div>
