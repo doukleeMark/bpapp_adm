@@ -5,7 +5,6 @@
 	$userClass = new UserClass();
 
 	if($_POST['actionType']=="insert" || $_POST['actionType']=="update")
-    logwrite(json_encode($_POST));
 	{
 		$obj = array(
 					'idx'=>$_POST['idx'],

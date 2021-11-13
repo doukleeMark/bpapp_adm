@@ -146,7 +146,7 @@
         /* User Disable */
         function userDisable($_idx) {
             $sql = "update user_data set ur_state=0, ur_hidden=1 where idx={$_idx} ";
-            logwrite($sql);
+            // logwrite($sql);
             return $res = $this->Execute($sql);;
         }
 

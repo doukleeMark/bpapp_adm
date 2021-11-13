@@ -42,7 +42,7 @@
             $sql .= "bp_deny_txt = '{$denyText}' ";
             $sql .= "where idx = {$bp_idx}";
 
-            logwrite($sql);
+            // logwrite($sql);
 
             $DB->Execute($sql);
         }
