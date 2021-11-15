@@ -95,6 +95,6 @@
 <script src="assets/plugins/bootstrap-select2/select2.min.js" type="text/javascript"></script>
 <script src="assets/js/core.js" type="text/javascript"></script>
 <script src="/js/common.js" type="text/javascript"></script>
-<script src="/js/el_contentReport.js?v=1901141537" type="text/javascript"></script> 
+<script src="/js/el_contentReport.js?v=2111150001" type="text/javascript"></script>
 </body>
 </html>

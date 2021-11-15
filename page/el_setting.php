@@ -175,6 +175,6 @@
 <script type="text/javascript" src="/plugins/dataTables/Select-1.2.6/js/dataTables.select.js"></script>
 <script type="text/javascript" src="/plugins/dataTables/dataTables.bootstrap.min.js"></script>
 <script src="/js/common.js" type="text/javascript"></script>
-<script src="/js/el_setting.js?v=201811271922" type="text/javascript"></script> 
+<script src="/js/el_setting.js?v=2111150001" type="text/javascript"></script>
 </body>
 </html>

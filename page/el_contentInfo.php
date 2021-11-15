@@ -503,6 +503,6 @@
 <script type="text/javascript" src="/plugins/bootstrapformhelpers/js/bootstrap-formhelpers-number.js"></script>
 <script src="assets/js/core.js" type="text/javascript"></script>
 <script src="/js/common.js" type="text/javascript"></script>
-<script src="/js/el_contentInfo.js?v=201812131156" type="text/javascript"></script> 
+<script src="/js/el_contentInfo.js?v=2111150001" type="text/javascript"></script>
 </body>
 </html>

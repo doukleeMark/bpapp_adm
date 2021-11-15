@@ -326,6 +326,6 @@
 <script type="text/javascript" src="/plugins/dataTables/Select-1.2.6/js/dataTables.select.js"></script>
 <script src="assets/js/core.js" type="text/javascript"></script>
 <script src="/js/common.js" type="text/javascript"></script>
-<script src="/js/el_courseInfo.js?v=1912091610" type="text/javascript"></script>
+<script src="/js/el_courseInfo.js?v=2111150001" type="text/javascript"></script>
 </body>
 </html>

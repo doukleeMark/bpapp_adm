@@ -317,6 +317,6 @@
 <script src="assets/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
 <script src="assets/js/core.js" type="text/javascript"></script>
 <script src="/js/common.js" type="text/javascript"></script>
-<script src="/js/user_info.js" type="text/javascript"></script> 
+<script src="/js/user_info.js?v=2111150001" type="text/javascript"></script>
 </body>
 </html>
