@@ -42,6 +42,13 @@ $(document).ready(function(){
 			
 			$('td', row).eq(5).html("<span class='label bg-cons " 
 				+ level_color[data[5]] + "'>" + level_txt[data[5]] + "</span>");
+
+
+			let openTypeHtml;
+			if(data[7] == 0) openTypeHtml = '<div class="label label-warning">내부</div>'
+			else openTypeHtml = '<div class="label label-success">외부</div>'
+			$("td", row).eq(6).html(openTypeHtml);
+
 		},
 		"drawCallback": function( settings ) {
 			var _table = this;

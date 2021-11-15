@@ -5,7 +5,7 @@
 	$userClass = new UserClass();
 	$res = $userClass->getUserList($_POST);
 	
-	$aColumns = array( 'idx', 'no', 'ur_id', 'ur_name', 'ur_unit', 'ur_level', 'ur_point_bp', 'ur_dt_last');
+	$aColumns = array( 'idx', 'no', 'ur_id', 'ur_name', 'ur_unit', 'ur_level', 'ur_point_bp', 'ur_open_type', 'ur_dt_last');
 
 	$sql = "select * from unit_data";
 	$units = $DB->GetAll($sql);

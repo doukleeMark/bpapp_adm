@@ -71,6 +71,7 @@
 										<th style="width:5%"><nobr>GROUP</nobr></th>
 										<th style="width:5%"><nobr>LEVEL</nobr></th>
 										<th style="width:8%"><nobr>POINT</nobr></th>
+										<th style="width:5%"><nobr>소속</nobr></th>
 										<th style="width:8%"><nobr>LOGIN</nobr></th>
 									</tr>
 								</thead>
@@ -109,6 +110,6 @@
 <script type="text/javascript" src="/plugins/dataTables/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="/plugins/dataTables/dataTables.bootstrap.min.js"></script>
 <script src="/js/common.js" type="text/javascript"></script>
-<script src="/js/user_list.js?v=2111150001" type="text/javascript"></script>
+<script src="/js/user_list.js?v=2111150002" type="text/javascript"></script>
 </body>
 </html>
