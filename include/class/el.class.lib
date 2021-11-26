@@ -35,10 +35,10 @@
 
 		function contentInsert($_obj) {
 			
-			$sql = "insert into contents(ct_writer, ct_code_pd, ct_code_di, ct_code_gd, ct_code_lv, ct_code_ss, ct_title, ct_desc, ";
+			$sql = "insert into contents(ct_writer, ct_code_pd, ct_code_di, ct_code_gd, ct_code_lv, ct_code_ss, ct_open_type, ct_title, ct_desc, ";
 			$sql .= "ct_speaker, ct_tag, ct_s3_thumb, ct_s3_file, ct_type, ";
 			$sql .= "ct_dt_create, ct_dt_update) ";
-			$sql .= "values( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, sysdate(), sysdate())";
+			$sql .= "values( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, sysdate(), sysdate())";
 			$stmt = $this->Prepare($sql);
 			if($stmt === false) {
 				// logwrite('contentInsert Statement 생성 실패 : ' . $this->Error());
@@ -46,13 +46,14 @@
 			}
 
 			$bind = mysqli_stmt_bind_param($stmt,
-				'isssssssssiis',
+				'isssssissssiis',
 				$_obj['ct_writer'],
 				$_obj['ct_code_pd'],
 				$_obj['ct_code_di'],
 				$_obj['ct_code_gd'],
 				$_obj['ct_code_lv'],
 				$_obj['ct_code_ss'],
+				$_obj['ct_open_type'],
 				$_obj['ct_title'],
 				$_obj['ct_desc'],
 				$_obj['ct_speaker'],

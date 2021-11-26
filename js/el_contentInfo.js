@@ -168,6 +168,7 @@ $(document).ready(function () {
 		formData.append('ct_speaker', $("input[name='ct_speaker']").val());
 		formData.append('ct_desc', $("textarea[name='ct_desc']").val());
 		formData.append('ct_type', $("input[name='ct_type']:checked").val());
+		formData.append('ct_open_type', $("input[name='open_type']:checked").val());
 		formData.append('ct_s3_file', $("input[name='ct_s3_file']").val());
 		formData.append('ct_s3_thumb', $("input[name='ct_s3_thumb']").val());
 
