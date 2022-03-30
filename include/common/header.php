@@ -7,7 +7,7 @@
 					</a> </li>
 			</ul>
 			<a href="/">
-				<img src="/images/logo/boryung-ci-white.png" class="logo"  alt="" data-src="/images/logo/boryung-ci-white.png" data-src-retina="/images/logo/boryung-ci-white.png"/>
+				<img src="/images/logo/boryung-ci-white.png" class="logo" style='width:125px; margin:18px 14px;' alt="" data-src="/images/logo/boryung-ci-white.png" data-src-retina="/images/logo/boryung-ci-white.png"/>
 			</a>
 			<ul class="nav pull-right notifcation-center">
 				<li class="dropdown" id="header_task_bar"> <a href="/" class="dropdown-toggle active" data-toggle="">
