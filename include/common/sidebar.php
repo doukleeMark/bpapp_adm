@@ -1,9 +1,9 @@
 <div class="page-sidebar" id="main-menu">
 	<div class="page-sidebar-wrapper scrollbar-dynamic" id="main-menu-wrapper">
 		<div class="user-info-wrapper">
-			<div class="profile-wrapper">
+			<!--<div class="profile-wrapper">
 				<img src="/images/logo/logo3.png"  alt="" data-src="/images/logo/logo3.png" data-src-retina="/images/logo/logo3.png" width="69" height="69" />
-			</div>
+			</div>-->
 			<div class="user-info">
 				<div class="greeting">Welcome</div>
 				<div class="username"> <span class="semi-bold"><?=$_SESSION['USER_NAME']?></span> 님</div>

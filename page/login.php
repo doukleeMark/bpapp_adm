@@ -28,7 +28,7 @@
 <div class="container">	
 	<div class="content">
 		<div class="wrapper"> 
-			<img src="/images/logo/logo.png" alt="LOGO" width="320">
+			<img src="/images/logo/boryung-ci-black.png" style='width:75%;' alt="LOGO" width="320">
 		</div>
 		<form id="form_login" action="/page/login_proc.php" method="post">			
 			<input type="text" placeholder="User ID" name="ur_id" id="ur_id" onkeydown="javascript:if(event.keyCode==13){form_submit()};">

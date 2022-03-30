@@ -47,7 +47,8 @@
 
 /* header */
 .header-seperation > a > .logo {
-	margin: 10px 0 0 60px;
+	width:160px;
+	/*margin: 10px;*/
 }
 .page-sidebar,
 .grid-title h4 .semi-bold {
@@ -55,7 +56,7 @@
 }
 @media (max-width: 767px) {
 	.header-seperation > a > .logo {
-		margin: 10px;
+		/*margin: 10px;*/
 	}
 }
 /* Sidebar */
@@ -73,6 +74,7 @@
 }
 
 .user-info {
+	width:100%;
 	text-align: center;
 }
 .username span {
