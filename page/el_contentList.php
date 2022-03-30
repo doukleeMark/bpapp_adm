@@ -28,7 +28,7 @@
 <link href="assets/css/responsive.css" rel="stylesheet" type="text/css"/>
 <link href="assets/css/custom-icon-set.css" rel="stylesheet" type="text/css"/>
 <link type="text/css" href="/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet"/>
-<link href="/css/common.css" rel="stylesheet" type="text/css"/>
+<link href="/css/common.css?v=1" rel="stylesheet" type="text/css"/>
 <link href="/css/el_contentList.css" rel="stylesheet" type="text/css"/>
 
 </head>

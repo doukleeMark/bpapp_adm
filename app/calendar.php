@@ -17,7 +17,7 @@
 <meta content="" name="author" />
 	
 <link href="/assets/plugins/boostrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-<link href="/css/common.css" rel="stylesheet" type="text/css"/>
+<link href="/css/common.css?v=1" rel="stylesheet" type="text/css"/>
 <link href="/app/css/calendar.css" rel="stylesheet" type="text/css"/>
 
 </head>

@@ -55,7 +55,7 @@
 <link rel="stylesheet" type="text/css" href="/plugins/dataTables/Buttons-1.5.4/css/buttons.bootstrap4.css"/>
 <link rel="stylesheet" type="text/css" href="/plugins/dataTables/RowReorder-1.2.4/css/rowReorder.bootstrap4.css"/>
 <link rel="stylesheet" type="text/css" href="/plugins/dataTables/Select-1.2.6/css/select.bootstrap4.css"/>
-<link href="/css/common.css" rel="stylesheet" type="text/css"/>
+<link href="/css/common.css?v=1" rel="stylesheet" type="text/css"/>
 <link href="/css/el_courseInfo.css" rel="stylesheet" type="text/css"/>
 
 </head>

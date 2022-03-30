@@ -70,7 +70,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <meta name="format-detection" content="telephone=no" />
 <link href="/assets/plugins/bootstrap4/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-<link href="/css/common.css" rel="stylesheet" type="text/css"/>
+<link href="/css/common.css?v=1" rel="stylesheet" type="text/css"/>
 <link href="/app/css/bp_view.css?v=1901021403" rel="stylesheet" type="text/css"/>
 </head>
 <body class="unit<?=$bp_unit?> <?=$knApp?>">

@@ -36,7 +36,7 @@
 <link href="assets/css/custom-icon-set.css" rel="stylesheet" type="text/css"/>
 <link rel="stylesheet" type="text/css" href="/plugins/dataTables/DataTables-1.10.18/css/dataTables.bootstrap4.css"/>
 <link rel="stylesheet" type="text/css" href="/plugins/dataTables/Select-1.2.6/css/select.bootstrap4.css"/>
-<link href="/css/common.css" rel="stylesheet" type="text/css"/>
+<link href="/css/common.css?v=1" rel="stylesheet" type="text/css"/>
 <link href="/css/el_setting.css" rel="stylesheet" type="text/css"/>
 
 </head>
